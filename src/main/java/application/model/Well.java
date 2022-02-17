@@ -4,33 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class Well {
-	private Stack<Card> wellCards;
+public class Well extends Stack<Card>{
+	private static final long serialVersionUID = 1717163881700262083L;
+	
 
 	public Well() {
 		super();
 	}
 	
 	public Card pick() {
-		return wellCards.pop();
+		return this.pop();
 	}
 	
 	public void put(Card card) {
-		wellCards.push(card);
+		this.push(card);
 	}
 	
 	//empties the well and gives back the cards that will form the new deck.
 	//Puts back in the well the first card of the stack (the one that was alreadyVisible)
 	public List<Card> shuffleNewDeck(){
-		Card lastCard = wellCards.pop();
+		Card lastCard = this.pop();
 		List<Card> cards = new ArrayList<Card>();
 		
-		while(!wellCards.empty()) {
-			cards.add(wellCards.pop());
+		while(!this.empty()) {
+			cards.add(this.pop());
 		}
 		
-		wellCards.clear();
-		wellCards.push(lastCard);
+		this.clear();
+		this.push(lastCard);
 		return cards;
 	}
 	

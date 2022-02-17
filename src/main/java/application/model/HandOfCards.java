@@ -1,17 +1,12 @@
 package application.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class HandOfCards {
-	private List<Card> cards;
+import application.Settings;
+
+public class HandOfCards extends ArrayList<Card>{
+	private static final long serialVersionUID = 9134621157755929545L;
 	
-	public List<Card> getCards() {
-		return cards;
-	}
-
-	public void setCards(List<Card> cards) {
-		this.cards = cards;
-	}
 	
 	// checks if the player that owns this hand of cards
 	//is able to open the game  . I.e. he can play a game of 40 or more points
@@ -20,10 +15,26 @@ public class HandOfCards {
 	}
 	
 	public void discard(Card c) {
-		cards.remove(c);
+		this.remove(c);
 	}
 	
 	public void addCard(Card c) {
-		cards.add(c);
+		this.add(c);
+	}
+	
+	public boolean isEmpty() {
+		return this.isEmpty();
+	}
+	
+	public int computeTotalPoints() {
+		int totalPoints = 0;
+		for(Card c: this) {
+			//if the player owns a joker he must pay 25 points 
+			if(c.getNumber() == Settings.JOKER_NUMBER)
+				totalPoints += Settings.JOKER_VALUE_ON_LOOSE;
+			else
+				totalPoints += c.getValue();
+		}
+		return totalPoints;
 	}
 }

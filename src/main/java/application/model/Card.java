@@ -1,8 +1,8 @@
 package application.model;
 
-public class Card {
+public class Card implements Comparable<Card>{
 	private String suite;
-	private int number;
+	private Integer number;
 	private int value;
 	
 	
@@ -12,14 +12,14 @@ public class Card {
 	public void setSuite(String suite) {
 		this.suite = suite;
 	}
-	public int getNumber() {
+	public Integer getNumber() {
 		return number;
 	}
 	public void setNumber(int number) {
 		this.number = number;
 	}
 	@Override
-	public int hashCode() {
+	public int hashCode() {	
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + number;
@@ -53,6 +53,9 @@ public class Card {
 	}
 	public void setValue(int value) {
 		this.value = value;
+	}
+	public int compareTo(Card c) {
+		return this.getNumber().compareTo(c.getNumber());
 	}
 	
 }

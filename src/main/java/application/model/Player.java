@@ -26,18 +26,12 @@ public class Player {
 	
 	//plays a non negative number of cards
 	public void play(List<Play> plays) {
-		
+		Game.getInstance().playerPlayed(this, plays);
 	}
 	
 	//puts a card in the well
 	public void discard(Card c) {
-		cards.discard(c);
-		Game.getInstance().getWell().put(c);
-	}
-	
-	//picks a card from the well and puts it in the hand
-	public void pick() {
-		Game.getInstance().getWell();
+		Game.getInstance().playerDiscard(this, c);
 	}
 
 	public boolean hasLost() {

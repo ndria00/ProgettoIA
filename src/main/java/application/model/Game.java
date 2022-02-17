@@ -51,7 +51,77 @@ public class Game {
 		
 	}
 
-
+	public void distributeCards() {
+		Card c;
+		for(Player p: players) {
+			for(int i = 0 ; i < 12; ++i) {
+				c = deck.pick();
+				deck.remove(c);
+				p.getCards().addCard(c);
+			}
+		}
+		
+	}
+	
+	public void roundFinished(Player player) {
+		//the player has won the game
+		if(player.getCards().isEmpty()) {
+			for(Player p : players) {
+				p.setPoints(p.getPoints() + p.getCards().computeTotalPoints());
+			}
+			//set the game in finished state
+		}
+		//the deck is emply and must be refilled
+		else if(deck.isEmpty()) {
+			List<Card> cards = well.shuffleNewDeck();
+			for(Card c: cards) {
+				deck.insert(c);
+			}
+		}
+	}
+	
+	public void playerPick(Player p, boolean pickFromDeck) {
+		Card c;
+		if(pickFromDeck) {
+			c = deck.pick();
+		}
+		else {
+			c = well.pick();
+		}
+		p.getCards().add(c);
+	}
+	
+	public void playerDiscard(Player p, Card c) {
+		p.getCards().discard(c);
+		well.put(c);
+	}
+	
+	//they playerPlays passed are all admissible
+	public void playerPlayed(Player p, List<Play> playerPlays) {
+		for(Play pl: playerPlays) {
+			boolean newPlayCreated = true;
+			for(Play gamePlay: plays) {
+				if(gamePlay.canAttach(pl)) {
+					//they play does not create a new stack of cards
+					// so the only thing to do is to add cards to the play
+					//to which it can be attached
+					gamePlay.attach(pl);
+					newPlayCreated = false;
+					break;
+					
+				}
+			}
+			
+			if(newPlayCreated) {
+				plays.add(pl);
+				
+			}
+			//finally remove cards from the player hand
+			for(Card c: pl) {
+				p.getCards().remove(c);
+			}
+		}
+	}
 	
 	public List<Player> getPlayers() {
 		return players;

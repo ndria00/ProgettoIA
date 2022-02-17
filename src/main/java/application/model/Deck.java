@@ -1,32 +1,22 @@
 package application.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import application.Settings;
 
-public class Deck {
-	
-	private List<Card> cards;
+public class Deck extends ArrayList<Card>{
+	private static final long serialVersionUID = -4836853131744333795L;
 
 	public Deck(){
-		cards = new ArrayList<Card>();
-	}
-	
-	public List<Card> getCards() {
-		return cards;
-	}
-
-	public void setCards(List<Card> cards) {
-		this.cards = cards;
+		super();
 	}
 	
 	public Card pick() {
-		return cards.get(Settings.RANDOM.nextInt(cards.size()));
+		return this.get(Settings.RANDOM.nextInt(this.size()));
 	}
 	
 	public void insert(Card c) {
-		cards.add(c);
+		this.add(c);
 	}
 
 }

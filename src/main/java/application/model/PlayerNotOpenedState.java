@@ -10,17 +10,13 @@ public class PlayerNotOpenedState implements PlayerState{
 	}
 
 	public void pickCard(boolean pickFromDeck) {
-		Card c;
 		if(pickFromDeck) {
-			c = Game.getInstance().getDeck().pick();
-			
+			Game.getInstance().playerPick(player, pickFromDeck);
 		}
 		else {
 			//c = Game.getInstance().getWell().pick();
 			throw new IllegalArgumentException();
 		}
-		player.getCards().addCard(c);
-		
 	}
 
 	public Player getPlayer() {

@@ -1,18 +1,22 @@
 package application.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Play {
-	private List<Card> cards;
+import it.unical.mat.embasp.languages.Id;
 
-	public List<Card> getCards() {
-		return cards;
-	}
+@Id("Play")
+public abstract class Play extends ArrayList<Card>{
 
-	public void setCards(List<Card> cards) {
-		this.cards = cards;
-	}
 	
+	public void setCards(List<Card> cards) {
+		this.clear();
+		for(Card c: cards) {
+			this.add(c);	
+		}
+	}
+	private static final long serialVersionUID = 6089405279947692778L;
+
 	public boolean containsSuite(int suite) {
 		return false;
 	}
@@ -22,4 +26,7 @@ public abstract class Play {
 	
 	//checks if a play (a ladder ) can be added to another play
 	public abstract boolean canAttach(Play p);
+	
+	//attaches all the cards of play p1 to play p
+	public abstract void attach(Play p1);
 }

@@ -11,15 +11,7 @@ public class PlayerOpenedState implements PlayerState{
 	}
 
 	public void pickCard(boolean pickFromDeck) {
-		Card c;
-		if(pickFromDeck) {
-			c = Game.getInstance().getDeck().pick();
-			
-		}
-		else {
-			c = Game.getInstance().getWell().pick();
-		}
-		player.getCards().addCard(c);
+		Game.getInstance().playerPick(player, pickFromDeck);
 	}
 
 	public Player getPlayer() {
