@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.Settings;
+
 public class Game {
 	private List<Player> players;
 	private Deck deck;
@@ -13,6 +15,9 @@ public class Game {
 	private List<Play> plays;
 	List<Card> allCards;
 	
+	private int playerPlaying = Settings.PLAYER_NULL;
+	private int difficulty = Settings.DIFFICULTY_BEGINNER;
+	private int gameState = Settings.GAME_FINISHED_STATE;
 	
 	private static Game instance;
 	
@@ -39,7 +44,7 @@ public class Game {
 				c.setNumber(Integer.parseInt(v[0]));
 				c.setSuite(v[1]);
 				c.setValue(Integer.parseInt(v[2]));
-				System.out.println(c.toString());
+				//System.out.println(c.toString());
 				deck.insert(c);
 			}
 			reader.close();
@@ -47,16 +52,51 @@ public class Game {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void startNewGame(int numberOfPlayers, int difficulty) {
+		this.setDifficulty(difficulty);
+		playerPlaying = 0;
+		Player p;
+		p = new RealPlayer();
+		p.setPlayingRound(true);
+		players.add(p);
 		
-		
+		for(int i = 1; i<numberOfPlayers; ++i) {
+			p = new BotPlayer();
+			players.add(p);
+		}
+		distributeCards();
+		well.push(deck.pick());
+		gameState = Settings.GAME_PLAYING_STATE;
 	}
 
+	public void nextMatch(Player winnerPlayer) {
+		//remove all the players that have lost the match
+		for(int i = 0; i < players.size(); ++i) {
+			if( players.get(i).getPoints() > Settings.MAX_POINTS)
+				players.remove(i);
+		}
+		//there is only one player left and he is the winner
+		if(players.size() == 1) {
+			gameState = Settings.GAME_FINISHED_STATE;
+			//show winner modal and let him choose what to do
+			//AS SOON AS IT READY
+		}
+		else {
+			deck.setCards(allCards);
+			well.clear();
+			well.push(deck.pick());
+			distributeCards();
+			playerPlaying = players.indexOf(winnerPlayer);
+		}
+	}
+	
 	public void distributeCards() {
 		Card c;
 		for(Player p: players) {
-			for(int i = 0 ; i < 12; ++i) {
+			for(int i = 0 ; i < 13; ++i) {
 				c = deck.pick();
-				deck.remove(c);
 				p.getCards().addCard(c);
 			}
 		}
@@ -70,6 +110,8 @@ public class Game {
 				p.setPoints(p.getPoints() + p.getCards().computeTotalPoints());
 			}
 			//set the game in finished state
+			return;
+			
 		}
 		//the deck is emply and must be refilled
 		else if(deck.isEmpty()) {
@@ -78,6 +120,11 @@ public class Game {
 				deck.insert(c);
 			}
 		}
+		
+		players.get(playerPlaying).setPlayingRound(false);
+		playerPlaying++;
+		playerPlaying = playerPlaying % players.size();
+		players.get(playerPlaying).setPlayingRound(true);
 	}
 	
 	public void playerPick(Player p, boolean pickFromDeck) {
@@ -96,7 +143,7 @@ public class Game {
 		well.put(c);
 	}
 	
-	//they playerPlays passed are all admissible
+	//the playerPlays passed are all admissible
 	public void playerPlayed(Player p, List<Play> playerPlays) {
 		for(Play pl: playerPlays) {
 			boolean newPlayCreated = true;
@@ -153,6 +200,18 @@ public class Game {
 
 	public void setPlays(List<Play> plays) {
 		this.plays = plays;
+	}
+
+	public int getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
+	}
+
+	public int getGameState() {
+		return gameState;
 	}
 	
 	

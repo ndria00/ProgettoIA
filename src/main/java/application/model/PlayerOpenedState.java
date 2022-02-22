@@ -6,7 +6,7 @@ public class PlayerOpenedState implements PlayerState{
 	private Player player;
 	
 	public boolean canPlay(HandOfCards cards, List<Play> availablePlays) {
-		// TODO Auto-generated method stub
+		//check that there are possible plays for the player given the plays and its cards
 		return false;
 	}
 

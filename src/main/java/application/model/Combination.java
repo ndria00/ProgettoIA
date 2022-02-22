@@ -1,8 +1,19 @@
 package application.model;
 
+import java.util.ArrayList;
+
 public class Combination extends Play{
 	private static final long serialVersionUID = -1237617730228735896L;
-
+	
+	public Combination(ArrayList<Card> cards) {
+		super(cards);
+		int value = cards.get(0).getValue();
+		for(int i = 1; i < cards.size(); ++i) {
+			if(cards.get(i).getValue() != value)
+				throw new IllegalArgumentException();
+		}
+	}
+	
 	@Override
 	public boolean canAttach(Card card) {
 		//cards are of the same suite
@@ -21,7 +32,6 @@ public class Combination extends Play{
 
 	@Override
 	public void attach(Play p) {
-		
 		for(Card c: p) {
 			p.add(c);
 		}

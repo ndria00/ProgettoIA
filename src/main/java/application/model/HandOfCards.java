@@ -23,7 +23,7 @@ public class HandOfCards extends ArrayList<Card>{
 	}
 	
 	public boolean isEmpty() {
-		return this.isEmpty();
+		return super.isEmpty();
 	}
 	
 	public int computeTotalPoints() {

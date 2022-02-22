@@ -6,6 +6,8 @@ public class PlayerNotOpenedState implements PlayerState{
 	private Player player;
 	
 	public boolean canPlay(HandOfCards cards, List<Play> availablePlays) {
+		//check with ASP that within the cards there is a combination of plays that
+		//exceed the 40 points 
 		return false;
 	}
 

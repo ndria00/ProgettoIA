@@ -1,10 +1,44 @@
 package application.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class Ladder  extends Play{
 	private static final long serialVersionUID = -6313087748801637144L;
+	
+	public Ladder(ArrayList<Card> cards){
+		super(cards);
+		for(int i = 0 ; i < this.size(); ++i) {
+			Card c = this.get(i);
+			if(differentSuiteFound(c))
+				throw new IllegalArgumentException();
+			if( i >= 1 && i < cards.size() - 1  && noNextAndPreviousCard(c))
+				throw new IllegalArgumentException();
+		}
+		
+	}
+	
+	private boolean differentSuiteFound(Card c) {
+		for(int i = 0 ; i < this.size(); ++i) {
+			if(this.get(i).getSuite() != c.getSuite())
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean noNextAndPreviousCard(Card c) {
+		boolean found = false;
+		
+		for(int i = 0 ; i < this.size(); ++i) {
+			if(this.get(i).getValue() == c.getValue() + 1 || this.get(i).getValue() == c.getValue() - 1  )
+				found = true;
+		}
+		
+		if(!found)
+			return true;
+		
+		return false;		
+	}
 	
 	@Override
 	public boolean canAttach(Card card) {
@@ -23,7 +57,7 @@ public class Ladder  extends Play{
 		return false;
 	}
 	@Override
-	public void setCards(List<Card> cards) {
+	public void setCards(ArrayList<Card> cards) {
 		Collections.sort(cards);
 		super.setCards(cards);
 	}

@@ -1,21 +1,18 @@
 package application.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import it.unical.mat.embasp.languages.Id;
-
-@Id("Play")
 public abstract class Play extends ArrayList<Card>{
-
-	
-	public void setCards(List<Card> cards) {
-		this.clear();
-		for(Card c: cards) {
-			this.add(c);	
-		}
-	}
 	private static final long serialVersionUID = 6089405279947692778L;
+	
+	public Play(ArrayList<Card> cards) {
+		setCards(cards);
+	}
+	
+	public void setCards(ArrayList<Card> cards) {
+		this.clear();
+		this.addAll(cards);
+	}
 
 	public boolean containsSuite(int suite) {
 		return false;
