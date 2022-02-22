@@ -91,6 +91,8 @@ public class PlayView extends JPanel{
 		GridLayout gameSpotsGridLayout = new GridLayout(4,5,4,4);
 		gameSpots.setLayout(gameSpotsGridLayout);
 		gameSpots.setBackground(new Color(185, 251, 192));
+		
+		//TEST
 		for(int i = 0; i < 20; ++i) {
 			GameSpot gs = new GameSpot();
 			CardPanel c1 = new CardPanel();
@@ -111,6 +113,7 @@ public class PlayView extends JPanel{
 			gs.placeCards(cards);
 			gameSpots.add(gs);
 		}
+		//END TEST
 		
 		JPanel deckAndWell = new JPanel();
 		deckAndWell.add(new CardPanel());
