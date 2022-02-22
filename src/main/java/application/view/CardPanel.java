@@ -14,7 +14,7 @@ public class CardPanel extends JPanel implements MouseInputListener{
 	
 	public CardPanel() {
 		setBackground(Color.WHITE);
-		this.setPreferredSize(new Dimension(50,120));
+		this.setPreferredSize(new Dimension(60,120));
 		this.setMaximumSize(getPreferredSize());
 		this.addMouseListener(this);
 	}

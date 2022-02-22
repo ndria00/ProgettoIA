@@ -2,6 +2,8 @@ package application.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,7 @@ import javax.swing.JPanel;
 
 import application.ViewsHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayView extends JPanel{
@@ -43,6 +46,8 @@ public class PlayView extends JPanel{
 		BorderLayout layout = new BorderLayout();
 		this.setLayout(layout);
 		this.add(leaveButton, BorderLayout.NORTH);
+		
+		//bottom
 		JPanel bottom = new JPanel();
 		GridLayout gridLayout = new GridLayout(1,13,10,10);
 		bottom.setLayout(gridLayout);
@@ -75,5 +80,47 @@ public class PlayView extends JPanel{
 		bottom.add(p11);
 		bottom.add(p12);
 		bottom.add(p13);
+		
+		//center
+		JPanel center = new JPanel();
+		GridLayout centerGridLayout = new GridLayout(3,1);
+		center.setLayout(centerGridLayout);
+		center.setBackground(new Color(185, 251, 192));
+		
+		JPanel gameSpots = new JPanel();
+		GridLayout gameSpotsGridLayout = new GridLayout(4,5,4,4);
+		gameSpots.setLayout(gameSpotsGridLayout);
+		gameSpots.setBackground(new Color(185, 251, 192));
+		for(int i = 0; i < 20; ++i) {
+			GameSpot gs = new GameSpot();
+			CardPanel c1 = new CardPanel();
+			c1.setBackground(Color.red);
+			CardPanel c2 = new CardPanel();
+			c2.setBackground(Color.BLUE);
+			CardPanel c3 = new CardPanel();
+			c3.setBackground(Color.cyan);
+			CardPanel c4 = new CardPanel();
+			c4.setBackground(Color.MAGENTA);
+			
+			ArrayList<CardPanel> cards = new ArrayList<CardPanel>();
+			cards.add(c1);
+			cards.add(c2);
+			cards.add(c3);
+			cards.add(c4);
+			
+			gs.placeCards(cards);
+			gameSpots.add(gs);
+		}
+		
+		JPanel deckAndWell = new JPanel();
+		deckAndWell.add(new CardPanel());
+		deckAndWell.add(new CardPanel());
+		deckAndWell.setMaximumSize(new Dimension(110,120));
+		deckAndWell.setBackground(new Color(185, 251, 192));
+		deckAndWell.setLayout(new FlowLayout());
+		
+		center.add(deckAndWell);
+		center.add(gameSpots); 
+		this.add(center,BorderLayout.CENTER);
 	}
 }
