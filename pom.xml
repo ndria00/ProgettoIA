@@ -3,4 +3,14 @@
   <groupId>scala404fun</groupId>
   <artifactId>Scala40</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+ 
+  <dependencies>
+		<!-- https://mvnrepository.com/artifact/org.antlr/antlr4 -->
+		<dependency>
+		    <groupId>org.antlr</groupId>
+		    <artifactId>antlr4</artifactId>
+		    <version>4.7</version>
+		</dependency>
+  </dependencies>
+  
 </project>
