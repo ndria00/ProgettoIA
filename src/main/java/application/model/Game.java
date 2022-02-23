@@ -41,9 +41,10 @@ public class Game {
 				String line = reader.readLine();
 				String [] v = line.split("\t");
 				Card c = new Card();
-				c.setNumber(Integer.parseInt(v[0]));
-				c.setSuite(v[1]);
-				c.setValue(Integer.parseInt(v[2]));
+				c.setId(Integer.parseInt(v[0]));
+				c.setNumber(Integer.parseInt(v[1]));
+				c.setSuite(v[2]);
+				c.setValue(Integer.parseInt(v[3]));
 				//System.out.println(c.toString());
 				deck.insert(c);
 			}

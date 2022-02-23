@@ -1,0 +1,4 @@
+combination([X|[Y]]) :- card(ID, _, _, _).
+
+:- &length(combination(X); L), L<3.
+:- #sum{V ID: &member(ID, combination(X);) card(ID, _, _, V)}<40

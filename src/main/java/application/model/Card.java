@@ -1,13 +1,28 @@
 package application.model;
 
+import it.unical.mat.embasp.languages.Id;
+import it.unical.mat.embasp.languages.Param;
+
+@Id("card")
 public class Card implements Comparable<Card>{
+	@Param(0)
+	private int id;
+	@Param(1)
 	private String suite;
+	@Param(2)
 	private Integer number;
+	@Param(3)
 	private int value;
 	
 	
 	public String getSuite() {
 		return suite;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public void setSuite(String suite) {
 		this.suite = suite;

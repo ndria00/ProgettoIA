@@ -2,6 +2,7 @@ package application;
 
 import javax.swing.JFrame;
 
+import application.model.Game;
 import application.view.HomeView;
 import application.view.PlayView;
 
@@ -16,6 +17,8 @@ public class Main {
 		frame.add(ViewsHandler.getInstance().getMainPanel());
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		Game.getInstance();
+		Game.getInstance().startNewGame(4, 1);
+		Game.getInstance().getPlayers().get(1).canPlay(null);
 	}
 }
