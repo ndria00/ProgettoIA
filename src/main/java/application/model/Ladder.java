@@ -42,7 +42,7 @@ public class Ladder  extends Play{
 	
 	@Override
 	public boolean canAttach(Card card) {
-		if(card.getSuite().equals(this.get(0).getSuite())){
+		if(card.getSuite() ==this.get(0).getSuite()){
 			if(this.get(0).getNumber() == card.getNumber() + 1  || this.get(this.size() -1 ).getNumber() == card.getNumber() - 1)
 				return true;
 		}

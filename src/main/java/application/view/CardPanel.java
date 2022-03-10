@@ -18,7 +18,7 @@ public class CardPanel extends JPanel implements MouseInputListener{
 	private JLabel suit = null;
 	
 	
-	public CardPanel(Character number, Character suit) {
+	public CardPanel(Character number, Integer suit) {
 		setBackground(Color.WHITE);
 		this.numberL = new JLabel();
 		this.numberR = new JLabel();
