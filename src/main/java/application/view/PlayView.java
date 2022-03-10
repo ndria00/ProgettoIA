@@ -53,19 +53,19 @@ public class PlayView extends JPanel{
 		bottom.setLayout(gridLayout);
 		bottom.setBackground(new Color(185, 251, 192));
 		this.add(bottom, BorderLayout.SOUTH);
-		CardPanel p1 = new CardPanel();
-		CardPanel p2 = new CardPanel();
-		CardPanel p3 = new CardPanel();
-		CardPanel p4 = new CardPanel();
-		CardPanel p5 = new CardPanel();
-		CardPanel p6 = new CardPanel();
-		CardPanel p7 = new CardPanel();
-		CardPanel p8 = new CardPanel();
-		CardPanel p9 = new CardPanel();
-		CardPanel p10 = new CardPanel();
-		CardPanel p11 = new CardPanel();
-		CardPanel p12 = new CardPanel();
-		CardPanel p13 = new CardPanel();
+		CardPanel p1 = new CardPanel('2','♠');
+		CardPanel p2 = new CardPanel('2','♠');
+		CardPanel p3 = new CardPanel('2','♠');
+		CardPanel p4 = new CardPanel('2','♠');
+		CardPanel p5 = new CardPanel('2','♠');
+		CardPanel p6 = new CardPanel('2','♠');
+		CardPanel p7 = new CardPanel('2','♠');
+		CardPanel p8 = new CardPanel('2','♠');
+		CardPanel p9 = new CardPanel('2','♠');
+		CardPanel p10 = new CardPanel('2','♠');
+		CardPanel p11 = new CardPanel('2','♠');
+		CardPanel p12 = new CardPanel('2','♠');
+		CardPanel p13 = new CardPanel('2','♠');
 		
 		bottom.add(p1);
 		bottom.add(p2);
@@ -95,13 +95,13 @@ public class PlayView extends JPanel{
 		//TEST
 		for(int i = 0; i < 20; ++i) {
 			GameSpot gs = new GameSpot();
-			CardPanel c1 = new CardPanel();
+			CardPanel c1 = new CardPanel('2','♠');
 			c1.setBackground(Color.red);
-			CardPanel c2 = new CardPanel();
+			CardPanel c2 = new CardPanel('2','♠');
 			c2.setBackground(Color.BLUE);
-			CardPanel c3 = new CardPanel();
+			CardPanel c3 = new CardPanel('2','♠');
 			c3.setBackground(Color.cyan);
-			CardPanel c4 = new CardPanel();
+			CardPanel c4 = new CardPanel('2','♠');
 			c4.setBackground(Color.MAGENTA);
 			
 			ArrayList<CardPanel> cards = new ArrayList<CardPanel>();
@@ -116,8 +116,8 @@ public class PlayView extends JPanel{
 		//END TEST
 		
 		JPanel deckAndWell = new JPanel();
-		deckAndWell.add(new CardPanel());
-		deckAndWell.add(new CardPanel());
+		deckAndWell.add(new CardPanel('2','♠'));
+		deckAndWell.add(new CardPanel('2','♠'));
 		deckAndWell.setMaximumSize(new Dimension(110,120));
 		deckAndWell.setBackground(new Color(185, 251, 192));
 		deckAndWell.setLayout(new FlowLayout());

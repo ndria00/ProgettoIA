@@ -1,7 +1,6 @@
 package application.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,9 @@ public class GameSpot extends JPanel{
 		this.setLayout(layout);
 		cards = new ArrayList<CardPanel>();
 		this.setBackground(Color.GRAY);
-		this.setPreferredSize(new Dimension(400,120));
+		//this.setMinimumSize(new Dimension(400,120));
+		//this.setPreferredSize(new Dimension(400,120));
+		//this.setSize(new Dimension(400,120));
 	}
 	
 	public void placeCards(ArrayList<CardPanel> cards) {
