@@ -16,4 +16,9 @@ public class Settings {
 	
 	public static final int ONE_VERSUS_ONE = 0;
 	public static final int ONE_VERSUS_THREE = 0;
+	
+	public static final int SUITE_HEARTHS = 1;
+	public static final int SUITE_SPADES = 2;
+	public static final int SUITE_DIAMONDS = 3;
+	public static final int SUITE_CLUBS = 4;
 }
