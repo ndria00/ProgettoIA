@@ -15,6 +15,7 @@ public abstract class Player {
 		setPoints(0);
 		setState(new PlayerNotOpenedState());
 		cards = new HandOfCards();
+		state.setPlayer(this);
 	}
 	
 	public HandOfCards getCards() {

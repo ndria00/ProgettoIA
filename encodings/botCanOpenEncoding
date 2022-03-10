@@ -1,0 +1,60 @@
+%Start composing a combination with two cards of the same value
+possibleCombination([ID1|[ID2]]) :- card(ID1, S1, N1, _), card(ID2, S2, N1, _), ID1 != ID2, N1 = N2, ID1 < ID2, S1 != S2.
+
+%extend combinations where possible to obtain larger ones
+possibleCombination(L) :- possibleCombination(L1), card(ID, _, N, _), &last(L1; ID1), card(ID1, _, N1, _),  &insLast(L1, ID; L), not &member(ID, L1;), ID1 != ID,  N = N1, ID > ID1.
+
+%extend a combination with a jolly
+%NON DEVE ESSERE POSSIBILE GIOCARE UNA COMBINAZIONE CON PIU DI UN JOLLY
+%NON DEVE ESSERE POSSIBILE GIOCARE COMBINAZIONI CHE CONTENGONO DOPPIONI (TROPPO COSTOSO DA FARE IN FASE DI COSTRUZIONE)
+possibleCombination(L) :- possibleCombination(L1), card(ID, _, N, _),  not &member(ID, L1;),  N = 0, &insNth(L1, ID, 1; L).
+
+%compute all the valid combinations
+combination(X) :- possibleCombination(X), &length(X; L), L >= 3, L <= 4.
+
+
+
+%Start composing a ladder with two cards of the same suite and number
+possibleLadder([ID1|[ID2]]) :- card(ID1, S1, N1, _), card(ID2, S2, N2, _), ID1 != ID2, S1 = S2, N1 = N2 - 1.
+
+%allow to insert jolly even as first or second card of the ladder
+possibleLadder([ID1|[ID2]]) :- card(ID1, S1, N1, _), card(ID2, S2, N2, _), ID1 != ID2, S1 = 5.
+possibleLadder([ID1|[ID2]]) :- card(ID1, S1, N1, _), card(ID2, S2, N2, _), ID1 != ID2, S2 = 5.
+
+%extend ladders where possible to obtain larger ones
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), card(ID1, S1, N1, _), &last(L1; ID1), not &member(ID, L1;), ID1 != ID, S = S1,   N = N1 + 1, &insLast(L1, ID; L).
+
+%extend ladders with jolly if there is one in the hand
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), S = 5,  card(ID1, S1, N1, _), &last(L1; ID1), not &member(ID, L1;), ID1 != ID, &insLast(L1, ID; L).
+
+%extend a ladder that contains a jolly
+%possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), not &member(ID, L1;), card(ID1, S1, N1, _), S1 = 5, &last(L1; ID1), &length(L1; X), card(ID2, S2, N2, _), &memberNth(L1, X - 1; ID2), S2 = S , N = N2 + 2, &insLast(L1, ID; L).
+
+%extend a ladder that contains a K with an A after it
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), card(ID1, S1, N1, _), &last(L1; ID1), not &member(ID, L1;), ID1 != ID, S = S1,   N = 1, N1 = 13, &insLast(L1, ID; L).
+
+%compute all the valid ladders
+ladder(X) :- possibleLadder(X), &length(X; L), L >= 3.
+
+%guess
+%play(X) | nonPlay(X) :- combination(X).
+%play(X) | nonPlay(X) :- ladder(X).
+
+
+
+%compute the points of each possible combination
+%standard combination(even with jolly)
+%pointsPlay(X, T) :- combination(X), card(ID, _, N, V), &member(ID, X;), N != 13, N !=1,  &length(X; L), T = V *L.
+%combination of aces
+%pointsPlay(X, T) :- combination(X), card(ID, _, N, _), &member(ID, X;), N =1,  &length(X; L), T = 11 *L.
+
+%compute the points of each possible ladder
+%ladder that may contain a joker but not as last card and has no figures
+%pointsPlay(X, T) :- ladder(X), card(ID, _, N, V), &last(X; ID), N != 13, N != 1, &length(X; L), T = (L/2)*(2*V + 1 - L).
+
+%can't play 2 plays that have a card in common
+%:- play(X), play(Y), X != Y, card(ID, _, _, _), &member(ID, X;), &member(ID, Y;).
+
+%No more than 1 joker per turn
+%:- play(X), play(Y), X != Y, &member(105, X;), &member(106, Y;).
+

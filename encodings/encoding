@@ -1,0 +1,13 @@
+#show myMaximumList/1.
+number(1..19).
+illegalNumber([1, 4, 6, 8, 9, 10, 12, 14, 16, 18]).
+
+myList([X|[Y]]) :- number(X), number(Y), not &member(X, L;), not &member(Y, L;), illegalNumber(L), X < Y.
+
+myList([X| Y]) :- myList(Y), number(X), illegalNumber(L), not &member(X, L;), X <E,  &head(Y; E).
+
+
+myMaximumListSize(X) :- #max{ Size : myList(L), &length(L; Size)}  = X.
+
+
+myMaximumList(X) :- myList(X), &length(X; S1), myMaximumListSize(S1).

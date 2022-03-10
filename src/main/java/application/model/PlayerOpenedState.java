@@ -2,8 +2,7 @@ package application.model;
 
 import java.util.List;
 
-public class PlayerOpenedState implements PlayerState{
-	private Player player;
+public class PlayerOpenedState extends PlayerState{
 	
 	public boolean canPlay(HandOfCards cards, List<Play> availablePlays) {
 		//check that there are possible plays for the player given the plays and its cards
@@ -11,15 +10,7 @@ public class PlayerOpenedState implements PlayerState{
 	}
 
 	public void pickCard(boolean pickFromDeck) {
-		Game.getInstance().playerPick(player, pickFromDeck);
-	}
-
-	public Player getPlayer() {
-		return player;
-	}
-
-	public void setPlayer(Player player) {
-		this.player = player;
+		Game.getInstance().playerPick(getPlayer(), pickFromDeck);
 	}
 
 }
