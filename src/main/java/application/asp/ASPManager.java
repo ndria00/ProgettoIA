@@ -13,7 +13,6 @@ import it.unical.mat.embasp.languages.IllegalAnnotationException;
 import it.unical.mat.embasp.languages.ObjectNotValidException;
 import it.unical.mat.embasp.languages.asp.ASPInputProgram;
 import it.unical.mat.embasp.languages.asp.ASPMapper;
-import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
@@ -59,10 +58,13 @@ public class ASPManager {
 		System.out.println("ENCODING: " + encoding.getPrograms());
 		Output o = handler.startSync();
 		AnswerSets answerSets = (AnswerSets) o;
+		System.out.println(o.getOutput());
+		
+		//AnswerSet as = answerSets.getAnswersets().get(0);
+		System.out.println("WE " + answerSets.getAnswersets().get(0));
 		/*
-		AnswerSet a = answerSets.getOptimalAnswerSets().get(0);
 		try {
-			for(Object obj : a.getAtoms()) {
+			for(Object obj : as.getAtoms()) {
 				if(obj instanceof PlayableCombination) {
 					PlayableCombination play = (PlayableCombination) obj;
 					System.out.println(play);

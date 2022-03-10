@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import application.Settings;
 
@@ -13,7 +15,7 @@ public class Game {
 	private Deck deck;
 	private Well well;
 	private List<Play> plays;
-	List<Card> allCards;
+	Map<Integer, Card> allCards;
 	
 	private int playerPlaying = Settings.PLAYER_NULL;
 	private int difficulty = Settings.DIFFICULTY_BEGINNER;
@@ -32,7 +34,7 @@ public class Game {
 		deck = new Deck();
 		well = new Well();
 		plays = new ArrayList<Play>();
-		
+		allCards = new HashMap<Integer, Card>();
 		File f;
 		try {
 			f = new File(getClass().getResource("/application/resources/cards.txt").toURI());
@@ -46,6 +48,7 @@ public class Game {
 				c.setSuite(v[2]);
 				c.setValue(Integer.parseInt(v[3]));
 				//System.out.println(c.toString());
+				allCards.put(c.getId(), c);
 				deck.insert(c);
 			}
 			reader.close();
@@ -85,7 +88,7 @@ public class Game {
 			//AS SOON AS IT READY
 		}
 		else {
-			deck.setCards(allCards);
+			deck.setCards(allCards.values());
 			well.clear();
 			well.push(deck.pick());
 			distributeCards();
