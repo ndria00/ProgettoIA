@@ -55,13 +55,13 @@ public class ASPManager {
 		handler.addProgram(facts);
 		System.out.println("CARDS: " + facts.getPrograms());
 		handler.addProgram(encoding);
-		System.out.println("ENCODING: " + encoding.getPrograms());
+		//System.out.println("ENCODING: " + encoding.getPrograms());
 		Output o = handler.startSync();
 		AnswerSets answerSets = (AnswerSets) o;
 		System.out.println(o.getOutput());
-		
+		answerSets.getAnswersets();
 		//AnswerSet as = answerSets.getAnswersets().get(0);
-		System.out.println("WE " + answerSets.getAnswersets().get(0));
+		//System.out.println(answerSets.getAnswersets().get(0));
 		/*
 		try {
 			for(Object obj : as.getAtoms()) {
