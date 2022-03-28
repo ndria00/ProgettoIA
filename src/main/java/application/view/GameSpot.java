@@ -1,36 +1,45 @@
 package application.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputListener;
 
-public class GameSpot extends JPanel{
+public class GameSpot extends JPanel implements MouseInputListener{
 	private static final long serialVersionUID = 6535477337343318403L;
 	
 	private List<CardPanel> cards = null;
 	private boolean taken = false;
+	private PlayerCards owner = null;
 	
-	public GameSpot() {
-		GridLayout layout = new GridLayout(1,0,-25,0);
-		this.setLayout(layout);
+	public GameSpot(PlayerCards p) {
+		super( new GridLayout(1,0,-25,0));
+		this.owner = p;
+//		GridLayout layout = new GridLayout(1,0,-25,0);
+//		this.setLayout(layout);
 		cards = new ArrayList<CardPanel>();
-		this.setBackground(Color.GRAY);
+		super.setBackground(new Color(185, 251, 192));
+		this.setBorder(BorderFactory.createLineBorder(Color.RED,1));
+		this.addMouseListener(this);
 		//this.setMinimumSize(new Dimension(400,120));
-		//this.setPreferredSize(new Dimension(400,120));
+		//this.setPreferredSize(new Dimension(400, 120));
 		//this.setSize(new Dimension(400,120));
 	}
 	
 	public void placeCards(ArrayList<CardPanel> cards) {
-		if(!this.taken) {
+		//if(!this.taken) {
 			this.cards.addAll(cards);
 			for (CardPanel cardPanel : cards) {
-				this.add(cardPanel);
+				super.add(cardPanel);
 			}
 			this.taken = true;
-		}
+		//}
 	}
 	
 	public void removeAllCards() {
@@ -39,6 +48,43 @@ public class GameSpot extends JPanel{
 			this.remove(cardPanel);
 		}
 		this.taken = false;
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		if (owner.selectedCards.size() > 0) {
+			this.placeCards(owner.spostaCarte());
+			owner.removeCards();
+		}
+		
+	}
+
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		this.setBorder(BorderFactory.createLineBorder(Color.BLUE,2));
+		
+	}
+
+	public void mouseExited(MouseEvent e) {
+		this.setBorder(BorderFactory.createLineBorder(Color.RED,1));
+	}
+
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
