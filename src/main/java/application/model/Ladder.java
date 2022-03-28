@@ -8,6 +8,7 @@ public class Ladder  extends Play{
 	
 	public Ladder(ArrayList<Card> cards){
 		super(cards);
+		/*
 		for(int i = 0 ; i < this.size(); ++i) {
 			Card c = this.get(i);
 			if(differentSuiteFound(c))
@@ -15,9 +16,9 @@ public class Ladder  extends Play{
 			if( i >= 1 && i < cards.size() - 1  && noNextAndPreviousCard(c))
 				throw new IllegalArgumentException();
 		}
-		
+		*/
 	}
-	
+	/*
 	private boolean differentSuiteFound(Card c) {
 		for(int i = 0 ; i < this.size(); ++i) {
 			if(this.get(i).getSuite() != c.getSuite())
@@ -39,7 +40,7 @@ public class Ladder  extends Play{
 		
 		return false;		
 	}
-	
+	*/
 	@Override
 	public boolean canAttach(Card card) {
 		if(card.getSuite() ==this.get(0).getSuite()){
