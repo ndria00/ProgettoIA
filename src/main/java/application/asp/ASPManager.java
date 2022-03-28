@@ -13,7 +13,6 @@ import it.unical.mat.embasp.languages.IllegalAnnotationException;
 import it.unical.mat.embasp.languages.ObjectNotValidException;
 import it.unical.mat.embasp.languages.asp.ASPInputProgram;
 import it.unical.mat.embasp.languages.asp.ASPMapper;
-import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 
@@ -25,8 +24,7 @@ public class ASPManager {
 	
 	private ASPManager() {
 		try {
-			//handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
-			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-macos"));
+			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-linux"));
 			ASPMapper.getInstance().registerClass(PlayableCombination.class);
 			ASPMapper.getInstance().registerClass(Card.class);
 			facts = new ASPInputProgram();
@@ -58,11 +56,10 @@ public class ASPManager {
 		handler.addProgram(encoding);
 		//System.out.println("ENCODING: " + encoding.getPrograms());
 		Output o = handler.startSync();
-		AnswerSets answerSets = (AnswerSets) o;
-		System.out.println(o.getOutput());
-		answerSets.getAnswersets();
+		//AnswerSets answerSets = (AnswerSets) o;
+		//System.out.println(o.getOutput());
+		//answerSets.getAnswersets();
 		//AnswerSet as = answerSets.getAnswersets().get(0);
-		//System.out.println(answerSets.getAnswersets().get(0));
 		/*
 		try {
 			for(Object obj : as.getAtoms()) {

@@ -1,7 +1,6 @@
 package application.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class GameSpot extends JPanel implements MouseInputListener{
 	private static final long serialVersionUID = 6535477337343318403L;
 	
 	private List<CardPanel> cards = null;
-	private boolean taken = false;
+	//private boolean taken = false;
 	private PlayerCards owner = null;
 	
 	public GameSpot(PlayerCards p) {
@@ -38,7 +37,7 @@ public class GameSpot extends JPanel implements MouseInputListener{
 			for (CardPanel cardPanel : cards) {
 				super.add(cardPanel);
 			}
-			this.taken = true;
+			//this.taken = true;
 		//}
 	}
 	
@@ -47,7 +46,7 @@ public class GameSpot extends JPanel implements MouseInputListener{
 			this.cards.remove(cardPanel);
 			this.remove(cardPanel);
 		}
-		this.taken = false;
+		//this.taken = false;
 	}
 
 	public void mouseClicked(MouseEvent e) {

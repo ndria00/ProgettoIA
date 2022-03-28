@@ -26,5 +26,9 @@ public class RealPlayer extends Player{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public ArrayList<Card> getSelectedCards(){
+		return selectedCards;
+	}
 
 }

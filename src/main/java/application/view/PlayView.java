@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -16,11 +19,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import application.ViewsHandler;
-import application.model.Player;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import application.model.Card;
+import application.model.Game;
 
 public class PlayView extends JPanel{
 	private static final long serialVersionUID = -8129006343701355252L;
@@ -48,6 +48,7 @@ public class PlayView extends JPanel{
 			}
 		});
 	}
+	
 	public void setPageLayout() {
 		BorderLayout layout = new BorderLayout();
 		this.setLayout(layout);
@@ -62,21 +63,30 @@ public class PlayView extends JPanel{
 		
 		
 		ImageIcon image1 = new ImageIcon();
-		try {
-			image1.setImage(ImageIO.read(new File("/Users/giovannimarasco/git/ProgettoIA/target/classes/application/resources/210.png")));
-		} catch (IOException e) {
+		//try {
+			//image1.setImage(ImageIO.read(new File("/Users/giovannimarasco/git/ProgettoIA/target/classes/application/resources/210.png")));
+		//} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//	e.printStackTrace();
+		//}
 		
-		for(int i = 0; i < 13; i++) {
+		ArrayList<Card> playerCards = Game.getInstance().getPlayers().get(0).getCards();
+		for(int i = 0; i < playerCards.size(); i++) {
 				ImageIcon image = new ImageIcon();
 				//System.out.println(getClass().getResource("../resources/01.png"));
-				Random r = new Random();
-				int seme = r.nextInt(4);
-				int numero = r.nextInt(13);
+				//Random r = new Random();
+				//int seme = r.nextInt(4);
+				//int numero = r.nextInt(13);
+				//try {
+					//image.setImage(ImageIO.read(new File("/Users/giovannimarasco/git/ProgettoIA/target/classes/application/resources/"+seme+numero+".png")));
+				//} catch (IOException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				//}
+				Card c = playerCards.get(i);
 				try {
-					image.setImage(ImageIO.read(new File("/Users/giovannimarasco/git/ProgettoIA/target/classes/application/resources/"+seme+numero+".png")));
+					System.out.println("Sto cercando" + c.getSuite() + " " + c.getNumber());
+					image.setImage(ImageIO.read(getClass().getResource("../resources/" + c.getSuite() + c.getNumber() + ".png")));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -84,7 +94,7 @@ public class PlayView extends JPanel{
 				CardPanel p1 = new CardPanel(image, bottom);
 				bottom.add(p1);
 		}
-		
+		 
 		
 		
 		//center
@@ -145,5 +155,9 @@ public class PlayView extends JPanel{
 		center.add(deckAndWell, BorderLayout.NORTH);
 		center.add(gameSpots, BorderLayout.CENTER); 
 		this.add(center,BorderLayout.CENTER);
+	}
+	
+	public void updateView() {
+		
 	}
 }

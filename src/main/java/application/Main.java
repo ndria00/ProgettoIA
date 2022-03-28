@@ -10,15 +10,11 @@ public class Main {
 	public static void main(String[] args) {
 		//add all the pages to the viewsHandler
 		ViewsHandler.getInstance().addView("home", new HomeView());
-		ViewsHandler.getInstance().addView("play", new PlayView());
 		
 		JFrame frame = new JFrame("Scala 40");
 		frame.setSize(1024, 720);
 		frame.add(ViewsHandler.getInstance().getMainPanel());
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Game.getInstance();
-		Game.getInstance().startNewGame(4, 1);
-		Game.getInstance().getPlayers().get(1).canPlay(null);
 	}
 }
