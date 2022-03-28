@@ -25,7 +25,7 @@ public class ASPManager {
 	
 	private ASPManager() {
 		try {
-			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2.exe"));
+			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-linux"));
 			ASPMapper.getInstance().registerClass(PlayableCombination.class);
 			ASPMapper.getInstance().registerClass(Card.class);
 			facts = new ASPInputProgram();
@@ -57,11 +57,11 @@ public class ASPManager {
 		handler.addProgram(encoding);
 		System.out.println("ENCODING: " + encoding.getPrograms());
 		Output o = handler.startSync();
-		AnswerSets answerSets = (AnswerSets) o;
+		//AnswerSets answerSets = (AnswerSets) o;
 		System.out.println(o.getOutput());
 		
 		//AnswerSet as = answerSets.getAnswersets().get(0);
-		System.out.println("WE " + answerSets.getAnswersets().get(0));
+		//System.out.println("WE " + answerSets.getAnswersets().get(0));
 		/*
 		try {
 			for(Object obj : as.getAtoms()) {
