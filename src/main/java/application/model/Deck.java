@@ -13,6 +13,7 @@ public class Deck extends ArrayList<Card>{
 	}
 	
 	public Card pick() {
+		System.out.println(this.size());
 		int index = Settings.RANDOM.nextInt(this.size());
 		Card c = this.get(index);
 		this.remove(index);

@@ -44,8 +44,8 @@ public class Game {
 				String [] v = line.split("\t");
 				Card c = new Card();
 				c.setId(Integer.parseInt(v[0]));
-				c.setNumber(Integer.parseInt(v[1]));
-				c.setSuite(Integer.parseInt(v[2]));
+				c.setNumber(Integer.parseInt(v[2]));
+				c.setSuite(Integer.parseInt(v[1]));
 				c.setValue(Integer.parseInt(v[3]));
 				//System.out.println(c.toString());
 				allCards.put(c.getId(), c);
