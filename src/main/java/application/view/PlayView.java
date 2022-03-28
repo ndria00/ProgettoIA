@@ -7,15 +7,20 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import application.Settings;
 import application.ViewsHandler;
+import application.model.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PlayView extends JPanel{
 	private static final long serialVersionUID = -8129006343701355252L;
@@ -49,67 +54,81 @@ public class PlayView extends JPanel{
 		this.add(leaveButton, BorderLayout.NORTH);
 		
 		//bottom
-		JPanel bottom = new JPanel();
+		PlayerCards bottom = new PlayerCards();
 		GridLayout gridLayout = new GridLayout(1,13,10,10);
 		bottom.setLayout(gridLayout);
 		bottom.setBackground(new Color(185, 251, 192));
 		this.add(bottom, BorderLayout.SOUTH);
-		CardPanel p1 = new CardPanel('2', Settings.SUITE_SPADES);
-		CardPanel p2 = new CardPanel('2', Settings.SUITE_SPADES);
-		CardPanel p3 = new CardPanel('2', Settings.SUITE_SPADES);
-		CardPanel p4 = new CardPanel('2', Settings.SUITE_SPADES);
-		CardPanel p5 = new CardPanel('2',Settings.SUITE_SPADES);
-		CardPanel p6 = new CardPanel('2',Settings.SUITE_SPADES);
-		CardPanel p7 = new CardPanel('2',Settings.SUITE_SPADES);
-		CardPanel p8 = new CardPanel('2',Settings.SUITE_SPADES);
-		CardPanel p9 = new CardPanel('2',Settings.SUITE_SPADES);
-		CardPanel p10 = new CardPanel('2',Settings.SUITE_SPADES);
-		CardPanel p11 = new CardPanel('2',Settings.SUITE_SPADES);
-		CardPanel p12 = new CardPanel('2',Settings.SUITE_SPADES);
-		CardPanel p13 = new CardPanel('2',Settings.SUITE_SPADES);
 		
-		bottom.add(p1);
-		bottom.add(p2);
-		bottom.add(p3);
-		bottom.add(p4);
-		bottom.add(p5);
-		bottom.add(p6);
-		bottom.add(p7);
-		bottom.add(p8);
-		bottom.add(p9);
-		bottom.add(p10);
-		bottom.add(p11);
-		bottom.add(p12);
-		bottom.add(p13);
+		
+		ImageIcon image1 = new ImageIcon();
+		try {
+			image1.setImage(ImageIO.read(new File("/Users/giovannimarasco/git/ProgettoIA/target/classes/application/resources/210.png")));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for(int i = 0; i < 13; i++) {
+				ImageIcon image = new ImageIcon();
+				//System.out.println(getClass().getResource("../resources/01.png"));
+				Random r = new Random();
+				int seme = r.nextInt(4);
+				int numero = r.nextInt(13);
+				try {
+					image.setImage(ImageIO.read(new File("/Users/giovannimarasco/git/ProgettoIA/target/classes/application/resources/"+seme+numero+".png")));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				CardPanel p1 = new CardPanel(image, bottom);
+				bottom.add(p1);
+		}
+		
+		
 		
 		//center
 		JPanel center = new JPanel();
-		GridLayout centerGridLayout = new GridLayout(3,1);
-		center.setLayout(centerGridLayout);
+		BorderLayout centerBorderLayout = new BorderLayout();
+		center.setLayout(centerBorderLayout);
 		center.setBackground(new Color(185, 251, 192));
 		
 		JPanel gameSpots = new JPanel();
-		GridLayout gameSpotsGridLayout = new GridLayout(4,5,4,4);
+		GridLayout gameSpotsGridLayout = new GridLayout(4,4,4,4);
 		gameSpots.setLayout(gameSpotsGridLayout);
 		gameSpots.setBackground(new Color(185, 251, 192));
 		
 		//TEST
 		for(int i = 0; i < 20; ++i) {
-			GameSpot gs = new GameSpot();
-			CardPanel c1 = new CardPanel('2',Settings.SUITE_SPADES);
-			c1.setBackground(Color.red);
-			CardPanel c2 = new CardPanel('2',Settings.SUITE_SPADES);
-			c2.setBackground(Color.BLUE);
-			CardPanel c3 = new CardPanel('2',Settings.SUITE_SPADES);
-			c3.setBackground(Color.cyan);
-			CardPanel c4 = new CardPanel('2',Settings.SUITE_SPADES);
-			c4.setBackground(Color.MAGENTA);
+			GameSpot gs = new GameSpot(bottom);
+//			CardPanel c1 =new CardPanel(image1);
+//			CardPanel c2 = new CardPanel(image1);
+//			CardPanel c3 =new CardPanel(image1);
+//			CardPanel c4 = new CardPanel(image1);
+//			CardPanel c5 =new CardPanel(image1);
+//			CardPanel c6 = new CardPanel(image);
+//			CardPanel c7 =new CardPanel(image);
+//			CardPanel c8 = new CardPanel(image);
+//			CardPanel c9 =new CardPanel(image);
+//			CardPanel c10 = new CardPanel(image);
+//			CardPanel c11 =new CardPanel(image);
+//			CardPanel c12 = new CardPanel(image);
+//			CardPanel c13 = new CardPanel(image);
 			
 			ArrayList<CardPanel> cards = new ArrayList<CardPanel>();
-			cards.add(c1);
-			cards.add(c2);
-			cards.add(c3);
-			cards.add(c4);
+//			cards.add(c1);
+//			cards.add(c2);
+//			cards.add(c3);
+//			cards.add(c4);
+//			cards.add(c5);
+//			cards.add(c6);
+//			cards.add(c7);
+//			cards.add(c8);
+//			cards.add(c9);
+//			cards.add(c10);
+//			cards.add(c11);
+//			cards.add(c12);
+//			cards.add(c13);
 			
 			gs.placeCards(cards);
 			gameSpots.add(gs);
@@ -117,14 +136,14 @@ public class PlayView extends JPanel{
 		//END TEST
 		
 		JPanel deckAndWell = new JPanel();
-		deckAndWell.add(new CardPanel('2', Settings.SUITE_SPADES));
-		deckAndWell.add(new CardPanel('2', Settings.SUITE_SPADES));
+		deckAndWell.add(new CardPanel(image1));
+		deckAndWell.add(new CardPanel(image1));
 		deckAndWell.setMaximumSize(new Dimension(110,120));
 		deckAndWell.setBackground(new Color(185, 251, 192));
 		deckAndWell.setLayout(new FlowLayout());
 		
-		center.add(deckAndWell);
-		center.add(gameSpots); 
+		center.add(deckAndWell, BorderLayout.NORTH);
+		center.add(gameSpots, BorderLayout.CENTER); 
 		this.add(center,BorderLayout.CENTER);
 	}
 }
