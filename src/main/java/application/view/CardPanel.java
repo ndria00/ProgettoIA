@@ -32,7 +32,7 @@ public class CardPanel extends JPanel implements MouseInputListener{
 	
 	public CardPanel(ImageIcon image, PlayerCards owner) {
 		setBackground(Color.WHITE);
-		this.setLayout(new BorderLayout());
+		//this.setLayout(new BorderLayout());
 		this.image = image;
 		this.label = new JLabel(this.image);
 		this.owner = owner;
@@ -41,6 +41,20 @@ public class CardPanel extends JPanel implements MouseInputListener{
 		this.addMouseListener(this);
 	}
 	
+	public void setImage(ImageIcon image) {
+//		this.remove(this.label);
+//		this.label = new JLabel(image);
+//		this.add(label);
+		
+		this.label.setIcon(image);
+//		this.repaint();
+//		this.revalidate();
+		System.out.println("DENTRO");
+	}
+	
+	public ImageIcon getImage() {
+		return this.image;
+	}
 	
 
 

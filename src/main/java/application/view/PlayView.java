@@ -55,11 +55,11 @@ public class PlayView extends JPanel{
 		this.add(leaveButton, BorderLayout.NORTH);
 		
 		//bottom
-		PlayerCards bottom = new PlayerCards();
-		GridLayout gridLayout = new GridLayout(1,13,10,10);
-		bottom.setLayout(gridLayout);
-		bottom.setBackground(new Color(185, 251, 192));
-		this.add(bottom, BorderLayout.SOUTH);
+//		PlayerCards bottom = new PlayerCards();
+//		GridLayout gridLayout = new GridLayout(1,13,10,10);
+//		bottom.setLayout(gridLayout);
+//		bottom.setBackground(new Color(185, 251, 192));
+		this.add(PlayerCards.getInstance(), BorderLayout.SOUTH);
 		
 		
 		ImageIcon image1 = new ImageIcon();
@@ -91,8 +91,8 @@ public class PlayView extends JPanel{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				CardPanel p1 = new CardPanel(image, bottom);
-				bottom.add(p1);
+				CardPanel p1 = new CardPanel(image, PlayerCards.getInstance());
+				PlayerCards.getInstance().add(p1);
 		}
 		 
 		
@@ -110,7 +110,7 @@ public class PlayView extends JPanel{
 		
 		//TEST
 		for(int i = 0; i < 20; ++i) {
-			GameSpot gs = new GameSpot(bottom);
+			GameSpot gs = new GameSpot(PlayerCards.getInstance());
 //			CardPanel c1 =new CardPanel(image1);
 //			CardPanel c2 = new CardPanel(image1);
 //			CardPanel c3 =new CardPanel(image1);
@@ -145,12 +145,24 @@ public class PlayView extends JPanel{
 		}
 		//END TEST
 		
-		JPanel deckAndWell = new JPanel();
-		deckAndWell.add(new CardPanel(image1));
-		deckAndWell.add(new CardPanel(image1));
-		deckAndWell.setMaximumSize(new Dimension(110,120));
-		deckAndWell.setBackground(new Color(185, 251, 192));
-		deckAndWell.setLayout(new FlowLayout());
+//		JPanel deckAndWell = new JPanel();
+//		deckAndWell.add(new CardPanel(image1));
+//		deckAndWell.add(new CardPanel(image1));
+//				
+//		deckAndWell.setMaximumSize(new Dimension(110,120));
+//		deckAndWell.setBackground(new Color(185, 251, 192));
+//		deckAndWell.setLayout(new FlowLayout());
+		ImageIcon backImage = new ImageIcon();
+		ImageIcon firstImage = new ImageIcon();
+		try {
+			backImage.setImage(ImageIO.read(getClass().getResource("../resources/" + '9' + '9' + ".png")));
+			firstImage.setImage(ImageIO.read(getClass().getResource("../resources/" + '5' + '1' + ".png")));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		DeckAndWell deckAndWell = new DeckAndWell(backImage, firstImage);
 		
 		center.add(deckAndWell, BorderLayout.NORTH);
 		center.add(gameSpots, BorderLayout.CENTER); 

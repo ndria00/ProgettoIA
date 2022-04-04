@@ -1,5 +1,7 @@
 package application.view;
 
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -10,7 +12,19 @@ public class PlayerCards extends JPanel{
 	
 	public ArrayList<CardPanel> selectedCards = new ArrayList<CardPanel>();
 	
-	public PlayerCards() {}
+	private static PlayerCards instance = null;
+	
+	private PlayerCards() {
+		GridLayout gridLayout = new GridLayout(1,13,10,10);
+		this.setLayout(gridLayout);
+		this.setBackground(new Color(185, 251, 192));
+	}
+	
+	public static PlayerCards getInstance() {
+		if(instance == null)
+			instance = new PlayerCards();
+		return instance;
+	}
 	
 	
 	public void addSelectedCard(CardPanel p) {
@@ -29,10 +43,10 @@ public class PlayerCards extends JPanel{
 	}
 	
 	public void removeCard(CardPanel p) {
-		for (CardPanel cardPanel : selectedCards) {
-			System.out.println("Card");
-		}
-		System.out.println("\n");
+//		for (CardPanel cardPanel : selectedCards) {
+//			System.out.println("Card");
+//		}
+//		System.out.println("\n");
 		this.remove(p);
 		selectedCards.remove(p);
 	}
