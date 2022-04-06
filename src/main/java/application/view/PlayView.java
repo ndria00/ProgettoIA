@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -59,7 +60,7 @@ public class PlayView extends JPanel{
 //		GridLayout gridLayout = new GridLayout(1,13,10,10);
 //		bottom.setLayout(gridLayout);
 //		bottom.setBackground(new Color(185, 251, 192));
-		this.add(PlayerCards.getInstance(), BorderLayout.SOUTH);
+		this.add(PlayerCardsPanel.getInstance(), BorderLayout.SOUTH);
 		
 		
 		ImageIcon image1 = new ImageIcon();
@@ -91,8 +92,9 @@ public class PlayView extends JPanel{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				CardPanel p1 = new CardPanel(image, PlayerCards.getInstance());
-				PlayerCards.getInstance().add(p1);
+				CardPanel p1 = new CardPanel(image, PlayerCardsPanel.getInstance());
+				p1.setCard(c);
+				PlayerCardsPanel.getInstance().add(p1);
 		}
 		 
 		
@@ -110,7 +112,7 @@ public class PlayView extends JPanel{
 		
 		//TEST
 		for(int i = 0; i < 20; ++i) {
-			GameSpot gs = new GameSpot(PlayerCards.getInstance());
+			GameSpot gs = new GameSpot(PlayerCardsPanel.getInstance());
 //			CardPanel c1 =new CardPanel(image1);
 //			CardPanel c2 = new CardPanel(image1);
 //			CardPanel c3 =new CardPanel(image1);
@@ -125,7 +127,7 @@ public class PlayView extends JPanel{
 //			CardPanel c12 = new CardPanel(image);
 //			CardPanel c13 = new CardPanel(image);
 			
-			ArrayList<CardPanel> cards = new ArrayList<CardPanel>();
+			Vector<CardPanel> cards = new Vector<CardPanel>();
 //			cards.add(c1);
 //			cards.add(c2);
 //			cards.add(c3);
@@ -162,7 +164,7 @@ public class PlayView extends JPanel{
 			e.printStackTrace();
 		}
 		
-		DeckAndWell deckAndWell = new DeckAndWell(backImage, firstImage);
+		DeckAndWellPanel deckAndWell = new DeckAndWellPanel(backImage, firstImage);
 		
 		center.add(deckAndWell, BorderLayout.NORTH);
 		center.add(gameSpots, BorderLayout.CENTER); 

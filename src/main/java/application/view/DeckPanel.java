@@ -10,6 +10,9 @@ import application.model.Card;
 import application.model.Game;
 
 public class DeckPanel extends CardPanel{
+	
+	
+	
 
 	private static final long serialVersionUID = 3154124699346921639L;
 	public DeckPanel(ImageIcon image) {
@@ -17,16 +20,15 @@ public class DeckPanel extends CardPanel{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public DeckPanel(ImageIcon image, PlayerCards playerCards) {
+	public DeckPanel(ImageIcon image, PlayerCardsPanel playerCards) {
 		super(image, playerCards);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		Card c = Game.getInstance().getDeck().get(0);
-		Game.getInstance().getDeck().remove(0);
-		System.out.print(c.getSuite() + " " + c.getNumber() + "\n");
+		Card c = Game.getInstance().getDeck().pick();
+		//System.out.print(c.getSuite() + " " + c.getNumber() + "\n");
 		ImageIcon image = new ImageIcon();
 		try {
 			image.setImage(ImageIO.read(getClass().getResource("../resources/" + c.getSuite() + c.getNumber() + ".png")));
@@ -34,8 +36,9 @@ public class DeckPanel extends CardPanel{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		CardPanel card = new CardPanel(image, PlayerCards.getInstance());
-		PlayerCards.getInstance().add(card);
-		PlayerCards.getInstance().revalidate();
+		CardPanel card = new CardPanel(image, PlayerCardsPanel.getInstance());
+		card.setCard(c);
+		PlayerCardsPanel.getInstance().add(card);
+		PlayerCardsPanel.getInstance().revalidate();
 	}
 }

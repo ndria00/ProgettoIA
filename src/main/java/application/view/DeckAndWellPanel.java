@@ -8,12 +8,12 @@ import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class DeckAndWell extends JPanel{
+public class DeckAndWellPanel extends JPanel{
 	private static final long serialVersionUID = -1504887529992253680L;
 	
 	private CardPanel[] panels = new CardPanel[2];
 	
-	public DeckAndWell(ImageIcon backImage, ImageIcon frontImage) {
+	public DeckAndWellPanel(ImageIcon backImage, ImageIcon frontImage) {
 		panels[0] = new WellPanel(frontImage);
 		panels[1] = new DeckPanel(backImage);
 		this.setLayout(new FlowLayout());

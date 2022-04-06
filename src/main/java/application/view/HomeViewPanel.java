@@ -11,12 +11,12 @@ import application.Settings;
 import application.ViewsHandler;
 import application.model.Game;
 
-public class HomeView extends JPanel{
+public class HomeViewPanel extends JPanel{
 	private static final long serialVersionUID = -1748388828014345492L;
 	
 	private JButton playButton = null;
 	
-	public HomeView() {
+	public HomeViewPanel() {
 		playButton = new JButton("Play");
 		initPlayButton(playButton);
 		this.setLayout(new GridLayout(3, 1));

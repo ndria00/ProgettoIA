@@ -2,7 +2,9 @@ package application.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -10,19 +12,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
+import application.model.Card;
+
 public class CardPanel extends JPanel implements MouseInputListener{
 	private static final long serialVersionUID = 5369052523336312366L;
 	private Integer id = null;
 	private boolean clicked = false;
 	private ImageIcon image = null;
 	private JLabel label = null;
-	private PlayerCards owner = null;
+	private PlayerCardsPanel owner = null;
+	private Card card = null;
 	
 	
 	public CardPanel(ImageIcon image) {
 		setBackground(Color.WHITE);
 		this.setLayout(new BorderLayout());
-		this.image = image;
+		//this.image = image;
+		Image img = image.getImage();
+		img = img.getScaledInstance(65, 90,  Image.SCALE_SMOOTH);
+		this.image = new ImageIcon(img);
 		this.label = new JLabel(this.image);
 		
 		this.setBackground(new Color(185, 251, 192));
@@ -30,10 +38,12 @@ public class CardPanel extends JPanel implements MouseInputListener{
 		this.addMouseListener(this);
 	}
 	
-	public CardPanel(ImageIcon image, PlayerCards owner) {
+	public CardPanel(ImageIcon image, PlayerCardsPanel owner) {
 		setBackground(Color.WHITE);
 		//this.setLayout(new BorderLayout());
-		this.image = image;
+		Image img = image.getImage();
+		img = img.getScaledInstance(65, 90,  Image.SCALE_SMOOTH);
+		this.image = new ImageIcon(img);
 		this.label = new JLabel(this.image);
 		this.owner = owner;
 		this.setBackground(new Color(185, 251, 192));
@@ -56,6 +66,14 @@ public class CardPanel extends JPanel implements MouseInputListener{
 		return this.image;
 	}
 	
+	
+	public Card getCard() {
+		return this.card;
+	}
+	
+	public void setCard(Card c) {
+		this.card = c;
+	}
 
 
 	
@@ -72,8 +90,8 @@ public class CardPanel extends JPanel implements MouseInputListener{
 		}else {
 			this.setBorder(null);
 			clicked = false;
-			if(this.owner != null)
-				owner.removeCard(this);
+			if(owner != null)
+				this.owner.removeCard(this, e);
 		}
 		
 	}

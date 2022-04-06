@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -15,9 +16,9 @@ public class GameSpot extends JPanel implements MouseInputListener{
 	
 	private List<CardPanel> cards = null;
 	//private boolean taken = false;
-	private PlayerCards owner = null;
+	private PlayerCardsPanel owner = null;
 	
-	public GameSpot(PlayerCards p) {
+	public GameSpot(PlayerCardsPanel p) {
 		super( new GridLayout(1,0,-25,0));
 		this.owner = p;
 //		GridLayout layout = new GridLayout(1,0,-25,0);
@@ -31,7 +32,7 @@ public class GameSpot extends JPanel implements MouseInputListener{
 		//this.setSize(new Dimension(400,120));
 	}
 	
-	public void placeCards(ArrayList<CardPanel> cards) {
+	public void placeCards(Vector<CardPanel> cards) {
 		//if(!this.taken) {
 			this.cards.addAll(cards);
 			for (CardPanel cardPanel : cards) {
@@ -53,6 +54,7 @@ public class GameSpot extends JPanel implements MouseInputListener{
 		if (owner.selectedCards.size() > 0) {
 			this.placeCards(owner.spostaCarte());
 			owner.removeCards();
+			this.revalidate();
 		}
 		
 	}

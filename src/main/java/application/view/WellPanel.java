@@ -16,25 +16,31 @@ public class WellPanel extends CardPanel{
 		// TODO Auto-generated constructor stub
 	}
 	
-	public WellPanel(ImageIcon image, PlayerCards playCards) {
+	public WellPanel(ImageIcon image, PlayerCardsPanel playCards) {
 		super(image, playCards);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(PlayerCards.getInstance().selectedCards.size() == 1) {
-			//Game.getInstance().getWell().add(new Card());
-			CardPanel c = PlayerCards.getInstance().selectedCards.remove(0);
-			PlayerCards.getInstance().remove(c);
+		if(PlayerCardsPanel.getInstance().selectedCards.size() == 1) {
+			
+			//SCARTO 
+			
+			//Game.getInstance().getWell().put(this.getCard());
+			CardPanel c = PlayerCardsPanel.getInstance().selectedCards.remove(0);
+			PlayerCardsPanel.getInstance().remove(c);
+			Game.getInstance().getPlayers().get(0).discard(this.getCard());
 			
 			super.setImage(c.getImage());
 			
-			PlayerCards.getInstance().revalidate();
+			PlayerCardsPanel.getInstance().revalidate();
 		}
-		else if(PlayerCards.getInstance().selectedCards.size() == 0) {
+		else if(PlayerCardsPanel.getInstance().selectedCards.size() == 0) {
 			
-		}
+			//PESCA DAL POZZO
+			
+		}else {System.out.println(PlayerCardsPanel.getInstance().selectedCards.size());}
 	}
 	
 }

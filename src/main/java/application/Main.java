@@ -3,13 +3,13 @@ package application;
 import javax.swing.JFrame;
 
 import application.model.Game;
-import application.view.HomeView;
+import application.view.HomeViewPanel;
 import application.view.PlayView;
 
 public class Main {
 	public static void main(String[] args) {
 		//add all the pages to the viewsHandler
-		ViewsHandler.getInstance().addView("home", new HomeView());
+		ViewsHandler.getInstance().addView("home", new HomeViewPanel());
 		
 		JFrame frame = new JFrame("Scala 40");
 		frame.setSize(1024, 720);
