@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public abstract class Play extends ArrayList<Card>{
 	private static final long serialVersionUID = 6089405279947692778L;
 	
+	public Play() {
+		super();
+	}
+	
 	public Play(ArrayList<Card> cards) {
 		setCards(cards);
 	}
@@ -26,4 +30,10 @@ public abstract class Play extends ArrayList<Card>{
 	
 	//attaches all the cards of play p1 to play p
 	public abstract void attach(Play p1);
+	
+	//computes points of the play
+	public abstract int computeTotalPoints();
+	
+	//get the atom composed by play and value
+	public abstract String getListAndValue(int value);
 }
