@@ -222,5 +222,9 @@ public class Game {
 		return (RealPlayer) this.getPlayers().get(0);
 	}
 	
+	public Card getCardById(int id) {
+		return this.allCards.get(id);
+	}
+	
 	
 }

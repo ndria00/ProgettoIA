@@ -1,13 +1,21 @@
-#show myMaximumList/1.
-number(1..19).
-illegalNumber([1, 4, 6, 8, 9, 10, 12, 14, 16, 18]).
-
-myList([X|[Y]]) :- number(X), number(Y), not &member(X, L;), not &member(Y, L;), illegalNumber(L), X < Y.
-
-myList([X| Y]) :- myList(Y), number(X), illegalNumber(L), not &member(X, L;), X <E,  &head(Y; E).
+%guess
+%play(X) | nonPlay(X) :- combination(X).
+%play(X) | nonPlay(X) :- ladder(X).
 
 
-myMaximumListSize(X) :- #max{ Size : myList(L), &length(L; Size)}  = X.
 
+%compute the points of each possible combination
+%standard combination(even with jolly)
+%pointsPlay(X, T) :- combination(X), card(ID, _, N, V), &member(ID, X;), N != 13, N !=1,  &length(X; L), T = V *L.
+%combination of aces
+%pointsPlay(X, T) :- combination(X), card(ID, _, N, _), &member(ID, X;), N =1,  &length(X; L), T = 11 *L.
 
-myMaximumList(X) :- myList(X), &length(X; S1), myMaximumListSize(S1).
+%compute the points of each possible ladder
+%ladder that may contain a joker but not as last card and has no figures
+%pointsPlay(X, T) :- ladder(X), card(ID, _, N, V), &last(X; ID), N != 13, N != 1, &length(X; L), T = (L/2)*(2*V + 1 - L).
+
+%can't play 2 plays that have a card in common
+%:- play(X), play(Y), X != Y, card(ID, _, _, _), &member(ID, X;), &member(ID, Y;).
+
+%No more than 1 joker per turn
+%:- play(X), play(Y), X != Y, &member(105, X;), &member(106, Y;).
