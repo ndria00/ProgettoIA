@@ -1,6 +1,7 @@
 package application.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RealPlayer extends Player{
@@ -29,5 +30,12 @@ public class RealPlayer extends Player{
 	public ArrayList<Card> getSelectedCards(){
 		return selectedCards;
 	}
+	
+	public List<Card> getCopiaSelectedCards(){
+		List<Card> destination = new ArrayList<Card>(selectedCards);
+	    return destination;
+	}
+
+	
 
 }

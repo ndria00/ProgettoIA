@@ -1,12 +1,17 @@
 package application.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JPanel;
+
+import application.CardToImage;
+import application.model.Card;
+import application.model.Game;
 
 public class PlayerCardsPanel extends JPanel{
 
@@ -39,8 +44,16 @@ public class PlayerCardsPanel extends JPanel{
 	}
 	
 	public void removeCards() {
-		for (CardPanel cardPanel : selectedCards) {
-			this.remove(cardPanel);
+		for (Component c : this.getComponents()) {
+			this.remove(c);
+		}
+	}
+	
+	public void addCards(ArrayList<Card> cards) {
+		for(Card card : cards) {
+			CardPanel cardPanel = new CardPanel(CardToImage.getInstance().getImageFromCard(card), this);
+			cardPanel.setCard(card);
+			this.add(cardPanel);
 		}
 	}
 	
@@ -53,5 +66,21 @@ public class PlayerCardsPanel extends JPanel{
 		if(e.getSource() == WellPanel.class) {
 			this.remove(p);
 		}
+	}
+	
+	
+	public void update() {
+		this.removeCards();
+		this.addCards(Game.getInstance().getRealPlayer().getCards());
+		this.revalidate();
+	}
+	
+	public CardPanel getCardPanelFromCard(Card c) {
+		for (Component component : this.getComponents()) {
+			CardPanel cp = (CardPanel)component;
+			if(cp.getCard().equals(c))
+				return cp;
+		}
+		return null;
 	}
 }

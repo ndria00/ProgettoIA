@@ -2,6 +2,7 @@ package application.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -22,12 +23,17 @@ import application.model.Game;
 public class PlayView extends JPanel{
 	private static final long serialVersionUID = -8129006343701355252L;
 	private JButton leaveButton = null;
+	private AddSetButton addSetButton = null;
+	private JPanel buttonsBar = null;
 	private Vector<CardPanel> cardPanels = new Vector<CardPanel>();
 
 	public PlayView() {
 		this.setBackground(new Color(185, 251, 192));
-		leaveButton = new JButton("leave the game");
-		initButton();
+		leaveButton = new JButton("lascia il gioco");
+		addSetButton = new AddSetButton();
+		buttonsBar = new JPanel();
+		buttonsBar.setLayout(new FlowLayout());
+		initButtons();
 		CardToImage.getInstance();
 		setPageLayout();		
 	}
@@ -38,7 +44,7 @@ public class PlayView extends JPanel{
 		}
 	}
 	
-	public void initButton() {
+	public void initButtons() {
 		leaveButton.setSize(100, 50);
 		leaveButton.addActionListener(new ActionListener() {
 			
@@ -46,6 +52,9 @@ public class PlayView extends JPanel{
 				ViewsHandler.getInstance().getView("home");
 			}
 		});
+		
+		buttonsBar.add(leaveButton);
+		buttonsBar.add(addSetButton);
 		
 
 	}
@@ -58,7 +67,8 @@ public class PlayView extends JPanel{
 	public void setPageLayout() {
 		BorderLayout layout = new BorderLayout();
 		this.setLayout(layout);
-		this.add(leaveButton, BorderLayout.NORTH);
+		
+		this.add(buttonsBar, BorderLayout.NORTH);
 		
 		//bottom
 //		PlayerCards bottom = new PlayerCards();

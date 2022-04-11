@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.event.MouseInputListener;
 
+import application.model.Game;
 import application.view.CardPanel;
 
 public class CardPanelController implements MouseInputListener{
@@ -17,16 +18,34 @@ public class CardPanelController implements MouseInputListener{
 	public void mouseClicked(MouseEvent e) {
 		if(!cardPanel.getClicked()) {
 			if(this.cardPanel.getOwner() != null) {
-				this.cardPanel.getOwner().addSelectedCard(this.cardPanel);
+				Game.getInstance().getRealPlayer().getSelectedCards().add(this.cardPanel.getCard());
 			}
 			this.cardPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW,4));
 			this.cardPanel.setClicked(true);
 		}else {
 			this.cardPanel.setBorder(null);
 			this.cardPanel.setClicked(false);
-			if(this.cardPanel.getOwner() != null)
-				this.cardPanel.getOwner().removeCard(this.cardPanel, e);
+			if(this.cardPanel.getOwner() != null) {
+				CardPanel source = (CardPanel)e.getSource();
+				Game.getInstance().getRealPlayer().getSelectedCards().remove(source.getCard());
+			}
 		}
+		
+		
+		
+//HOLD		
+//		if(!cardPanel.getClicked()) {
+//			if(this.cardPanel.getOwner() != null) {
+//				this.cardPanel.getOwner().addSelectedCard(this.cardPanel);
+//			}
+//			this.cardPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW,4));
+//			this.cardPanel.setClicked(true);
+//		}else {
+//			this.cardPanel.setBorder(null);
+//			this.cardPanel.setClicked(false);
+//			if(this.cardPanel.getOwner() != null)
+//				this.cardPanel.getOwner().removeCard(this.cardPanel, e);
+//		}
 		
 	}
 
