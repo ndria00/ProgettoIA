@@ -24,7 +24,8 @@ public class ASPManager {
 	
 	private ASPManager() {
 		try {
-			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-linux"));
+			//handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-linux"));
+			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-macos"));
 			ASPMapper.getInstance().registerClass(PlayableCombination.class);
 			ASPMapper.getInstance().registerClass(Card.class);
 			facts = new ASPInputProgram();

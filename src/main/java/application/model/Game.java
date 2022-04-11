@@ -218,5 +218,9 @@ public class Game {
 		return gameState;
 	}
 	
+	public RealPlayer getRealPlayer() {
+		return (RealPlayer) this.getPlayers().get(0);
+	}
+	
 	
 }
