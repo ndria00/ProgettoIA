@@ -25,9 +25,9 @@ public class DeckController implements MouseInputListener{
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-		if (!Game.getInstance().getRealPlayer().isPlayingRound()) {
-			return;
-		}
+//		if (!Game.getInstance().getRealPlayer().isPlayingRound()) {
+//			return;
+//		}
 		
 		Card c = Game.getInstance().getDeck().pick();
 		//System.out.print(c.getSuite() + " " + c.getNumber() + "\n");

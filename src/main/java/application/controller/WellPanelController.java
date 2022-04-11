@@ -23,14 +23,15 @@ public class WellPanelController implements MouseInputListener{
 	
 	
 	public void mouseClicked(MouseEvent e) {
-		if(PlayerCardsPanel.getInstance().selectedCards.size() == 1) {
+		if(Game.getInstance().getRealPlayer().getSelectedCards().size() == 1) {
 			
 			//SCARTO 
 			System.out.println("CLICKED");
 			//il realPlayer scarta la carta e conclude il turno
 			System.out.println(this.wellPanel);
-			CardPanel c = PlayerCardsPanel.getInstance().selectedCards.remove(0);
-			Game.getInstance().getPlayers().get(0).discard(c.getCard());
+			Card c = Game.getInstance().getRealPlayer().getSelectedCards().remove(0);
+			CardPanel cardPanel = PlayerCardsPanel.getInstance().getCardPanelFromCard(c);
+			Game.getInstance().getPlayers().get(0).discard(c);
 			
 			
 		
@@ -38,21 +39,23 @@ public class WellPanelController implements MouseInputListener{
 			//Game.getInstance().getWell().put(c.getCard());
 			
 			//rimuovo il componente CardPanel dalle carte del realPlayer
-			PlayerCardsPanel.getInstance().remove(c);
+			PlayerCardsPanel.getInstance().remove(cardPanel);
 			
 			
 			//assegno al well panel l'immagine della carta appena scartata
-			this.wellPanel.setImage(c.getImage());
+			System.out.println(cardPanel.getImage());
+			this.wellPanel.setImage(cardPanel.getImage());
 			
 			//Aggiorno il panel che continene le carte del real player
-			PlayerCardsPanel.getInstance().revalidate();
+			PlayerCardsPanel.getInstance().update();
+			this.wellPanel.revalidate();
 		}
-		else if(PlayerCardsPanel.getInstance().selectedCards.size() == 0) {
+		else if(Game.getInstance().getRealPlayer().getSelectedCards().size() == 0) {
 			
 			
-				if(!Game.getInstance().getRealPlayer().isPlayingRound()) {
-					return;
-				}
+//				if(!Game.getInstance().getRealPlayer().isPlayingRound()) {
+//					return;
+//				}
 				
 				//Se ci sono carte nel well
 				if(Game.getInstance().getWell().size() != 0) {
@@ -65,6 +68,7 @@ public class WellPanelController implements MouseInputListener{
 					
 					//creo il cardPanel da aggiungere ai cardPanel del realPlayer
 					CardPanel cp = new CardPanel(CardToImage.getInstance().getImageFromCard(card), PlayerCardsPanel.getInstance());
+					cp.setCard(card);
 					//CardPanel cp = new CardPanel(null, PlayerCardsPanel.getInstance());
 					
 					//aggiungo il cardPanel alla view
