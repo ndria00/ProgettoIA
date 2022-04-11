@@ -11,7 +11,7 @@ public abstract class PlayerState {
 	//with the selected cards so to make computation faster
 	//If the play is made all the played cards will be removed form the player's HandOfCard
 	
-	public abstract boolean canPlay(HandOfCards cards, List<Play> availablePlays);
+	public abstract boolean play(HandOfCards cards, List<Play> availablePlays);
 	
 	public abstract void pickCard(boolean pickFromDeck);
 	
