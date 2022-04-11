@@ -31,5 +31,12 @@ public class GameSpotsPanel extends JPanel{
 	}
 	
 	
+	public void update() {
+		//Update from model
+		// ....
+		
+		this.revalidate();
+	}
+	
 
 }

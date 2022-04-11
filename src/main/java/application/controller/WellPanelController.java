@@ -53,9 +53,9 @@ public class WellPanelController implements MouseInputListener{
 		else if(Game.getInstance().getRealPlayer().getSelectedCards().size() == 0) {
 			
 			
-//				if(!Game.getInstance().getRealPlayer().isPlayingRound()) {
-//					return;
-//				}
+				if(!Game.getInstance().getRealPlayer().isPlayingRound()) {
+					return;
+				}
 				
 				//Se ci sono carte nel well
 				if(Game.getInstance().getWell().size() != 0) {

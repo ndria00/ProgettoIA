@@ -29,8 +29,10 @@ public class GameSpotController implements MouseInputListener{
 					
 					
 					System.out.println("CLICK");
-					//ASP Manager
+					//1. Chiama ASP Manager per provare a giocare le carte selezionate
 					
+					//Aggiorno le carte del player reale
+					PlayerCardsPanel.getInstance().update();
 					
 					
 					//1. Get possible configuration as array lists
