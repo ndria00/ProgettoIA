@@ -25,7 +25,22 @@ public class GameSpotController implements MouseInputListener{
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-		if (Game.getInstance().getRealPlayer().getSelectedCards().size() > 0 && Game.getInstance().getRealPlayer().getState().getClass() == PlayerOpenedState.class ) {
+		if (Game.getInstance().getRealPlayer().getSelectedCards().size() > 0 && Game.getInstance().getRealPlayer().getState().getClass() == PlayerNotOpenedState.class ) {
+					
+					
+					System.out.println("CLICK");
+					//ASP Manager
+					
+					
+					
+					//1. Get possible configuration as array lists
+					//2. Control if the total value is grater than 40
+						//2.1 put the first array in the selected game spot
+						//2.2 if there is more than one  array list 
+							// 2.2.1 for each array put it in the first available game spot 
+					
+		}
+		else if (Game.getInstance().getRealPlayer().getSelectedCards().size() > 0 ){//&& Game.getInstance().getRealPlayer().getState().getClass() == PlayerOpenedState.class ) {
 			
 			//adding all the selected cards to the game spot
 			gameSpotPanel.placeCards(Game.getInstance().getRealPlayer().getSelectedCards());
@@ -43,12 +58,15 @@ public class GameSpotController implements MouseInputListener{
 			
 			//gameSpotPanel.owner.removeCards();
 			gameSpotPanel.revalidate();
-		}else if (Game.getInstance().getRealPlayer().getSelectedCards().size() > 0 && Game.getInstance().getRealPlayer().getState().getClass() == PlayerNotOpenedState.class ) {
 			
 			
-			System.out.println("CLICK");
+			//NEW 
+			//1. Get possible configuration as array lists
+			//2. put the first array in the selected game spot
+			//3. if there is more than one  array list 
+				// 3.1 for each array put it in the first available game spot 
 			
-		}
+		} 
 		
 	}
 	
