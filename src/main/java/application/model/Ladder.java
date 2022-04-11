@@ -3,8 +3,14 @@ package application.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import application.Settings;
+
 public class Ladder  extends Play{
 	private static final long serialVersionUID = -6313087748801637144L;
+	
+	public Ladder() {
+		super();
+	}
 	
 	public Ladder(ArrayList<Card> cards){
 		super(cards);
@@ -75,4 +81,54 @@ public class Ladder  extends Play{
 
 		
 	}
+	
+	
+	public String getListAndValue(int value) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("ladder([");
+		for(int i = 0; i < this.size()-1; ++i) {
+			builder.append(this.get(i).getId()+",");
+		}
+		builder.append(this.get(this.size() - 1).getId()+"]," + value + ").");
+		return builder.toString();
+	}
+
+	@Override
+	public int computeTotalPoints() {
+		int points = 0;
+		int indexStart = 0;
+		int indexEnd = this.size();
+		if(this.get(0).getNumber() == Settings.JOKER_NUMBER) {
+			indexStart = 1;
+			points += this.get(1).getValue() - 1;
+		
+		}
+		else if(this.get(0).getNumber() == Settings.ACE_NUMBER){
+			indexStart = 1;
+			points += 1;
+			
+		
+		}else if(this.get(this.size() - 1).getNumber() == Settings.ACE_NUMBER) {
+			indexEnd--;
+			points += 11;
+			
+		}else if(this.get(this.size() - 1).getNumber() == Settings.JOKER_NUMBER) {
+			indexEnd--;
+			points += this.get(this.size() - 2).getValue() + 1;
+		
+		}
+
+		for(int i = indexStart; i < indexEnd; ++i) {
+			if(this.get(i).getNumber() == Settings.JOKER_NUMBER){
+				points += (this.get(i - 1).getValue() + this.get(i + 1).getValue())/2;
+			}
+			else{
+				points += this.get(i).getValue();
+			}
+		}
+		
+		return points;
+	}
+	
+
 }
