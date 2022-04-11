@@ -8,10 +8,12 @@ public abstract class Player {
 	private HandOfCards cards;
 	private PlayerState state;
 	private boolean playingRound;
+	private boolean picked;
 	private int points;
 	
 	public Player() {
 		setPlayingRound(false);
+		setPicked(false);
 		setPoints(0);
 		setState(new PlayerNotOpenedState());
 		cards = new HandOfCards();
@@ -27,20 +29,20 @@ public abstract class Player {
 		this.cards = cards;
 	}
 	
-	//plays a non negative number of cards
-	public abstract void play(List<Play> plays);
+
 	
 	//puts a card in the well
 	public void discard(Card c) {
 		Game.getInstance().playerDiscard(this, c);
 		Game.getInstance().roundFinished(this);
+		this.picked = false;
 	}
 
 	public boolean hasLost() {
 		return points >= Settings.MAX_POINTS;
 	}
 	
-	public abstract boolean canPlay(List<Play> availablePlays);
+	//public abstract boolean canPlay(List<Play> availablePlays);
 
 	public int getPoints() {
 		return points;
@@ -63,5 +65,13 @@ public abstract class Player {
 
 	public void setPlayingRound(boolean playingRound) {
 		this.playingRound = playingRound;
+	}
+
+	public boolean hasPicked() {
+		return picked;
+	}
+
+	public void setPicked(boolean picked) {
+		this.picked = picked;
 	}
 }

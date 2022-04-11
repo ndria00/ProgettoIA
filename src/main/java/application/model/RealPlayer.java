@@ -10,13 +10,12 @@ public class RealPlayer extends Player{
 		selectedCards =  new ArrayList<Card>();
 	}
 	
-	@Override
-	public void play(List<Play> plays) {
-		Game.getInstance().playerPlayed(null, plays);
-	}
+	//@Override
+	//public void play(List<Play> plays) {
+	//	Game.getInstance().playerPlayed(null, plays);
+	//}
 
-	@Override
-	public boolean canPlay(List<Play> availablePlays) {
+	public boolean play(List<Play> availablePlays) {
 		HandOfCards handOfSelectedCards = new HandOfCards();
 		for (Card c: selectedCards) {
 			handOfSelectedCards.add(c);

@@ -66,7 +66,7 @@ public class Game {
 		p.setPlayingRound(true);
 		players.add(p);
 		
-		for(int i = 1; i<numberOfPlayers; ++i) {
+		for(int i = 1; i < numberOfPlayers; ++i) {
 			p = new BotPlayer();
 			players.add(p);
 		}
@@ -117,7 +117,7 @@ public class Game {
 			return;
 			
 		}
-		//the deck is emply and must be refilled
+		//the deck is empty and must be refilled
 		else if(deck.isEmpty()) {
 			List<Card> cards = well.shuffleNewDeck();
 			for(Card c: cards) {
