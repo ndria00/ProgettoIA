@@ -12,7 +12,7 @@ public class PlayerCardsPanel extends JPanel{
 
 	private static final long serialVersionUID = 2729122787048018750L;
 	
-	public Vector<CardPanel> selectedCards = new Vector<CardPanel>();
+	public ArrayList<CardPanel> selectedCards = new ArrayList<CardPanel>();
 	
 	private static PlayerCardsPanel instance = null;
 	
@@ -34,7 +34,7 @@ public class PlayerCardsPanel extends JPanel{
 		this.selectedCards.add(p);
 	}
 	
-	public Vector<CardPanel> spostaCarte() {
+	public ArrayList<CardPanel> spostaCarte() {
 		return selectedCards;
 	}
 	

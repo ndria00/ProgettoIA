@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import application.view.PlayerCardsPanel;
+
 public class Well extends Stack<Card>{
 	private static final long serialVersionUID = 1717163881700262083L;
 	
@@ -13,10 +15,17 @@ public class Well extends Stack<Card>{
 	}
 	
 	public Card pick() {
+		for (Card c : this) {
+			System.out.println(c);
+		}
 		return this.pop();
 	}
 	
 	public void put(Card card) {
+//		if(card == null) {
+//			System.out.println("CIAO");
+//		}
+		System.out.println("CIAO 1");
 		this.push(card);
 	}
 	
