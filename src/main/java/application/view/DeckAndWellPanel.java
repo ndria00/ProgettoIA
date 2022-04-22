@@ -19,7 +19,7 @@ public class DeckAndWellPanel extends JPanel{
 		this.setLayout(new FlowLayout());
 		this.add(panels[0]);
 		this.add(panels[1]);
-		//this.setMaximumSize(new Dimension(90,90));
+		//this.setMinimumSize(new Dimension(90,90));
 		this.setBackground(new Color(185, 251, 192));
 	}
 
