@@ -1,0 +1,26 @@
+%choose which plays to play
+play(X) | nonPlay(X) :- combination(X, _).
+play(X) | nonPlay(X) :- ladder(X, _).
+
+%remove combinations that contain two card of the same suite 
+%NOTES: I didn't do this before in order to improve the performance of the program that constructs the plays 
+:- play(X), combination(X, _),  card(ID, S, _, _), card(ID1, S, _, _), ID != ID1, &member(ID, X;), &member(ID1, X;).
+
+%can't play 2 plays that have a card in common
+:- play(X), play(Y), X != Y, card(ID, _, _, _), &member(ID, X;), &member(ID, Y;).
+
+%No more than 1 joker per round
+:- play(X), play(Y), X != Y, &member(105, X;), &member(106, Y;).
+:- play(X), play(X), &member(105, X;), &member(106, X;).
+
+%can't open if you don't reach at least 40 pts
+totalPoints(T) :- #sum{ P, X : play(X), combination(X, P)} = T1, #sum{ P1, X1 : play(X1), ladder(X1, P1)} = T2, T = T1 + T2.
+:- totalPoints(T), T < 40.
+
+
+%pay for the plays you didn't play
+:~ combination(X, P), nonPlay(X). [P @ 1]
+:~ ladder(X, P), nonPlay(X). [P @ 1]
+
+playedCombination(X) :- combination(X, _), play(X).
+playedLadder(X) :- ladder(X, _), play(X).

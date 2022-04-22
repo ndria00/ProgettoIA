@@ -143,7 +143,7 @@ public class Game {
 	}
 	
 	public void playerDiscard(Player p, Card c) {
-		p.getCards().discard(c);
+		p.getCards().removeCard(c);
 		well.put(c);
 	}
 	

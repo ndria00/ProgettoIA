@@ -32,7 +32,7 @@ public abstract class Player {
 
 	
 	//puts a card in the well
-	public void discard(Card c) {
+	public void removeCard(Card c) {
 		Game.getInstance().playerDiscard(this, c);
 		Game.getInstance().roundFinished(this);
 		this.picked = false;

@@ -53,8 +53,6 @@ public class ASPManager {
 	}
 
 	public boolean canOpen(HandOfCards handOfCards, Player player){
-
-		
 		addPlayerCardsAsFacts(handOfCards);
 		encoding.addFilesPath("encodings/botCanOpenEncoding");
 		
@@ -64,19 +62,34 @@ public class ASPManager {
 		//System.out.println("ENCODING: " + encoding.getPrograms());
 		Output o = handler.startSync();
 		System.out.println("ENDED ASP COMPUTATION");
+
+		//input to a second asp program that will guess and play		
+		//check if these two methods effectively clear the handler and the input programs
 		List<Play> plays = getPlaysFromASPComputation(o.getOutput());
-		//input to a second asp program that will guess and play
-		//StringBuilder input = new StringBuilder();
+		StringBuilder possiblePlays = new StringBuilder("");
 		for(Play p: plays) {
 			String s = p.getListAndValue(p.computeTotalPoints());
-			//input.append(p.getListAndValue(p.computeTotalPoints()));
+			possiblePlays.append(p.getListAndValue(p.computeTotalPoints()));
 			System.out.println("NEW FACT: " + s);
 		}
 		
-		//AnswerSets answerSets = (AnswerSets) o;
-		//System.out.println(o.getOutput());
-		//answerSets.getAnswersets();
-		//AnswerSet as = answerSets.getAnswersets().get(0);
+		handler.removeAll();
+		encoding.clearAll();
+		facts.clearAll();
+		facts.addProgram(possiblePlays.toString());
+		
+		addPlayerCardsAsFacts(handOfCards);
+		encoding.addFilesPath("encodings/selectPlaysOpenRound");
+		handler.addProgram(facts);
+		handler.addProgram(encoding);
+		//System.out.println("STARTED");
+		//System.out.print("FACTS: " + facts.getPrograms() + "\n\nENCODING: " + encoding.getPrograms());
+		Output o1 = handler.startSync();
+		System.out.println(o1.getOutput() + "END OF ANSWER SETS");
+		addPlaysAndRemoveCards(o1.getOutput(), player);
+		//System.out.println("ENDED ASP COMPUTATION");
+
+
 		/*
 		try {
 			for(Object obj : as.getAtoms()) {
@@ -155,7 +168,7 @@ public class ASPManager {
 		Matcher m = p.matcher(output);
 		List<Play> plays = new ArrayList<Play>();
 		Play play;
-		while(m.find()) {
+		while(m.find()) {	
 			String currentLadder = m.group();
 			String cardsId = currentLadder.replaceAll("ladder\\(\\[|\\]\\), ", "");
 			System.out.println(currentLadder + "--> " + cardsId);
@@ -183,5 +196,41 @@ public class ASPManager {
 		return plays;
 	}
 	
-
+	public void addPlaysAndRemoveCards(String output, Player player){
+		System.out.println("Adding plays and removing cards");
+		Pattern p = Pattern.compile("playedLadder[(].*?[)]");
+		Matcher m = p.matcher(output);
+		Play play;
+		while(m.find()) {
+			System.out.println("MATCHED LADDER");
+			String currentLadder = m.group();
+			String cardsId = currentLadder.replaceAll("playedLadder\\(\\[|\\]\\)", "");
+			System.out.println(currentLadder + "--> " + cardsId);
+			play = new Ladder();
+			for(String t : cardsId.split(",")){	
+				play.add(Game.getInstance().getCardById(Integer.parseInt(t)));
+				player.getCards().removeCard(Game.getInstance().getCardById(Integer.parseInt(t)));
+				
+			}
+			Game.getInstance().getPlays().add(play);
+			System.out.println("Added ladder and removed cards");
+		}
+		
+		Pattern p1 = Pattern.compile("playedCombination[(].*?[)]");
+		Matcher m1 = p1.matcher(output);
+		while(m1.find()) {
+			//System.out.println("MATCHED COMBINATION");
+			String currentCombination = m1.group();
+			String cardsId = currentCombination.replaceAll("playedCombination\\(\\[|\\]\\)", "");
+			//System.out.println(currentCombination + "--> " + cardsId);
+			play= new Combination();
+			for(String t : cardsId.split(",")) {
+				play.add(Game.getInstance().getCardById(Integer.parseInt(t)));
+				player.getCards().removeCard(Game.getInstance().getCardById(Integer.parseInt(t)));
+			}
+			Game.getInstance().getPlays().add(play);
+			//System.out.println("Added combination and remove cards");
+		}
+		//System.out.println("Ended Adding");
+	}
 }

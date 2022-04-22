@@ -31,7 +31,7 @@ public class WellPanelController implements MouseInputListener{
 			System.out.println(this.wellPanel);
 			Card c = Game.getInstance().getRealPlayer().getSelectedCards().remove(0);
 			CardPanel cardPanel = PlayerCardsPanel.getInstance().getCardPanelFromCard(c);
-			Game.getInstance().getPlayers().get(0).discard(c);
+			Game.getInstance().getPlayers().get(0).removeCard(c);
 			
 			
 		
@@ -49,6 +49,7 @@ public class WellPanelController implements MouseInputListener{
 			//Aggiorno il panel che continene le carte del real player
 			PlayerCardsPanel.getInstance().update();
 			this.wellPanel.revalidate();
+			//update View
 		}
 		else if(Game.getInstance().getRealPlayer().getSelectedCards().size() == 0) {
 			
