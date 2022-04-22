@@ -30,6 +30,10 @@ public class GameSpotsPanel extends JPanel{
 		this.gameSpots.add(gs);
 	}
 	
+	public ArrayList<GameSpot> getGameSpots(){
+		return this.gameSpots;
+	}
+	
 	
 	public void update() {
 		//Update from model

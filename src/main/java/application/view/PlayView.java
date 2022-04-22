@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import application.CardToImage;
 import application.ViewsHandler;
+import application.controller.PlayViewController;
 import application.model.Card;
 import application.model.Game;
 
@@ -36,6 +37,7 @@ public class PlayView extends JPanel{
 		initButtons();
 		CardToImage.getInstance();
 		setPageLayout();		
+		
 	}
 	
 	public void showMyCards(List<CardPanel> cards) {
@@ -111,6 +113,7 @@ public class PlayView extends JPanel{
 		
 		
 		//center
+		
 		JPanel center = new JPanel();
 		BorderLayout centerBorderLayout = new BorderLayout();
 		center.setLayout(centerBorderLayout);
@@ -162,6 +165,8 @@ public class PlayView extends JPanel{
 		
 		GameSpotsPanel gameSpostPanel = new GameSpotsPanel();
 		
+		this.addMouseListener(new PlayViewController(this, gameSpostPanel));
+		
 //		JPanel deckAndWell = new JPanel();
 //		deckAndWell.add(new CardPanel(image1));
 //		deckAndWell.add(new CardPanel(image1));
@@ -183,10 +188,14 @@ public class PlayView extends JPanel{
 		}
 		
 		DeckAndWellPanel deckAndWell = new DeckAndWellPanel(backImage, firstImage);
-		
-		center.add(deckAndWell, BorderLayout.NORTH);
-		center.add(gameSpostPanel, BorderLayout.CENTER); 
+		JPanel botCardsAndDeckAndWell = new JPanel();
+		botCardsAndDeckAndWell.setLayout(new FlowLayout());
+		botCardsAndDeckAndWell.add(new BotCardsPanel());
+		botCardsAndDeckAndWell.add(deckAndWell);
+		center.add(botCardsAndDeckAndWell, BorderLayout.NORTH);
+		center.add(gameSpostPanel, BorderLayout.CENTER);
 		this.add(center,BorderLayout.CENTER);
+		
 	}
 	
 	public void updateView() {
