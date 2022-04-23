@@ -14,10 +14,9 @@ public class HandOfCards extends ArrayList<Card>{
 		return false;
 	}
 	
-	public void discard(Card c) {
+	public void removeCard(Card c) {
 		this.remove(c);
 	}
-	
 	public void addCard(Card c) {
 		this.add(c);
 	}

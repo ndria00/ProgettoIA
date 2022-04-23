@@ -1,7 +1,5 @@
 package application.model;
 
-import java.util.List;
-
 import application.Settings;
 
 public abstract class Player {
@@ -29,13 +27,9 @@ public abstract class Player {
 		this.cards = cards;
 	}
 	
-
-	
-	//puts a card in the well
-	public void discard(Card c) {
-		Game.getInstance().playerDiscard(this, c);
-		Game.getInstance().roundFinished(this);
-		this.picked = false;
+	public void pickedCard(Card c) {
+		this.getCards().add(c);
+		this.picked = true;
 	}
 
 	public boolean hasLost() {

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import application.view.PlayerCardsPanel;
-
 public class Well extends Stack<Card>{
 	private static final long serialVersionUID = 1717163881700262083L;
 	

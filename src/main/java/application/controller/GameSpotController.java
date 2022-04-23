@@ -8,10 +8,7 @@ import javax.swing.event.MouseInputListener;
 
 import application.model.Card;
 import application.model.Game;
-import application.model.HandOfCards;
 import application.model.PlayerNotOpenedState;
-import application.model.PlayerOpenedState;
-import application.view.CardPanel;
 import application.view.GameSpot;
 import application.view.PlayerCardsPanel;
 

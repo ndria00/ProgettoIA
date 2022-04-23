@@ -103,16 +103,18 @@ public class Ladder  extends Play{
 			points += this.get(1).getValue() - 1;
 		
 		}
-		else if(this.get(0).getNumber() == Settings.ACE_NUMBER){
+		if(this.get(0).getNumber() == Settings.ACE_NUMBER){
 			indexStart = 1;
 			points += 1;
 			
 		
-		}else if(this.get(this.size() - 1).getNumber() == Settings.ACE_NUMBER) {
+		}
+		if(this.get(this.size() - 1).getNumber() == Settings.ACE_NUMBER) {
 			indexEnd--;
 			points += 11;
 			
-		}else if(this.get(this.size() - 1).getNumber() == Settings.JOKER_NUMBER) {
+		}
+		if(this.get(this.size() - 1).getNumber() == Settings.JOKER_NUMBER) {
 			indexEnd--;
 			points += this.get(this.size() - 2).getValue() + 1;
 		

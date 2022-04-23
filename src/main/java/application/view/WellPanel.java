@@ -14,13 +14,17 @@ public class WellPanel extends CardPanel{
 	public WellPanel(ImageIcon image) {
 		super(image);
 		this.removeMouseListener(this.getMouseListeners()[0]);
-		this.addMouseListener(new WellPanelController(this));
+		this.addMouseListener(new WellPanelController());
 	}
 	
 	public WellPanel(ImageIcon image, PlayerCardsPanel playCards) {
 		super(image, playCards);
 		this.removeMouseListener(this.getMouseListeners()[0]);
-		this.addMouseListener(new WellPanelController(this));
+		this.addMouseListener(new WellPanelController());
+	}
+	
+	public void addController() {
+		
 	}
 
 //	@Override

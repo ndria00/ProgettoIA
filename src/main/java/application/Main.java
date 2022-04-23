@@ -2,9 +2,7 @@ package application;
 
 import javax.swing.JFrame;
 
-import application.model.Game;
 import application.view.HomeViewPanel;
-import application.view.PlayView;
 
 public class Main {
 	public static void main(String[] args) {

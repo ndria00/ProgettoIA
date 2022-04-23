@@ -7,11 +7,8 @@ import javax.swing.ImageIcon;
 import application.controller.DeckController;
 
 public class DeckPanel extends CardPanel{
-	
-	
-	
-
 	private static final long serialVersionUID = 3154124699346921639L;
+	
 	public DeckPanel(ImageIcon image) {
 		super(image);
 		this.removeMouseListener(this.getMouseListeners()[0]);
