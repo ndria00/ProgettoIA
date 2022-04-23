@@ -144,6 +144,8 @@ public class Game {
 	
 	public void playerDiscard(Player p, Card c) {
 		p.getCards().removeCard(c);
+		p.setPicked(false);
+		roundFinished(p);
 		well.put(c);
 	}
 	

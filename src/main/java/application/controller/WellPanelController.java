@@ -9,16 +9,14 @@ import javax.swing.event.MouseInputListener;
 import application.CardToImage;
 import application.model.Card;
 import application.model.Game;
+import application.model.PlayerNotOpenedState;
 import application.view.CardPanel;
+import application.view.PlayView;
 import application.view.PlayerCardsPanel;
-import application.view.WellPanel;
 
 public class WellPanelController implements MouseInputListener{
 	
-	private WellPanel wellPanel = null;
-	
-	public WellPanelController(WellPanel w) {
-		this.wellPanel = w;
+	public WellPanelController() {
 	}
 	
 	
@@ -27,11 +25,18 @@ public class WellPanelController implements MouseInputListener{
 			
 			//SCARTO 
 			System.out.println("CLICKED");
+			if(!Game.getInstance().getRealPlayer().hasPicked()) {
+				System.out.println("YOU MUST PICK BEFORE DISCARDING");
+				//give a visual error message
+				return;
+			}
+			
 			//il realPlayer scarta la carta e conclude il turno
-			System.out.println(this.wellPanel);
+			System.out.println(PlayView.getInstance().getDeckAndWellPanel().getWellPanel());
 			Card c = Game.getInstance().getRealPlayer().getSelectedCards().remove(0);
 			CardPanel cardPanel = PlayerCardsPanel.getInstance().getCardPanelFromCard(c);
-			Game.getInstance().getPlayers().get(0).removeCard(c);
+			Game.getInstance().playerDiscard(Game.getInstance().getRealPlayer(), c);
+
 			
 			
 		
@@ -44,22 +49,31 @@ public class WellPanelController implements MouseInputListener{
 			
 			//assegno al well panel l'immagine della carta appena scartata
 			System.out.println(cardPanel.getImage());
-			this.wellPanel.setImage(cardPanel.getImage());
+			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setImage(cardPanel.getImage());
 			
 			//Aggiorno il panel che continene le carte del real player
 			PlayerCardsPanel.getInstance().update();
-			this.wellPanel.revalidate();
+			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
 			//update View
+			//PlayView.getInstance().updateGameSpots();
+			
 		}
 		else if(Game.getInstance().getRealPlayer().getSelectedCards().size() == 0) {
 			
 			
-//				if(!Game.getInstance().getRealPlayer().isPlayingRound()) {
-//					return;
-//				}
+				if(!Game.getInstance().getRealPlayer().isPlayingRound()) { //player is trying to pick but the bot didn't finish his round
+					//give error message 
+					return;
+				}else if(Game.getInstance().getRealPlayer().hasPicked()) { //player has already picked
+					//give error message
+					return;
+				}else if(Game.getInstance().getRealPlayer().getState().getClass() == PlayerNotOpenedState.class) {
+					System.out.println("Tried to pick but not opened");
+					return;
+				}
 				
 				//Se ci sono carte nel well
-				if(Game.getInstance().getWell().size() != 0) {
+				if(Game.getInstance().getWell().size() >= 1) {
 					//prelevo la prima carta dal well model
 					Card card = Game.getInstance().getWell().pick();
 					
@@ -83,18 +97,17 @@ public class WellPanelController implements MouseInputListener{
 					//Se la nextCard è nulla vuol dire che non ci sono più carte nel well
 					if(nextCard != null) {
 						//assegno nextCard al well 
-						this.wellPanel.setImage(CardToImage.getInstance().getImageFromCard(nextCard));
+						PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setImage(CardToImage.getInstance().getImageFromCard(nextCard));
 					}else {
 						System.out.println("CARTE FINITE");
-						this.wellPanel.setImage(null);
+						PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setImage(null);
 					}
 										
 					//rivalido i panel
-					this.wellPanel.revalidate();
+					PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
 					PlayerCardsPanel.getInstance().revalidate();
-				}else {
-					System.out.println("NON CI SONO CARTE NEL WELL");
 				}
+				
 			
 		}
 	}
@@ -112,13 +125,13 @@ public class WellPanelController implements MouseInputListener{
 
 
 	public void mouseEntered(MouseEvent e) {
-		this.wellPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW,4));
+		PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setBorder(BorderFactory.createLineBorder(Color.YELLOW,4));
 	}
 
 
 	public void mouseExited(MouseEvent e) {
-		if(!this.wellPanel.getClicked())
-			this.wellPanel.setBorder(null);
+		if(!PlayView.getInstance().getDeckAndWellPanel().getWellPanel().getClicked())
+			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setBorder(null);
 	}
 
 

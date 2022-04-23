@@ -20,6 +20,7 @@ import application.ViewsHandler;
 import application.controller.PlayViewController;
 import application.model.Card;
 import application.model.Game;
+import application.model.Play;
 
 public class PlayView extends JPanel{
 	private static final long serialVersionUID = -8129006343701355252L;
@@ -27,8 +28,19 @@ public class PlayView extends JPanel{
 	private AddSetButton addSetButton = null;
 	private JPanel buttonsBar = null;
 	private Vector<CardPanel> cardPanels = new Vector<CardPanel>();
-
-	public PlayView() {
+	private GameSpotsPanel gameSpotPanels;
+	private DeckAndWellPanel deckAndWellPanel;
+	private BotCardsPanel botCardsPanel;
+	private static PlayView instance = null;
+	
+	public static PlayView getInstance() {
+		if(instance == null) {
+			instance = new PlayView();
+		}
+		return instance;
+	}
+	
+	private PlayView() {
 		this.setBackground(new Color(185, 251, 192));
 		leaveButton = new JButton("lascia il gioco");
 		addSetButton = new AddSetButton();
@@ -163,9 +175,9 @@ public class PlayView extends JPanel{
 		
 		
 		
-		GameSpotsPanel gameSpostPanel = new GameSpotsPanel();
-		
-		this.addMouseListener(new PlayViewController(this, gameSpostPanel));
+		gameSpotPanels = new GameSpotsPanel();
+
+		this.addMouseListener(new PlayViewController(this));
 		
 //		JPanel deckAndWell = new JPanel();
 //		deckAndWell.add(new CardPanel(image1));
@@ -187,13 +199,14 @@ public class PlayView extends JPanel{
 			e.printStackTrace();
 		}
 		
-		DeckAndWellPanel deckAndWell = new DeckAndWellPanel(backImage, firstImage);
+		deckAndWellPanel = new DeckAndWellPanel(backImage, firstImage);
 		JPanel botCardsAndDeckAndWell = new JPanel();
 		botCardsAndDeckAndWell.setLayout(new FlowLayout());
-		botCardsAndDeckAndWell.add(new BotCardsPanel());
-		botCardsAndDeckAndWell.add(deckAndWell);
+		botCardsPanel = new BotCardsPanel();
+		botCardsAndDeckAndWell.add(botCardsPanel);
+		botCardsAndDeckAndWell.add(deckAndWellPanel);
 		center.add(botCardsAndDeckAndWell, BorderLayout.NORTH);
-		center.add(gameSpostPanel, BorderLayout.CENTER);
+		center.add(gameSpotPanels, BorderLayout.CENTER);
 		this.add(center,BorderLayout.CENTER);
 		
 	}
@@ -206,4 +219,43 @@ public class PlayView extends JPanel{
 //			cardPanel.setImage();
 //		}
 	}
+	
+	public void updateGameSpots() {
+		if(gameSpotPanels != null) {
+			int index = 0;
+			GameSpot gameSpot;
+			for(Play play : Game.getInstance().getPlays()) {
+				gameSpot = gameSpotPanels.getGameSpots().get(index);
+				index++;
+				gameSpot.removeAll();
+				for(Card card : play) {
+					ImageIcon image = new ImageIcon();
+					image.setImage(CardToImage.getInstance().getImageFromCard(card).getImage());
+					CardPanel cardpanel = new CardPanel(image, PlayerCardsPanel.getInstance());
+					cardpanel.setCard(card);
+					gameSpot.add(cardpanel);
+				}
+			}
+		}
+		System.out.println("UPDATED");
+	}
+
+	public DeckAndWellPanel getDeckAndWellPanel() {
+		return deckAndWellPanel;
+	}
+
+	public void setDeckAndWellPanel(DeckAndWellPanel deckAndWellPanel) {
+		this.deckAndWellPanel = deckAndWellPanel;
+	}
+
+	public BotCardsPanel getBotCardsPanel() {
+		return botCardsPanel;
+	}
+
+	public void setBotCardsPanel(BotCardsPanel botCardsPanel) {
+		this.botCardsPanel = botCardsPanel;
+	}
+	
+	
+
 }

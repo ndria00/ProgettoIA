@@ -51,7 +51,8 @@ public class ASPManager {
 			instance = new ASPManager();
 		return instance;
 	}
-
+	//called by real player and bot passing all the cards or only the selected
+	//ones in the case of the real player
 	public boolean canOpen(HandOfCards handOfCards, Player player){
 		addPlayerCardsAsFacts(handOfCards);
 		encoding.addFilesPath("encodings/botCanOpenEncoding");
@@ -107,6 +108,7 @@ public class ASPManager {
 		return false;
 	}
 	
+	//called by real player or bot after they have already opened
 	public boolean canPlay(HandOfCards cards, Player player){
 		//ArrayList<Play> plays = new ArrayList<Play>();
 		
@@ -118,7 +120,7 @@ public class ASPManager {
 		System.out.println("CARDS: " + facts.getPrograms());
 		handler.addProgram(encoding);
 		//System.out.println("ENCODING: " + encoding.getPrograms());
-		Output o = handler.startSync();
+		//Output o = handler.startSync();
 		//AnswerSets answerSets = (AnswerSets) o;
 		//answerSets.getAnswersets();
 		//AnswerSet as = answerSets.getAnswersets().get(0);

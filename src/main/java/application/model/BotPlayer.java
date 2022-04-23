@@ -2,6 +2,8 @@ package application.model;
 
 import java.util.List;
 
+import application.view.PlayView;
+
 public class BotPlayer extends Player{
 	
 	public BotPlayer() {
@@ -30,6 +32,10 @@ public class BotPlayer extends Player{
 			this.getState().pickCard(true);
 			System.out.println("Bot playing");
 			this.getState().play(this.getCards(), Game.getInstance().getPlays());
+			PlayView.getInstance().updateGameSpots();
+			Game.getInstance().playerDiscard(this, this.getCards().get(0));
+			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
+
 		}
 	}
 

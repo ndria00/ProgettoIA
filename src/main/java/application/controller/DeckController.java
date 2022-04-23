@@ -2,9 +2,7 @@ package application.controller;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.event.MouseInputListener;
@@ -25,19 +23,25 @@ public class DeckController implements MouseInputListener{
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-//		if (!Game.getInstance().getRealPlayer().isPlayingRound()) {
-//			return;
-//		}
-		
+		if(!Game.getInstance().getRealPlayer().isPlayingRound()) {
+			System.out.println("Player tried to pick but is not playing");
+			//give error message
+			return;
+		}else if(Game.getInstance().getRealPlayer().hasPicked()) {
+			System.out.println("Player tried to pick but has already picked");
+			//give error message
+			return;
+		}
 		Card c = Game.getInstance().getDeck().pick();
+		Game.getInstance().getRealPlayer().pickedCard(c);
+		//Deck is empty and must be refilled with cards from the well
+		if(Game.getInstance().getDeck().size() == 0) {
+			Game.getInstance().getDeck().setCards(Game.getInstance().getWell().shuffleNewDeck());
+			//NO NEED TO REVALIDATE? MAYBE
+		}
+		
 		//System.out.print(c.getSuite() + " " + c.getNumber() + "\n");
 		ImageIcon image = new ImageIcon();
-//		try {
-//			image.setImage(ImageIO.read(getClass().getResource("../resources/images/" + c.getSuite() + c.getNumber() + ".png")));
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
 		image = CardToImage.getInstance().getImageFromCard(c);
 		CardPanel cardPanel = new CardPanel(image, PlayerCardsPanel.getInstance());
 		cardPanel.setCard(c);
