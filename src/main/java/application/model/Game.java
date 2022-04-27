@@ -139,14 +139,15 @@ public class Game {
 		else {
 			c = well.pick();
 		}
-		p.getCards().add(c);
+		p.pickedCard(c);
 	}
 	
 	public void playerDiscard(Player p, Card c) {
 		p.getCards().removeCard(c);
 		p.setPicked(false);
-		roundFinished(p);
 		well.put(c);
+		roundFinished(p);
+
 	}
 	
 	//the playerPlays passed are all admissible

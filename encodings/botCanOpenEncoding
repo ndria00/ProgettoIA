@@ -5,14 +5,10 @@ possibleCombination([ID1|[ID2]]) :- card(ID1, S1, N1, _), card(ID2, S2, N1, _), 
 possibleCombination(L) :- possibleCombination(L1), card(ID, _, N, _), &last(L1; ID1), card(ID1, _, N1, _),  &insLast(L1, ID; L), not &member(ID, L1;), ID1 != ID,  N = N1, ID > ID1.
 
 %extend a combination with a jolly
-%NON DEVE ESSERE POSSIBILE GIOCARE UNA COMBINAZIONE CON PIU DI UN JOLLY
-%NON DEVE ESSERE POSSIBILE GIOCARE COMBINAZIONI CHE CONTENGONO DOPPIONI (TROPPO COSTOSO DA FARE IN FASE DI COSTRUZIONE)
 possibleCombination(L) :- possibleCombination(L1), card(ID, _, N, _),  not &member(ID, L1;),  N = 0, &insNth(L1, ID, 1; L).
 
 %compute all the valid combinations
 combination(X) :- possibleCombination(X), &length(X; L), L >= 3, L <= 4.
-
-
 
 %Start composing a ladder with two cards of the same suite and number
 possibleLadder([ID1|[ID2]]) :- card(ID1, S1, N1, _), card(ID2, S2, N2, _), ID1 != ID2, S1 = S2, N1 = N2 - 1.

@@ -13,11 +13,11 @@ play(X) | nonPlay(X) :- ladder(X, _).
 :- play(X), play(Y), X != Y, &member(105, X;), &member(106, Y;).
 :- play(X), play(X), &member(105, X;), &member(106, X;).
 
-%No joked after A..J Q K A
-:- play(X), ladder(X, _), &last(X; E), E = 105, card(ID, _, N, _), not &head(X; E), N = 1, &member(X, ID;).
-:- play(X), ladder(X, _), &last(X; E), E = 106, card(ID, _, N, _), not &head(X; E), N = 1, &member(X, ID;).
+%No joker after A..J Q K A
+:- play(X), ladder(X, _), &last(X; E), E = 105, card(ID, _, N, _), not &head(X; E), N = 1, &member(ID, X;).
+:- play(X), ladder(X, _), &last(X; E), E = 106, card(ID, _, N, _), not &head(X; E), N = 1, &member(ID, X;).
 
-:- play(X), ladder(X, _), card(ID1, _, N, _),card(ID2, _, N, _), N = 2, &member(X, ID1;), &member(X, ID2;).
+:- play(X), ladder(X, _), card(ID1, _, N, _),card(ID2, _, N, _), N = 2, &member(ID1, X;), &member(ID2, X;).
 
 %can't open if you don't reach at least 40 pts
 totalPoints(T) :- #sum{ P, X : play(X), combination(X, P)} = T1, #sum{ P1, X1 : play(X1), ladder(X1, P1)} = T2, T = T1 + T2.
