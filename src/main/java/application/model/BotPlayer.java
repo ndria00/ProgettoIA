@@ -36,7 +36,8 @@ public class BotPlayer extends Player{
 			PlayView.getInstance().updateGameSpots();
 			ASPManager.getInstance().handleBotDiscard(this);
 			//Game.getInstance().playerDiscard(this, this.getCards().get(0));
-			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
+			
+			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
 			PlayView.getInstance().getBotCardsPanel().update();
 
 		}
