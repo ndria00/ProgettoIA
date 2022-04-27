@@ -116,8 +116,12 @@ public class Ladder  extends Play{
 		}
 		if(this.get(this.size() - 1).getNumber() == Settings.JOKER_NUMBER) {
 			indexEnd--;
-			points += this.get(this.size() - 2).getValue() + 1;
-		
+			if(this.get(this.size() - 2).getValue() == 10) {
+				points += this.get(this.size() - 2).getValue();
+			}
+			else {
+				points += this.get(this.size() - 2).getValue() + 1;
+			}
 		}
 
 		for(int i = indexStart; i < indexEnd; ++i) {
@@ -132,5 +136,19 @@ public class Ladder  extends Play{
 		return points;
 	}
 	
-
+	@Override
+	public String getList(boolean existing) {
+		StringBuilder builder = new StringBuilder();
+		if(existing) {
+			builder.append("existingLadder([");
+		}
+		else {
+			builder.append("ladder([");	
+		}
+		for(int i = 0; i < this.size()-1; ++i) {
+			builder.append(this.get(i).getId()+",");
+		}
+		builder.append(this.get(this.size() - 1).getId()+"]).");
+		return builder.toString();
+	}
 }

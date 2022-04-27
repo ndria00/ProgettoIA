@@ -68,4 +68,20 @@ public class Combination extends Play{
 		return points;
 	}
 
+	@Override
+	public String getList(boolean existing) {
+		StringBuilder builder = new StringBuilder();
+		if(existing) {
+			builder.append("existingCombination([");
+		}
+		else {
+			builder.append("combination([");
+		}
+		for(int i = 0; i < this.size()-1; ++i) {
+			builder.append(this.get(i).getId()+",");
+		}
+		builder.append(this.get(this.size() - 1).getId()+"]).");
+		return builder.toString();
+	}
+	
 }

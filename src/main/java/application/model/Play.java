@@ -36,4 +36,7 @@ public abstract class Play extends ArrayList<Card>{
 	
 	//get the atom composed by play and value
 	public abstract String getListAndValue(int value);
+	
+	//get existing play on table
+	public abstract String getList(boolean existing);
 }

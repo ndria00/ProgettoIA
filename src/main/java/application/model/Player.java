@@ -27,11 +27,14 @@ public abstract class Player {
 		this.cards = cards;
 	}
 	
+	public void pickCard(boolean pickFromDeck) {
+		this.getState().pickCard(pickFromDeck);
+	}
+	
 	public void pickedCard(Card c) {
 		this.getCards().add(c);
-		this.picked = true;
 	}
-
+	
 	public boolean hasLost() {
 		return points >= Settings.MAX_POINTS;
 	}

@@ -2,6 +2,7 @@ package application.model;
 
 import java.util.List;
 
+import application.asp.ASPManager;
 import application.view.PlayView;
 
 public class BotPlayer extends Player{
@@ -33,7 +34,8 @@ public class BotPlayer extends Player{
 			System.out.println("Bot playing");
 			this.getState().play(this.getCards(), Game.getInstance().getPlays());
 			PlayView.getInstance().updateGameSpots();
-			Game.getInstance().playerDiscard(this, this.getCards().get(0));
+			ASPManager.getInstance().handleBotDiscard(this);
+			//Game.getInstance().playerDiscard(this, this.getCards().get(0));
 			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
 
 		}

@@ -14,6 +14,7 @@ import application.model.Play;
 import application.model.Player;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
+import it.unical.mat.embasp.base.OptionDescriptor;
 import it.unical.mat.embasp.base.Output;
 import it.unical.mat.embasp.languages.IllegalAnnotationException;
 import it.unical.mat.embasp.languages.ObjectNotValidException;
@@ -54,9 +55,9 @@ public class ASPManager {
 	//called by real player and bot passing all the cards or only the selected
 	//ones in the case of the real player
 	public boolean canOpen(HandOfCards handOfCards, Player player){
+		resetHandler();
 		addPlayerCardsAsFacts(handOfCards);
 		encoding.addFilesPath("encodings/botCanOpenEncoding");
-		
 		handler.addProgram(facts);
 		System.out.println("CARDS: " + facts.getPrograms());
 		handler.addProgram(encoding);
@@ -66,17 +67,15 @@ public class ASPManager {
 
 		//input to a second asp program that will guess and play		
 		//check if these two methods effectively clear the handler and the input programs
-		List<Play> plays = getPlaysFromASPComputation(o.getOutput());
+		List<Play> plays = getPlaysFromASPOpen(o.getOutput());
 		StringBuilder possiblePlays = new StringBuilder("");
 		for(Play p: plays) {
-			String s = p.getListAndValue(p.computeTotalPoints());
+			//String s = p.getListAndValue(p.computeTotalPoints());
 			possiblePlays.append(p.getListAndValue(p.computeTotalPoints()));
-			System.out.println("NEW FACT: " + s);
+			//System.out.println("NEW FACT: " + s);
 		}
 		
-		handler.removeAll();
-		encoding.clearAll();
-		facts.clearAll();
+		resetHandler();
 		facts.addProgram(possiblePlays.toString());
 		
 		addPlayerCardsAsFacts(handOfCards);
@@ -87,38 +86,23 @@ public class ASPManager {
 		//System.out.print("FACTS: " + facts.getPrograms() + "\n\nENCODING: " + encoding.getPrograms());
 		Output o1 = handler.startSync();
 		System.out.println(o1.getOutput() + "END OF ANSWER SETS");
-		addPlaysAndRemoveCards(o1.getOutput(), player);
+		boolean opened = addPlaysAndRemoveCards(o1.getOutput(), player);
 		//System.out.println("ENDED ASP COMPUTATION");
-
-
-		/*
-		try {
-			for(Object obj : as.getAtoms()) {
-				if(obj instanceof PlayableCombination) {
-					PlayableCombination play = (PlayableCombination) obj;
-					System.out.println(play);
-					//Play p= new Combination(play.getCards());
-					//plays.add(p);
-				}
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		return false;
+		return opened;
 	}
 	
 	//called by real player or bot after they have already opened
 	public boolean canPlay(HandOfCards cards, Player player){
 		//ArrayList<Play> plays = new ArrayList<Play>();
-		
-		addPlayerCardsAsFacts(cards);
-		addGamePlaysAsFacts();
-		encoding.addFilesPath("encodings/botCanOpenEncoding");
-		
-		handler.addProgram(facts);
-		System.out.println("CARDS: " + facts.getPrograms());
-		handler.addProgram(encoding);
+		resetHandler();
+		handleBotPick(player);
+		resetHandler();
+		//addPlayerCardsAsFacts(cards);
+		//encoding.addFilesPath("encodings/botPlayBeginner");
+		//addExistingGamePlaysAsFacts();
+		//handler.addProgram(facts);
+		//System.out.println("CARDS: " + facts.getPrograms());
+		//handler.addProgram(encoding);
 		//System.out.println("ENCODING: " + encoding.getPrograms());
 		//Output o = handler.startSync();
 		//AnswerSets answerSets = (AnswerSets) o;
@@ -138,10 +122,12 @@ public class ASPManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
+		handleBotDiscard(player);
 		return false;
 	}
 	
 	private void addPlayerCardsAsFacts(HandOfCards cards) {
+		facts.clearAll();
 		for(Card c: cards) {
 			try {
 				facts.addObjectInput(c);
@@ -152,12 +138,12 @@ public class ASPManager {
 		}
 	}
 	
-	private void addGamePlaysAsFacts() {
+	private void addExistingGamePlaysAsFacts() {
 		List<Play> plays = Game.getInstance().getPlays();
 		
 		for (Play p: plays){
 			try {
-				facts.addProgram(p.toString());
+				facts.addProgram(p.getList(true));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -165,7 +151,7 @@ public class ASPManager {
 		}
 	}
 	
-	private List<Play> getPlaysFromASPComputation(String output) {
+	private List<Play> getPlaysFromASPOpen(String output) {
 		Pattern p = Pattern.compile("ladder\\(.*?\\), ");
 		Matcher m = p.matcher(output);
 		List<Play> plays = new ArrayList<Play>();
@@ -198,7 +184,8 @@ public class ASPManager {
 		return plays;
 	}
 	
-	public void addPlaysAndRemoveCards(String output, Player player){
+	private boolean addPlaysAndRemoveCards(String output, Player player){
+		boolean opened = false;
 		System.out.println("Adding plays and removing cards");
 		Pattern p = Pattern.compile("playedLadder[(].*?[)]");
 		Matcher m = p.matcher(output);
@@ -215,6 +202,7 @@ public class ASPManager {
 				
 			}
 			Game.getInstance().getPlays().add(play);
+			opened = true;
 			System.out.println("Added ladder and removed cards");
 		}
 		
@@ -231,8 +219,54 @@ public class ASPManager {
 				player.getCards().removeCard(Game.getInstance().getCardById(Integer.parseInt(t)));
 			}
 			Game.getInstance().getPlays().add(play);
+			opened = true;
 			//System.out.println("Added combination and remove cards");
 		}
 		//System.out.println("Ended Adding");
+		return opened;
+	}
+	
+	private void handleBotPick(Player player){
+		resetHandler();
+		addPlayerCardsAsFacts(player.getCards());
+		handler.addProgram(facts);
+		encoding.addFilesPath("encodings/botPick");
+		handler.addProgram(encoding);
+		Output o = handler.startSync();
+		if(o.getOutput().contains("pickFromDeck")) {
+			System.out.println("Picked from deck");
+			Game.getInstance().playerPick(player, true);
+		}
+		else if(o.getOutput().contains("pickFromWell")) {
+			
+			System.out.println("Picked from well");
+			Game.getInstance().playerPick(player, false);
+		}
+	}
+	
+	public void handleBotDiscard(Player player) {
+		resetHandler();
+		addPlayerCardsAsFacts(player.getCards());
+		handler.addProgram(facts);
+		encoding.addFilesPath("encodings/botDiscard");
+		handler.addProgram(encoding);
+		Output o = handler.startSync();
+		Pattern p = Pattern.compile("discard[(]\\d+[)]");
+		Matcher m = p.matcher(o.getOutput());
+		System.out.println("Bot discarding");
+		
+		if(m.find()) {
+			int id = Integer.parseInt(m.group().replaceAll("\\D", ""));
+			System.out.println("Discarding " + id);
+			Card c = Game.getInstance().getCardById(id);
+			Game.getInstance().playerDiscard(player, c);
+		}
+	}
+	
+	private void resetHandler() {
+		handler.removeAll();
+		handler.addOption(new OptionDescriptor("-n 1"));
+		encoding.clearAll();
+		facts.clearAll();
 	}
 }
