@@ -2,6 +2,7 @@ package application.controller;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.event.MouseInputListener;
@@ -10,6 +11,7 @@ import application.model.Card;
 import application.model.Game;
 import application.model.PlayerNotOpenedState;
 import application.view.GameSpot;
+import application.view.PlayView;
 import application.view.PlayerCardsPanel;
 
 public class GameSpotController implements MouseInputListener{
@@ -22,14 +24,19 @@ public class GameSpotController implements MouseInputListener{
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-		if (Game.getInstance().getRealPlayer().getSelectedCards().size() > 0 && Game.getInstance().getRealPlayer().getState().getClass() == PlayerNotOpenedState.class ) {
+		
+		if (Game.getInstance().getRealPlayer().getSelectedCards().size() > 0 && Game.getInstance().getRealPlayer().hasPicked() && Game.getInstance().getRealPlayer().isPlayingRound()) {
 					
 					
-					System.out.println("CLICK");
+					
 					//1. Chiama ASP Manager per provare a giocare le carte selezionate
 					
+					Game.getInstance().getRealPlayer().play(null);
+					
 					//Aggiorno le carte del player reale
+					System.out.println("Try to Play");
 					PlayerCardsPanel.getInstance().update();
+					PlayView.getInstance().updateGameSpots();
 					
 					
 					//1. Get possible configuration as array lists
@@ -39,33 +46,33 @@ public class GameSpotController implements MouseInputListener{
 							// 2.2.1 for each array put it in the first available game spot 
 					
 		}
-		else if (Game.getInstance().getRealPlayer().getSelectedCards().size() > 0 ){//&& Game.getInstance().getRealPlayer().getState().getClass() == PlayerOpenedState.class ) {
-			
-			//adding all the selected cards to the game spot
-			gameSpotPanel.placeCards(Game.getInstance().getRealPlayer().getSelectedCards());
-			
-			
-			//Removing all the selected cards from the real player model 
-			for(Card c : gameSpotPanel.getModelCards()) {
-				Game.getInstance().getRealPlayer().getSelectedCards().remove(c);
-				Game.getInstance().getRealPlayer().getCards().remove(c);
-			}
-			
-			
-			//Removing all the selected cards from the player cards panel
-			PlayerCardsPanel.getInstance().update();
-			
-			//gameSpotPanel.owner.removeCards();
-			gameSpotPanel.revalidate();
-			
-			
-			//NEW 
-			//1. Get possible configuration as array lists
-			//2. put the first array in the selected game spot
-			//3. if there is more than one  array list 
-				// 3.1 for each array put it in the first available game spot 
-			
-		} 
+//		else if (Game.getInstance().getRealPlayer().getSelectedCards().size() > 0 ){//&& Game.getInstance().getRealPlayer().getState().getClass() == PlayerOpenedState.class ) {
+//			
+//			//adding all the selected cards to the game spot
+//			gameSpotPanel.placeCards(Game.getInstance().getRealPlayer().getSelectedCards());
+//			
+//			
+//			//Removing all the selected cards from the real player model 
+//			for(Card c : gameSpotPanel.getModelCards()) {
+//				Game.getInstance().getRealPlayer().getSelectedCards().remove(c);
+//				Game.getInstance().getRealPlayer().getCards().remove(c);
+//			}
+//			
+//			
+//			//Removing all the selected cards from the player cards panel
+//			PlayerCardsPanel.getInstance().update();
+//			
+//			//gameSpotPanel.owner.removeCards();
+//			gameSpotPanel.revalidate();
+//			
+//			
+//			//NEW 
+//			//1. Get possible configuration as array lists
+//			//2. put the first array in the selected game spot
+//			//3. if there is more than one  array list 
+//				// 3.1 for each array put it in the first available game spot 
+//			
+//		} 
 		
 	}
 	

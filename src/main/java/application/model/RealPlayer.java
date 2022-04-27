@@ -3,6 +3,8 @@ package application.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.asp.ASPManager;
+
 public class RealPlayer extends Player{
 	private ArrayList<Card> selectedCards;
 	
@@ -22,6 +24,7 @@ public class RealPlayer extends Player{
 		}
 		//Call asp program that will try to play all the cards
 		//if some of the cards cannot be played then it will 
+		this.getState().play(handOfSelectedCards, null);
 		// TODO Auto-generated method stub
 		return false;
 	}

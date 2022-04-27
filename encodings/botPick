@@ -4,7 +4,7 @@
 
 pickFromWell | pickFromDeck.
 
-%don't pick from deck if you have a twin card
+%don't pick from well if you have a the twin card of the well
 :~ pickFromWell, wellCard(_, S, N, _), card(_, S, N, _). [1@3]
 
 % don't pick from deck if it is likely that within the

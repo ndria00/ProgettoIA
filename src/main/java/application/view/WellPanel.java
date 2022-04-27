@@ -4,7 +4,9 @@ package application.view;
 
 import javax.swing.ImageIcon;
 
+import application.CardToImage;
 import application.controller.WellPanelController;
+import application.model.Game;
 
 
 public class WellPanel extends CardPanel{
@@ -21,6 +23,13 @@ public class WellPanel extends CardPanel{
 		super(image, playCards);
 		this.removeMouseListener(this.getMouseListeners()[0]);
 		this.addMouseListener(new WellPanelController());
+	}
+	
+	public void updateWellPanel() {
+		this.setImage(CardToImage.getInstance().getImageFromCard(Game.getInstance().getWell().lastElement()));
+		this.setCard(Game.getInstance().getWell().lastElement());
+		this.revalidate();
+		System.out.println("END WELL UPDATE");
 	}
 	
 	public void addController() {

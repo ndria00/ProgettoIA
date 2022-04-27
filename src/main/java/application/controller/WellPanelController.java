@@ -49,11 +49,12 @@ public class WellPanelController implements MouseInputListener{
 			
 			//assegno al well panel l'immagine della carta appena scartata
 			System.out.println(cardPanel.getImage());
-			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setImage(cardPanel.getImage());
-			
+			//PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setImage(cardPanel.getImage());
+			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
 			//Aggiorno il panel che continene le carte del real player
 			PlayerCardsPanel.getInstance().update();
-			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
+			
+			//PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
 			//update View
 			//PlayView.getInstance().updateGameSpots();
 			
