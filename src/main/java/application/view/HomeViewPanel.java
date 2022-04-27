@@ -29,7 +29,6 @@ public class HomeViewPanel extends JPanel{
 				Game.getInstance().startNewGame(2, Settings.DIFFICULTY_BEGINNER);
 				ViewsHandler.getInstance().addView("play", PlayView.getInstance());
 				ViewsHandler.getInstance().getView("play");
-
 			}
 		};
 		button.addActionListener(listener);
