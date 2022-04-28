@@ -5,8 +5,8 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import application.CardToImage;
@@ -51,8 +51,13 @@ public class PlayerCardsPanel extends JPanel{
 	
 	public void addCards(ArrayList<Card> cards) {
 		for(Card card : cards) {
+
 			CardPanel cardPanel = new CardPanel(CardToImage.getInstance().getImageFromCard(card), this);
 			cardPanel.setCard(card);
+			if(Game.getInstance().getRealPlayer().getSelectedCards().contains(card)) {
+				cardPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 4));
+				cardPanel.setClicked(true);
+			}
 			this.add(cardPanel);
 		}
 	}

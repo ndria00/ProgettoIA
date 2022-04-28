@@ -21,6 +21,7 @@ public class WellPanelController implements MouseInputListener{
 	
 	
 	public void mouseClicked(MouseEvent e) {
+		System.out.println("Player has selected " + Game.getInstance().getRealPlayer().getSelectedCards().size()+ " cards");
 		if(Game.getInstance().getRealPlayer().getSelectedCards().size() == 1) {
 			
 			//SCARTO 

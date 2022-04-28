@@ -33,6 +33,7 @@ public abstract class Player {
 	
 	public void pickedCard(Card c) {
 		this.getCards().add(c);
+		this.setPicked(true);
 	}
 	
 	public boolean hasLost() {
@@ -71,4 +72,5 @@ public abstract class Player {
 	public void setPicked(boolean picked) {
 		this.picked = picked;
 	}
+	public abstract void deselectAllCards();
 }
