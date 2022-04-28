@@ -36,7 +36,6 @@ public class DeckController implements MouseInputListener{
 			//NO NEED TO REVALIDATE? MAYBE
 		}
 		
-
 		PlayerCardsPanel.getInstance().update();
 	}
 	
