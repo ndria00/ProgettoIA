@@ -5,12 +5,14 @@ import it.unical.mat.embasp.languages.Param;
 
 @Id("card")
 public class Card implements Comparable<Card>{
+
+	@Param(0)
+	private int id;
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((number == null) ? 0 : number.hashCode());
-		result = prime * result + suite;
+		result = prime * result + id;
 		return result;
 	}
 	@Override
@@ -22,17 +24,10 @@ public class Card implements Comparable<Card>{
 		if (getClass() != obj.getClass())
 			return false;
 		Card other = (Card) obj;
-		if (number == null) {
-			if (other.number != null)
-				return false;
-		} else if (!number.equals(other.number))
-			return false;
-		if (suite != other.suite)
+		if (id != other.id)
 			return false;
 		return true;
 	}
-	@Param(0)
-	private int id;
 	@Param(1)
 	private int suite;
 	@Param(2)

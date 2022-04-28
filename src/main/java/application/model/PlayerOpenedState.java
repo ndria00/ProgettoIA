@@ -2,11 +2,14 @@ package application.model;
 
 import java.util.List;
 
+import application.asp.ASPManager;
+
 public class PlayerOpenedState extends PlayerState{
 	
 	public boolean play(HandOfCards cards, List<Play> availablePlays) {
-		//check that there are possible plays for the player given the plays and its cards
-		return false;
+		boolean played = ASPManager.getInstance().canPlay(cards, getPlayer());
+		
+		return played;
 	}
 
 	public void pickCard(boolean pickFromDeck) {

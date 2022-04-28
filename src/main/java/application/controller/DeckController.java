@@ -4,13 +4,9 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.event.MouseInputListener;
 
-import application.CardToImage;
-import application.model.Card;
 import application.model.Game;
-import application.view.CardPanel;
 import application.view.DeckPanel;
 import application.view.PlayerCardsPanel;
 
@@ -33,21 +29,13 @@ public class DeckController implements MouseInputListener{
 			return;
 		}
 		//CHECK! ASK TO PICK AND REVALIDATE VIEW
-		Card c = Game.getInstance().getDeck().pick();
-		Game.getInstance().getRealPlayer().pickedCard(c);
-		Game.getInstance().getRealPlayer().setPicked(true);
+		Game.getInstance().playerPick(Game.getInstance().getRealPlayer(), true);
 		//Deck is empty and must be refilled with cards from the well
 		if(Game.getInstance().getDeck().size() == 0) {
 			Game.getInstance().getDeck().setCards(Game.getInstance().getWell().shuffleNewDeck());
 			//NO NEED TO REVALIDATE? MAYBE
 		}
 		
-//		//System.out.print(c.getSuite() + " " + c.getNumber() + "\n");
-//		ImageIcon image = new ImageIcon();
-//		image = CardToImage.getInstance().getImageFromCard(c);
-//		CardPanel cardPanel = new CardPanel(image, PlayerCardsPanel.getInstance());
-//		cardPanel.setCard(c);
-//		PlayerCardsPanel.getInstance().add(cardPanel);
 		PlayerCardsPanel.getInstance().update();
 	}
 	

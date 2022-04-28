@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import application.model.BotPlayer;
 import application.model.Card;
 import application.model.Combination;
 import application.model.Game;
@@ -31,8 +32,8 @@ public class ASPManager {
 	
 	private ASPManager() {
 		try {
-			//handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-linux"));
-			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-macos"));
+			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-linux"));
+			//handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-macos"));
 			ASPMapper.getInstance().registerClass(PlayableCombination.class);
 			ASPMapper.getInstance().registerClass(Card.class);
 			facts = new ASPInputProgram();
@@ -70,15 +71,15 @@ public class ASPManager {
 		List<Play> plays = getPlaysFromASPOpen(o.getOutput());
 		StringBuilder possiblePlays = new StringBuilder("");
 		for(Play p: plays) {
-			//String s = p.getListAndValue(p.computeTotalPoints());
+			String s = p.getListAndValue(p.computeTotalPoints());
 			possiblePlays.append(p.getListAndValue(p.computeTotalPoints()));
-			//System.out.println("NEW FACT: " + s);
+			System.out.println("NEW FACT: " + s);
 		}
 		
 		resetHandler();
-		facts.addProgram(possiblePlays.toString());
 		
 		addPlayerCardsAsFacts(handOfCards);
+		facts.addProgram(possiblePlays.toString());
 		encoding.addFilesPath("encodings/selectPlaysOpenRound");
 		handler.addProgram(facts);
 		handler.addProgram(encoding);
@@ -95,8 +96,11 @@ public class ASPManager {
 	public boolean canPlay(HandOfCards cards, Player player){
 		//ArrayList<Play> plays = new ArrayList<Play>();
 		resetHandler();
-		handleBotPick(player);
-		resetHandler();
+		if (player.getClass() == BotPlayer.class) {
+			handleBotPick(player);
+			resetHandler();
+		}
+
 		//addPlayerCardsAsFacts(cards);
 		//encoding.addFilesPath("encodings/botPlayBeginner");
 		//addExistingGamePlaysAsFacts();
@@ -122,7 +126,10 @@ public class ASPManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-		handleBotDiscard(player);
+		if (player.getClass() == BotPlayer.class) {
+			handleBotDiscard(player);
+			resetHandler();
+		}
 		return false;
 	}
 	
@@ -257,7 +264,7 @@ public class ASPManager {
 		
 		if(m.find()) {
 			int id = Integer.parseInt(m.group().replaceAll("\\D", ""));
-			System.out.println("Discarding " + id);
+			System.out.println("Bot discarded " + id);
 			Card c = Game.getInstance().getCardById(id);
 			Game.getInstance().playerDiscard(player, c);
 		}
