@@ -42,13 +42,13 @@ public class DeckController implements MouseInputListener{
 			//NO NEED TO REVALIDATE? MAYBE
 		}
 		
-		//System.out.print(c.getSuite() + " " + c.getNumber() + "\n");
-		ImageIcon image = new ImageIcon();
-		image = CardToImage.getInstance().getImageFromCard(c);
-		CardPanel cardPanel = new CardPanel(image, PlayerCardsPanel.getInstance());
-		cardPanel.setCard(c);
-		PlayerCardsPanel.getInstance().add(cardPanel);
-		PlayerCardsPanel.getInstance().revalidate();
+//		//System.out.print(c.getSuite() + " " + c.getNumber() + "\n");
+//		ImageIcon image = new ImageIcon();
+//		image = CardToImage.getInstance().getImageFromCard(c);
+//		CardPanel cardPanel = new CardPanel(image, PlayerCardsPanel.getInstance());
+//		cardPanel.setCard(c);
+//		PlayerCardsPanel.getInstance().add(cardPanel);
+		PlayerCardsPanel.getInstance().update();
 	}
 	
 	public void mousePressed(MouseEvent e) {
