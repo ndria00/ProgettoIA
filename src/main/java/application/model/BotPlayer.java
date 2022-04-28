@@ -12,7 +12,10 @@ public class BotPlayer extends Player{
 	}
 	
 	public boolean play(List<Play> availablePlays){
-		return getState().play(getCards(), availablePlays);
+		boolean played =  getState().play(getCards(), availablePlays);
+		if(played)
+			PlayView.getInstance().updateGameSpots();
+		return played;
 	}
 
 	//@Override
@@ -30,17 +33,14 @@ public class BotPlayer extends Player{
 	public void setPlayingRound(boolean playingRound) {
 		super.setPlayingRound(playingRound);
 		if(playingRound) {
-			this.getState().pickCard(true);
-			System.out.println("Bot playing");
-			this.getState().play(this.getCards(), Game.getInstance().getPlays());
-			PlayView.getInstance().updateGameSpots();
+			this.play(Game.getInstance().getPlays());
 			ASPManager.getInstance().handleBotDiscard(this);
-			//Game.getInstance().playerDiscard(this, this.getCards().get(0));
-			
 			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
 			PlayView.getInstance().getBotCardsPanel().update();
-
 		}
 	}
-
+	
+	//bot cannot select cards for now
+	@Override
+	public void deselectAllCards() {}
 }

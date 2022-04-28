@@ -2,14 +2,11 @@ package application.controller;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.event.MouseInputListener;
 
-import application.model.Card;
 import application.model.Game;
-import application.model.PlayerNotOpenedState;
 import application.view.GameSpot;
 import application.view.PlayView;
 import application.view.PlayerCardsPanel;

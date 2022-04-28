@@ -9,11 +9,16 @@ public class PlayerNotOpenedState extends PlayerState{
 	public boolean play(HandOfCards cards, List<Play> availablePlays) {
 		//check with ASP that within the cards there is a combination of plays that
 		//exceed the 40 points
-		if(ASPManager.getInstance().canOpen(cards, getPlayer())) {
+		this.getPlayer().getState().pickCard(true);
+		boolean opened = ASPManager.getInstance().canOpen(cards, getPlayer());
+		if(opened) {
 			this.getPlayer().setState(new PlayerOpenedState());
+			this.getPlayer().getState().setPlayer(this.getPlayer());
+			this.getPlayer().deselectAllCards();
 			System.out.println("Switched bot state to opened state");
 		}
-		return false;
+			
+		return opened;
 	}
 
 	public void pickCard(boolean pickFromDeck) {
