@@ -1,5 +1,7 @@
 package application.model;
 
+import java.util.List;
+
 import application.Settings;
 
 public abstract class Player {
@@ -21,15 +23,11 @@ public abstract class Player {
 	public HandOfCards getCards() {
 		return cards;
 	}
-
-
+	
 	public void setCards(HandOfCards cards) {
 		this.cards = cards;
 	}
 	
-	public void pickCard(boolean pickFromDeck) {
-		this.getState().pickCard(pickFromDeck);
-	}
 	
 	public void pickedCard(Card c) {
 		this.getCards().add(c);
@@ -73,4 +71,5 @@ public abstract class Player {
 		this.picked = picked;
 	}
 	public abstract void deselectAllCards();
+	public abstract boolean play(List<Play> plays);
 }

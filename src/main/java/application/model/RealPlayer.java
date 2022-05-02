@@ -16,7 +16,7 @@ public class RealPlayer extends Player{
 	//public void play(List<Play> plays) {
 	//	Game.getInstance().playerPlayed(null, plays);
 	//}
-
+	@Override
 	public boolean play(List<Play> availablePlays) {
 		HandOfCards handOfSelectedCards = new HandOfCards();
 		for (Card c: selectedCards) {

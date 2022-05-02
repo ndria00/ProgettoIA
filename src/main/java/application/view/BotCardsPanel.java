@@ -34,10 +34,9 @@ public class BotCardsPanel extends JPanel{
 			
 			CardPanel cardPanel = new CardPanel(image,Settings.NO_BORDER);
 			cardPanel.setCard(card);
-			this.setLayout(new FlowLayout());
 			this.add(cardPanel);
 		}
-
+		this.setLayout(new FlowLayout());
 	}
 	
 

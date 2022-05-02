@@ -32,8 +32,8 @@ public class ASPManager {
 	
 	private ASPManager() {
 		try {
-			//handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-linux"));
-			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-macos"));
+			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-linux"));
+			//handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-macos"));
 			ASPMapper.getInstance().registerClass(PlayableCombination.class);
 			ASPMapper.getInstance().registerClass(Card.class);
 			facts = new ASPInputProgram();
@@ -96,10 +96,10 @@ public class ASPManager {
 	public boolean canPlay(HandOfCards cards, Player player){
 		//ArrayList<Play> plays = new ArrayList<Play>();
 		resetHandler();
-		if (player.getClass() == BotPlayer.class) {
-			handleBotPick(player);
-			resetHandler();
-		}
+		//if (player.getClass() == BotPlayer.class) {
+		//	handleBotPick(player);
+		//	resetHandler();
+		//}
 
 		//addPlayerCardsAsFacts(cards);
 		//encoding.addFilesPath("encodings/botPlayBeginner");
@@ -126,10 +126,10 @@ public class ASPManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
-		if (player.getClass() == BotPlayer.class) {
-			handleBotDiscard(player);
-			resetHandler();
-		}
+		//if (player.getClass() == BotPlayer.class) {
+		//	handleBotDiscard(player);
+		//	resetHandler();
+		//}
 		return false;
 	}
 	
@@ -233,25 +233,28 @@ public class ASPManager {
 		return opened;
 	}
 	
-	private void handleBotPick(Player player){
+	public boolean handlePick(Player player){
+		boolean pickFromDeck = true;
 		resetHandler();
 		addPlayerCardsAsFacts(player.getCards());
 		handler.addProgram(facts);
 		encoding.addFilesPath("encodings/botPick");
 		handler.addProgram(encoding);
 		Output o = handler.startSync();
-		if(o.getOutput().contains("pickFromDeck")) {
-			System.out.println("Picked from deck");
-			Game.getInstance().playerPick(player, true);
-		}
-		else if(o.getOutput().contains("pickFromWell")) {
-			
+		
+		if(o.getOutput().contains("pickFromWell")) {
+			pickFromDeck = false;
 			System.out.println("Picked from well");
-			Game.getInstance().playerPick(player, false);
 		}
+		else {
+			System.out.println("Picked from deck");
+		}
+		
+		return pickFromDeck;
 	}
 	
-	public void handleBotDiscard(Player player) {
+	public Card handleBotDiscard(Player player) {
+		Card c = null;
 		resetHandler();
 		addPlayerCardsAsFacts(player.getCards());
 		handler.addProgram(facts);
@@ -261,13 +264,14 @@ public class ASPManager {
 		Pattern p = Pattern.compile("discard[(]\\d+[)]");
 		Matcher m = p.matcher(o.getOutput());
 		System.out.println("Bot discarding");
-		
+		System.out.println(o.getOutput());
 		if(m.find()) {
 			int id = Integer.parseInt(m.group().replaceAll("\\D", ""));
 			System.out.println("Bot discarded " + id);
-			Card c = Game.getInstance().getCardById(id);
-			Game.getInstance().playerDiscard(player, c);
+			c = Game.getInstance().getCardById(id);
+
 		}
+		return c;
 	}
 	
 	private void resetHandler() {
