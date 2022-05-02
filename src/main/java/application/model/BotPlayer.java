@@ -11,10 +11,31 @@ public class BotPlayer extends Player{
 		super();
 	}
 	
+	@Override
 	public boolean play(List<Play> availablePlays){
+		this.getState().pickCard();
+		PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
+		PlayView.getInstance().getBotCardsPanel().update();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		boolean played =  getState().play(getCards(), availablePlays);
 		if(played)
 			PlayView.getInstance().updateGameSpots();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Card c = ASPManager.getInstance().handleBotDiscard(this);
+		Game.getInstance().playerDiscard(this, c);
+		PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
+		PlayView.getInstance().getBotCardsPanel().update();
 		return played;
 	}
 
@@ -32,12 +53,6 @@ public class BotPlayer extends Player{
 	@Override
 	public void setPlayingRound(boolean playingRound) {
 		super.setPlayingRound(playingRound);
-		if(playingRound) {
-			this.play(Game.getInstance().getPlays());
-			ASPManager.getInstance().handleBotDiscard(this);
-			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
-			PlayView.getInstance().getBotCardsPanel().update();
-		}
 	}
 	
 	//bot cannot select cards for now

@@ -26,6 +26,7 @@ public class WellPanel extends CardPanel{
 	}
 	
 	public void updateWellPanel() {
+		System.out.println("Card on top of well: " + Game.getInstance().getWell().lastElement());
 		this.setImage(CardToImage.getInstance().getImageFromCard(Game.getInstance().getWell().lastElement()));
 		this.setCard(Game.getInstance().getWell().lastElement());
 		this.revalidate();

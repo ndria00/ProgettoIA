@@ -144,10 +144,10 @@ public class Game {
 	
 	public void playerDiscard(Player p, Card c) {
 		p.getCards().removeCard(c);
+		p.deselectAllCards();
 		p.setPicked(false);
 		well.put(c);
 		roundFinished(p);
-
 	}
 	
 	//the playerPlays passed are all admissible
@@ -175,6 +175,17 @@ public class Game {
 				p.getCards().remove(c);
 			}
 		}
+	}
+	
+	public Player getPlayingPlayer() {
+		Player player = null;
+		for(Player p: this.getPlayers()) {
+			if(p.isPlayingRound()){
+				player = p;
+				break;
+			}
+		}
+		return player;
 	}
 	
 	public List<Player> getPlayers() {

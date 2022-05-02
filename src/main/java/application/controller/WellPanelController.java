@@ -33,11 +33,11 @@ public class WellPanelController implements MouseInputListener{
 			}
 			
 			//il realPlayer scarta la carta e conclude il turno
-			System.out.println(PlayView.getInstance().getDeckAndWellPanel().getWellPanel());
-			Card c = Game.getInstance().getRealPlayer().getSelectedCards().remove(0);
-			CardPanel cardPanel = PlayerCardsPanel.getInstance().getCardPanelFromCard(c);
+			//System.out.println(PlayView.getInstance().getDeckAndWellPanel().getWellPanel());
+			Card c = Game.getInstance().getRealPlayer().getSelectedCards().get(0);
+			//CardPanel cardPanel = PlayerCardsPanel.getInstance().getCardPanelFromCard(c);
 			Game.getInstance().playerDiscard(Game.getInstance().getRealPlayer(), c);
-
+			//PlayerCardsPanel.getInstance().update();
 			
 			
 		
@@ -45,16 +45,24 @@ public class WellPanelController implements MouseInputListener{
 			//Game.getInstance().getWell().put(c.getCard());
 			
 			//rimuovo il componente CardPanel dalle carte del realPlayer
-			PlayerCardsPanel.getInstance().remove(cardPanel);
+			//PlayerCardsPanel.getInstance().remove(cardPanel);
 			
 			
 			//assegno al well panel l'immagine della carta appena scartata
-			System.out.println(cardPanel.getImage());
+			//System.out.println(cardPanel.getImage());
 			//PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setImage(cardPanel.getImage());
+			System.out.println("Card on top of well: " + Game.getInstance().getWell().lastElement() + "Card discarded: " + c);
 			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
-			//Aggiorno il panel che continene le carte del real player
 			PlayerCardsPanel.getInstance().update();
-			
+			//Aggiorno il panel che continene le carte del real player
+
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			Game.getInstance().getPlayingPlayer().play(Game.getInstance().getPlays());
 			//PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
 			//update View
 			//PlayView.getInstance().updateGameSpots();
@@ -65,9 +73,11 @@ public class WellPanelController implements MouseInputListener{
 			
 				if(!Game.getInstance().getRealPlayer().isPlayingRound()) { //player is trying to pick but the bot didn't finish his round
 					//give error message 
+					System.out.println("Not your round!");
 					return;
 				}else if(Game.getInstance().getRealPlayer().hasPicked()) { //player has already picked
 					//give error message
+					System.out.println("Tried to pick but already picked");
 					return;
 				}else if(Game.getInstance().getRealPlayer().getState().getClass() == PlayerNotOpenedState.class) {
 					System.out.println("Tried to pick but not opened");
@@ -76,38 +86,34 @@ public class WellPanelController implements MouseInputListener{
 				
 				//Se ci sono carte nel well
 				if(Game.getInstance().getWell().size() >= 1) {
-					//prelevo la prima carta dal well model
-					Card card = Game.getInstance().getWell().pick();
-					
-					//Aggiungo la carta alle carte del realPlayer
-					Game.getInstance().getRealPlayer().getCards().add(card);
-					//System.out.println(card);
-					
+					Game.getInstance().playerPick(Game.getInstance().getRealPlayer(), false);
+					PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
+					PlayerCardsPanel.getInstance().update();
 					//creo il cardPanel da aggiungere ai cardPanel del realPlayer
-					CardPanel cp = new CardPanel(CardToImage.getInstance().getImageFromCard(card), PlayerCardsPanel.getInstance());
-					cp.setCard(card);
+					//CardPanel cp = new CardPanel(CardToImage.getInstance().getImageFromCard(card), PlayerCardsPanel.getInstance());
+					//cp.setCard(card);
 					//CardPanel cp = new CardPanel(null, PlayerCardsPanel.getInstance());
 					
 					//aggiungo il cardPanel alla view
-					PlayerCardsPanel.getInstance().add(cp);
+					//PlayerCardsPanel.getInstance().add(cp);
 					
 					//prendo la carta sotto quella prelevata
-					Card nextCard = null;
-					if(Game.getInstance().getWell().size() != 0) {
-						nextCard = Game.getInstance().getWell().lastElement();
-					}
+					//Card nextCard = null;
+					//if(Game.getInstance().getWell().size() != 0) {
+					//	nextCard = Game.getInstance().getWell().lastElement();
+					//}
 					//Se la nextCard è nulla vuol dire che non ci sono più carte nel well
-					if(nextCard != null) {
+					//if(nextCard != null) {
 						//assegno nextCard al well 
-						PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setImage(CardToImage.getInstance().getImageFromCard(nextCard));
-					}else {
-						System.out.println("CARTE FINITE");
-						PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setImage(null);
-					}
+					//	PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setImage(CardToImage.getInstance().getImageFromCard(nextCard));
+					//}else {
+					//	System.out.println("CARTE FINITE");
+					//	PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setImage(null);
+					//}
 										
 					//rivalido i panel
-					PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
-					PlayerCardsPanel.getInstance().revalidate();
+					//PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
+					//PlayerCardsPanel.getInstance().revalidate();
 				}
 				
 			

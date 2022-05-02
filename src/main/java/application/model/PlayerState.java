@@ -13,7 +13,7 @@ public abstract class PlayerState {
 	
 	public abstract boolean play(HandOfCards cards, List<Play> availablePlays);
 	
-	public abstract void pickCard(boolean pickFromDeck);
+	public abstract void pickCard();
 	
 	public Player getPlayer() {
 		return player;
