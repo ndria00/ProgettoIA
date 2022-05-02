@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import application.CardToImage;
+import application.Settings;
 import application.model.Card;
 import application.model.Game;
 
@@ -29,9 +30,9 @@ public class BotCardsPanel extends JPanel{
 			ImageIcon image = new ImageIcon();
 			//image.setImage(ImageIO.read(getClass().getResource("../resources/images/" + '9' + '9' + ".png")));
 			Image bimage = CardToImage.getInstance().getImageFromCard(card).getImage();
-			image.setImage((BufferedImage) bimage);
+			image.setImage(bimage);
 			
-			CardPanel cardPanel = new CardPanel(image, PlayerCardsPanel.getInstance());
+			CardPanel cardPanel = new CardPanel(image,Settings.NO_BORDER);
 			cardPanel.setCard(card);
 			this.setLayout(new FlowLayout());
 			this.add(cardPanel);

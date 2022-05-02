@@ -1,5 +1,6 @@
 package application;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -52,7 +53,10 @@ public class CardToImage {
 	
 	public ImageIcon getImageFromCard(Card c) {
 		String search = Integer.toString(c.getSuite()) + Integer.toString(c.getNumber());
-		return cardsImages.get(search);
+		ImageIcon returned =  cardsImages.get(search);
+		Image img = returned.getImage().getScaledInstance(65, 90, Image.SCALE_SMOOTH);
+		returned = new ImageIcon(img);
+		return returned;
 	}
 	
 }

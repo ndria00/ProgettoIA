@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 import application.CardToImage;
+import application.Settings;
 import application.controller.GameSpotController;
 import application.model.Card;
 import application.model.Play;
@@ -49,7 +50,7 @@ public class GameSpot extends JPanel {
 		//if(!this.taken) {
 			this.modelCards.addAll(cards);
 			for (Card card : modelCards) {
-				CardPanel p = new CardPanel(CardToImage.getInstance().getImageFromCard(card));
+				CardPanel p = new CardPanel(CardToImage.getInstance().getImageFromCard(card),Settings.NO_BORDER);
 				p.setCard(card);
 				this.cardPanels.add(p);
 				super.add(p);

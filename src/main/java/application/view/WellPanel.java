@@ -5,6 +5,7 @@ package application.view;
 import javax.swing.ImageIcon;
 
 import application.CardToImage;
+import application.Settings;
 import application.controller.WellPanelController;
 import application.model.Game;
 
@@ -14,13 +15,13 @@ public class WellPanel extends CardPanel{
 	private static final long serialVersionUID = 2786141514094370526L;
 
 	public WellPanel(ImageIcon image) {
-		super(image);
+		super(image,Settings.NO_BORDER);
 		this.removeMouseListener(this.getMouseListeners()[0]);
 		this.addMouseListener(new WellPanelController());
 	}
 	
 	public WellPanel(ImageIcon image, PlayerCardsPanel playCards) {
-		super(image, playCards);
+		super(image, playCards,Settings.NO_BORDER);
 		this.removeMouseListener(this.getMouseListeners()[0]);
 		this.addMouseListener(new WellPanelController());
 	}

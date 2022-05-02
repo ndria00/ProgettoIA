@@ -4,19 +4,20 @@ package application.view;
 
 import javax.swing.ImageIcon;
 
+import application.Settings;
 import application.controller.DeckController;
 
 public class DeckPanel extends CardPanel{
 	private static final long serialVersionUID = 3154124699346921639L;
 	
 	public DeckPanel(ImageIcon image) {
-		super(image);
+		super(image,Settings.NO_BORDER);
 		this.removeMouseListener(this.getMouseListeners()[0]);
 		this.addMouseListener(new DeckController(this));
 	}
 	
 	public DeckPanel(ImageIcon image, PlayerCardsPanel playerCards) {
-		super(image, playerCards);
+		super(image, playerCards,Settings.NO_BORDER);
 		this.removeMouseListener(this.getMouseListeners()[0]);
 		this.addMouseListener(new DeckController(this));
 	}
