@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import application.CardToImage;
+import application.Settings;
 import application.ViewsHandler;
 import application.controller.PlayViewController;
 import application.model.Card;
@@ -116,7 +117,7 @@ public class PlayView extends JPanel{
 				Card c = playerCards.get(i);
 				System.out.println("Sto cercando" + c.getSuite() + " " + c.getNumber());
 				image.setImage(CardToImage.getInstance().getImageFromCard(c).getImage());
-				CardPanel p1 = new CardPanel(image, PlayerCardsPanel.getInstance());
+				CardPanel p1 = new CardPanel(image, PlayerCardsPanel.getInstance(),Settings.BORDER);
 				p1.setCard(c);
 				this.cardPanels.add(p1);
 				PlayerCardsPanel.getInstance().add(p1);
@@ -130,48 +131,6 @@ public class PlayView extends JPanel{
 		BorderLayout centerBorderLayout = new BorderLayout();
 		center.setLayout(centerBorderLayout);
 		center.setBackground(new Color(185, 251, 192));
-		
-//		JPanel gameSpots = new JPanel();
-//		GridLayout gameSpotsGridLayout = new GridLayout(4,4,4,4);
-//		gameSpots.setLayout(gameSpotsGridLayout);
-//		gameSpots.setBackground(new Color(185, 251, 192));
-//		
-//		//TEST
-//		for(int i = 0; i < 20; ++i) {
-//			GameSpot gs = new GameSpot(PlayerCardsPanel.getInstance());
-////			CardPanel c1 =new CardPanel(image1);
-////			CardPanel c2 = new CardPanel(image1);
-////			CardPanel c3 =new CardPanel(image1);
-////			CardPanel c4 = new CardPanel(image1);
-////			CardPanel c5 =new CardPanel(image1);
-////			CardPanel c6 = new CardPanel(image);
-////			CardPanel c7 =new CardPanel(image);
-////			CardPanel c8 = new CardPanel(image);
-////			CardPanel c9 =new CardPanel(image);
-////			CardPanel c10 = new CardPanel(image);
-////			CardPanel c11 =new CardPanel(image);
-////			CardPanel c12 = new CardPanel(image);
-////			CardPanel c13 = new CardPanel(image);
-//			
-//			Vector<CardPanel> cards = new Vector<CardPanel>();
-////			cards.add(c1);
-////			cards.add(c2);
-////			cards.add(c3);
-////			cards.add(c4);
-////			cards.add(c5);
-////			cards.add(c6);
-////			cards.add(c7);
-////			cards.add(c8);
-////			cards.add(c9);
-////			cards.add(c10);
-////			cards.add(c11);
-////			cards.add(c12);
-////			cards.add(c13);
-//			
-//			gs.placeCards(cards);
-//			gameSpots.add(gs);
-//		}
-		//END TEST
 		
 		
 		
@@ -231,7 +190,7 @@ public class PlayView extends JPanel{
 				for(Card card : play) {
 					ImageIcon image = new ImageIcon();
 					image.setImage(CardToImage.getInstance().getImageFromCard(card).getImage());
-					CardPanel cardpanel = new CardPanel(image, PlayerCardsPanel.getInstance());
+					CardPanel cardpanel = new CardPanel(image,Settings.NO_BORDER);
 					cardpanel.setCard(card);
 					gameSpot.add(cardpanel);
 				}

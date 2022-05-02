@@ -264,7 +264,7 @@ public class ASPManager {
 		Pattern p = Pattern.compile("discard[(]\\d+[)]");
 		Matcher m = p.matcher(o.getOutput());
 		System.out.println("Bot discarding");
-		
+		System.out.println(o.getOutput());
 		if(m.find()) {
 			int id = Integer.parseInt(m.group().replaceAll("\\D", ""));
 			System.out.println("Bot discarded " + id);
