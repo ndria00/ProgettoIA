@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.event.MouseInputListener;
 
 import application.CardToImage;
+import application.Settings;
 import application.model.Card;
 import application.model.Game;
 import application.model.PlayerNotOpenedState;
@@ -36,13 +37,9 @@ public class WellPanelController implements MouseInputListener{
 			System.out.println(PlayView.getInstance().getDeckAndWellPanel().getWellPanel());
 			Card c = Game.getInstance().getRealPlayer().getSelectedCards().remove(0);
 			CardPanel cardPanel = PlayerCardsPanel.getInstance().getCardPanelFromCard(c);
+			//aggiungo la carta al model well
 			Game.getInstance().playerDiscard(Game.getInstance().getRealPlayer(), c);
 
-			
-			
-		
-			//aggiungo la carta al model well
-			//Game.getInstance().getWell().put(c.getCard());
 			
 			//rimuovo il componente CardPanel dalle carte del realPlayer
 			PlayerCardsPanel.getInstance().remove(cardPanel);
@@ -84,7 +81,7 @@ public class WellPanelController implements MouseInputListener{
 					//System.out.println(card);
 					
 					//creo il cardPanel da aggiungere ai cardPanel del realPlayer
-					CardPanel cp = new CardPanel(CardToImage.getInstance().getImageFromCard(card), PlayerCardsPanel.getInstance());
+					CardPanel cp = new CardPanel(CardToImage.getInstance().getImageFromCard(card), PlayerCardsPanel.getInstance(),Settings.NO_BORDER);
 					cp.setCard(card);
 					//CardPanel cp = new CardPanel(null, PlayerCardsPanel.getInstance());
 					

@@ -147,7 +147,6 @@ public class Game {
 		p.setPicked(false);
 		well.put(c);
 		roundFinished(p);
-
 	}
 	
 	//the playerPlays passed are all admissible

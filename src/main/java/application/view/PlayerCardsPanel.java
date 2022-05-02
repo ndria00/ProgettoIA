@@ -10,6 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import application.CardToImage;
+import application.Settings;
 import application.model.Card;
 import application.model.Game;
 
@@ -52,7 +53,7 @@ public class PlayerCardsPanel extends JPanel{
 	public void addCards(ArrayList<Card> cards) {
 		for(Card card : cards) {
 
-			CardPanel cardPanel = new CardPanel(CardToImage.getInstance().getImageFromCard(card), this);
+			CardPanel cardPanel = new CardPanel(CardToImage.getInstance().getImageFromCard(card), this,Settings.BORDER);
 			cardPanel.setCard(card);
 			if(Game.getInstance().getRealPlayer().getSelectedCards().contains(card)) {
 				cardPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 4));

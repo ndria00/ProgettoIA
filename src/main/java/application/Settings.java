@@ -22,4 +22,7 @@ public class Settings {
 	public static final int SUITE_SPADES = 3;
 	public static final int SUITE_DIAMONDS = 1;
 	public static final int SUITE_CLUBS = 0;
+	
+	public static final boolean NO_BORDER = false;
+	public static final boolean BORDER = true;
 }

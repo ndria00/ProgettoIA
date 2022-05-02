@@ -19,10 +19,12 @@ public class CardPanel extends JPanel{
 	private JLabel label = null;
 	private PlayerCardsPanel owner = null;
 	private Card card = null;
+	private boolean border = true;
 	
 	
-	public CardPanel(ImageIcon image) {
+	public CardPanel(ImageIcon image, boolean border) {
 		setBackground(Color.WHITE);
+		this.border = border;
 		this.setLayout(new BorderLayout());
 		//this.image = image;
 		Image img = null;
@@ -38,7 +40,7 @@ public class CardPanel extends JPanel{
 		this.addMouseListener(new CardPanelController(this));
 	}
 	
-	public CardPanel(ImageIcon image, PlayerCardsPanel owner) {
+	public CardPanel(ImageIcon image, PlayerCardsPanel owner,  boolean border) {
 		setBackground(Color.WHITE);
 		//this.setLayout(new BorderLayout());
 		Image img = null;
@@ -54,12 +56,20 @@ public class CardPanel extends JPanel{
 		this.addMouseListener(new CardPanelController(this));
 	}
 	
+	public boolean isBorder() {
+		return border;
+	}
+
+	public void setBorder(boolean border) {
+		this.border = border;
+	}
+
 	public void setImage(ImageIcon image) {
 //		this.remove(this.label);
 //		this.label = new JLabel(image);
 //		this.add(label);
-		
-		this.label.setIcon(image);
+		Image img = image.getImage().getScaledInstance(65, 90,  Image.SCALE_SMOOTH);	
+		this.label.setIcon(new ImageIcon(img));
 //		this.repaint();
 //		this.revalidate();
 		System.out.println("DENTRO");

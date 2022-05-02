@@ -16,18 +16,20 @@ public class CardPanelController implements MouseInputListener{
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if(!cardPanel.getClicked()) {
-			if(this.cardPanel.getOwner() != null) {
-				Game.getInstance().getRealPlayer().getSelectedCards().add(this.cardPanel.getCard());
-			}
-			this.cardPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW,4));
-			this.cardPanel.setClicked(true);
-		}else {
-			this.cardPanel.setBorder(null);
-			this.cardPanel.setClicked(false);
-			if(this.cardPanel.getOwner() != null) {
-				CardPanel source = (CardPanel)e.getSource();
-				Game.getInstance().getRealPlayer().getSelectedCards().remove(source.getCard());
+		if(cardPanel.isBorder()) {
+			if(!cardPanel.getClicked()) {
+				if(this.cardPanel.getOwner() != null) {
+					Game.getInstance().getRealPlayer().getSelectedCards().add(this.cardPanel.getCard());
+				}
+				this.cardPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW,4));
+				this.cardPanel.setClicked(true);
+			}else {
+				this.cardPanel.setBorder(null);
+				this.cardPanel.setClicked(false);
+				if(this.cardPanel.getOwner() != null) {
+					CardPanel source = (CardPanel)e.getSource();
+					Game.getInstance().getRealPlayer().getSelectedCards().remove(source.getCard());
+				}
 			}
 		}
 		
@@ -63,7 +65,9 @@ public class CardPanelController implements MouseInputListener{
 
 
 	public void mouseEntered(MouseEvent e) {
-		this.cardPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW,4));
+		if(cardPanel.isBorder()) {
+			this.cardPanel.setBorder(BorderFactory.createLineBorder(Color.YELLOW,4));
+		}
 	}
 
 
