@@ -8,12 +8,16 @@
 ladder(X) :- existingLadder(X).
 combination(X) :- existingCombination(X).
 
+possibleLadder(X) :- existingLadder(X).
+possibleCombination(X) :- existingCombination(X).
+
 
 %Start composing a combination with two cards of the same value
-possibleCombination([ID1|[ID2]]) :- card(ID1, S1, N1, _), card(ID2, S2, N1, _), ID1 != ID2, N1 = N2, ID1 < ID2, S1 != S2.
+possibleCombination([ID1|[ID2]]) :- card(ID1, S1, N1, _), card(ID2, S2, N1, _), ID1 != ID2, N1 = N2, S1 != S2.
 
 %extend combinations where possible to obtain larger ones
 possibleCombination(L) :- possibleCombination(L1), card(ID, _, N, _), &last(L1; ID1), card(ID1, _, N1, _),  &insLast(L1, ID; L), not &member(ID, L1;), ID1 != ID,  N = N1, ID > ID1.
+possibleCombination(L) :- possibleCombination(L1), card(ID, _, N, _), &last(L1; ID1), playedCard(ID1, _, N1, _),  &insLast(L1, ID; L), not &member(ID, L1;), ID1 != ID,  N = N1.
 
 %extend a combination with a jolly
 possibleCombination(L) :- possibleCombination(L1), card(ID, _, N, _),  not &member(ID, L1;),  N = 0, &insNth(L1, ID, 1; L).
@@ -30,26 +34,30 @@ possibleLadder([ID1|[ID2]]) :- card(ID1, S1, N1, _), card(ID2, S2, N2, _), ID1 !
 
 %extend ladders where possible to obtain larger ones
 possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), card(ID1, S1, N1, _), &last(L1; ID1), not &member(ID, L1;), ID1 != ID, S = S1,   N = N1 + 1, &insLast(L1, ID; L).
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), playedCard(ID1, S1, N1, _), &last(L1; ID1), not &member(ID, L1;), ID1 != ID, S = S1,   N = N1 + 1, &insLast(L1, ID; L).
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), playedCard(ID1, S1, N1, _), &head(L1; ID1), not &member(ID, L1;), ID1 != ID, S = S1,   N = N1 - 1, &insNth(L1, ID, 1; L).
 
 %extend ladders with jolly if there is one in the hand
 possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), S = 5,  card(ID1, S1, N1, _), &last(L1; ID1), not &member(ID, L1;), ID1 != ID, &insLast(L1, ID; L).
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), S = 5,  cardPlayed(ID1, S1, N1, _), &last(L1; ID1), not &member(ID, L1;), ID1 != ID, &insLast(L1, ID; L).
+
 
 %extend a ladder that contains a jolly
 %possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), not &member(ID, L1;), card(ID1, S1, N1, _), S1 = 5, &last(L1; ID1), &length(L1; X), card(ID2, S2, N2, _), &memberNth(L1, X - 1; ID2), S2 = S , N = N2 + 2, &insLast(L1, ID; L).
 
+
 %extend a ladder that contains a K with an A after it
 possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), card(ID1, S1, N1, _), &last(L1; ID1), not &member(ID, L1;), ID1 != ID, S = S1,   N = 1, N1 = 13, &insLast(L1, ID; L).
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), playedCard(ID1, S1, N1, _), &last(L1; ID1), not &member(ID, L1;), ID1 != ID, S = S1,   N = 1, N1 = 13, &insLast(L1, ID; L).
 
 %compute all the valid ladders
 ladder(X) :- possibleLadder(X), &length(X; L), L >= 3.
 
-%choose which plays to play
-play(X) | nonPlay(X) :- combination(X, _).
-play(X) | nonPlay(X) :- ladder(X, _).
 
 %remove combinations that contain two card of the same suite 
 %NOTES: I didn't do this before in order to improve the performance of the program that constructs the plays 
-:- play(X), combination(X, _),  card(ID, S, _, _), card(ID1, S, _, _), ID != ID1, &member(ID, X;), &member(ID1, X;).
+:- play(X), combination(X),  card(ID, S, _, _), card(ID1, S, _, _), ID != ID1, &member(ID, X;), &member(ID1, X;).
+:- play(X), combination(X),  playedCard(ID, S, _, _), card(ID1, S, _, _), ID != ID1, &member(ID, X;), &member(ID1, X;).
 
 %can't play 2 plays that have a card in common
 :- play(X), play(Y), X != Y, card(ID, _, _, _), &member(ID, X;), &member(ID, Y;).
@@ -59,24 +67,31 @@ play(X) | nonPlay(X) :- ladder(X, _).
 :- play(X), play(X), &member(105, X;), &member(106, X;).
 
 %No joker after A..J Q K A
-:- play(X), ladder(X, _), &last(X; E), E = 105, card(ID, _, N, _), not &head(X; E), N = 1, &member(ID, X;).
-:- play(X), ladder(X, _), &last(X; E), E = 106, card(ID, _, N, _), not &head(X; E), N = 1, &member(ID, X;).
+:- play(X), ladder(X), &last(X; E), E = 105, card(ID, _, N, _), not &head(X; E), N = 1, &member(ID, X;).
+:- play(X), ladder(X), &last(X; E), E = 106, card(ID, _, N, _), not &head(X; E), N = 1, &member(ID, X;).
 %can't put 2 after 1 which is preceded by a K
-:- play(X), ladder(X, _), card(ID1, _, N, _),card(ID2, _, N, _), N = 2, &member(ID1, X;), &member(ID2, X;).
+:- play(X), ladder(X), card(ID1, _, N, _),card(ID2, _, N, _), N = 2, &member(ID1, X;), &member(ID2, X;).
+:- play(X), ladder(X), playedCard(ID1, _, N, _),card(ID2, _, N, _), N = 2, &member(ID1, X;), &member(ID2, X;).
 
+%choose which plays to play
+play(X) | nonPlay(X) :- combination(X).
+play(X) | nonPlay(X) :- ladder(X).
 
 %calculate which are plays that were extended and are being played
-extendedCombinationPlayed(X) :- existingCombination(X), combination(Y), play(Y), &subList(X, Y;).
-extendedLadderPlayed(X) :- existingLadder(X), ladder(Y), play(Y), &subList(X, Y;).
+extendedCombinationPlayed(X) :- existingCombination(X), combination(Y), X != Y, play(Y), &subList(X, Y;).
+extendedLadderPlayed(X) :- existingLadder(X), ladder(Y), play(Y), X != Y, &subList(X, Y;).
 
 
 %An existing game must be played if and only if none of its extensions is played
-:- play(X), play(Y), existingLadder(Y), &subList(Y, X;). 		%can't play both extended and existing ladder
+:- play(X), play(Y), existingLadder(Y), X != Y, &subList(Y, X;). 		%can't play both extended and existing ladder
 :- nonPlay(X), existingLadder(X),  not extendedLadderPlayed(X). %can't avoid playing a ladder for which none of it's extensions are played
 
-:- play(X), play(Y), existingCombination(Y), &subList(Y, X;). 		%can't play both extended and existing ladder
+:- play(X), play(Y), existingCombination(Y), X != Y, &subList(Y, X;). 		%can't play both extended and existing ladder
 :- nonPlay(X), existingCombination(X),  not extendedCombinationPlayed(X). %can't avoid playing a ladder for which none of it's extensions are played
 
+:~ ladder(X), nonPlay(X). [1@1]
+:~ combination(X), nonPlay(X). [1@1]
 
-playedCombination(X) :- combination(X, _), play(X).
-playedLadder(X) :- ladder(X, _), play(X).
+
+playedCombination(X) :- combination(X), play(X).
+playedLadder(X) :- ladder(X), play(X).

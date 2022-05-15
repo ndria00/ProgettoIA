@@ -26,24 +26,15 @@ public class Combination extends Play{
 		if(card.getNumber() == this.get(0).getNumber() && this.size() < 4 && ! this.contains(card)) {
 			return true;
 		}
+		if(card.getNumber() == Settings.JOKER_NUMBER && this.size() < 4)
+			return true;
 		return false;
 	}
-
 	@Override
-	public boolean canAttach(Play p) {
-		if(p.size() == 1)
-			return canAttach(p.get(0));
-		return false;
+	public void attach(Card c) {
+		this.add(c);
 	}
-
-	@Override
-	public void attach(Play p) {
-		for(Card c: p) {
-			p.add(c);
-		}
-		
-	}
-
+	
 	public String getListAndValue(int value) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("combination([");

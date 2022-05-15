@@ -14,9 +14,9 @@ public class Well extends Stack<Card>{
 	
 	public Card pick() {
 		System.out.println("PICKED FROM WELL");
-		for (Card c : this) {
-			System.out.println(c);
-		}
+		//for (Card c : this) {
+		//	System.out.println(c);
+		//}
 		return this.pop();
 	}
 	
