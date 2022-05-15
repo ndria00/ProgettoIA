@@ -184,15 +184,19 @@ public class PlayView extends JPanel{
 			int index = 0;
 			GameSpot gameSpot;
 			for(Play play : Game.getInstance().getPlays()) {
+				//WHAT THE HELL IS THIS???
 				gameSpot = gameSpotPanels.getGameSpots().get(index);
 				index++;
+				//
 				gameSpot.removeAll();
 				for(Card card : play) {
+					//WHY CREATING A NEW IMAGE ICON WHEN YOU CAN JUST GET IT FROM THE HASH MAP?
 					ImageIcon image = new ImageIcon();
 					image.setImage(CardToImage.getInstance().getImageFromCard(card).getImage());
 					CardPanel cardpanel = new CardPanel(image,Settings.NO_BORDER);
 					cardpanel.setCard(card);
 					gameSpot.add(cardpanel);
+					gameSpot.setCurrentPlay(play);
 				}
 			}
 		}

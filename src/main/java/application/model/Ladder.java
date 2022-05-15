@@ -57,27 +57,20 @@ public class Ladder  extends Play{
 	}
 
 	@Override
-	public boolean canAttach(Play p) {
-		if(canAttach(p.get(0)) || canAttach(p.get(p.size()-1))) {
-			return true;
-		}
-		return false;
-	}
-	@Override
 	public void setCards(ArrayList<Card> cards) {
 		Collections.sort(cards);
 		super.setCards(cards);
 	}
 
 	@Override
-	public void attach(Play p) {
-		for(Card c: p) {
-			if(this.get(0).getNumber() == p.get(0).getNumber() + 1)
-				this.add(0, c);
-			else if(this.get(this.size() -1 ).getNumber() == p.get(p.size() - 1).getNumber() - 1){
-				this.add(c);
-			}
-		}
+	public void attach(Card c) {
+		//for(Card c: p) {
+		//	if(this.get(0).getNumber() == p.get(0).getNumber() + 1)
+		//		this.add(0, c);
+		//	else if(this.get(this.size() -1 ).getNumber() == p.get(p.size() - 1).getNumber() - 1){
+		//		this.add(c);
+		//	}
+		//}
 
 		
 	}

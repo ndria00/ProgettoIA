@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import application.model.BotPlayer;
 import application.model.Card;
 import application.model.Combination;
 import application.model.Game;
@@ -13,6 +12,7 @@ import application.model.HandOfCards;
 import application.model.Ladder;
 import application.model.Play;
 import application.model.Player;
+import application.model.PlayerNotOpenedState;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
 import it.unical.mat.embasp.base.OptionDescriptor;
@@ -87,50 +87,30 @@ public class ASPManager {
 		//System.out.print("FACTS: " + facts.getPrograms() + "\n\nENCODING: " + encoding.getPrograms());
 		Output o1 = handler.startSync();
 		System.out.println(o1.getOutput() + "END OF ANSWER SETS");
-		boolean opened = addPlaysAndRemoveCards(o1.getOutput(), player);
+		boolean opened = addPlaysAndRemoveCards(getOptimalAnswerSet(o1), player, false);
 		//System.out.println("ENDED ASP COMPUTATION");
 		return opened;
 	}
 	
 	//called by real player or bot after they have already opened
 	public boolean canPlay(HandOfCards cards, Player player){
-		//ArrayList<Play> plays = new ArrayList<Play>();
 		resetHandler();
-		//if (player.getClass() == BotPlayer.class) {
-		//	handleBotPick(player);
-		//	resetHandler();
-		//}
 
-		//addPlayerCardsAsFacts(cards);
-		//encoding.addFilesPath("encodings/botPlayBeginner");
-		//addExistingGamePlaysAsFacts();
-		//handler.addProgram(facts);
-		//System.out.println("CARDS: " + facts.getPrograms());
-		//handler.addProgram(encoding);
-		//System.out.println("ENCODING: " + encoding.getPrograms());
-		//Output o = handler.startSync();
-		//AnswerSets answerSets = (AnswerSets) o;
-		//answerSets.getAnswersets();
-		//AnswerSet as = answerSets.getAnswersets().get(0);
-		/*
-		try {
-			for(Object obj : as.getAtoms()) {
-				if(obj instanceof PlayableCombination) {
-					PlayableCombination play = (PlayableCombination) obj;
-					System.out.println(play);
-					//Play p= new Combination(play.getCards());
-					//plays.add(p);
-				}
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-		//if (player.getClass() == BotPlayer.class) {
-		//	handleBotDiscard(player);
-		//	resetHandler();
-		//}
-		return false;
+		addPlayerCardsAsFacts(cards);
+		addAllPlayedCardsAsFacts();
+		addGamePlaysAsFacts();
+		//System.out.println("GAME PLAYS: " + gamePlaysAsFacts.toString());
+		encoding.addFilesPath("encodings/botPlayBeginner");
+		System.out.println("FACTS FOR PLAY: " + facts.getPrograms());
+		handler.addProgram(facts);
+		handler.addProgram(encoding);
+		Output o = handler.startSync();
+
+		
+		System.out.println("OUTPUT OF PLAY: " + o.getOutput());
+		String optimalAnswerSet = getOptimalAnswerSet(o);
+		addPlaysAndRemoveCards(optimalAnswerSet, player, true);
+		return true;
 	}
 	
 	private void addPlayerCardsAsFacts(HandOfCards cards) {
@@ -145,18 +125,18 @@ public class ASPManager {
 		}
 	}
 	
-	private void addExistingGamePlaysAsFacts() {
-		List<Play> plays = Game.getInstance().getPlays();
-		
-		for (Play p: plays){
-			try {
-				facts.addProgram(p.getList(true));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+	//private void addExistingGamePlaysAsFacts() {
+	//	List<Play> plays = Game.getInstance().getPlays();
+	//	
+	//	for (Play p: plays){
+	//		try {
+	//			facts.addProgram(p.getList(true));
+	//		} catch (Exception e) {
+	//			// TODO Auto-generated catch block
+	//			e.printStackTrace();
+	//		}
+	//	}
+	//}
 	
 	private List<Play> getPlaysFromASPOpen(String output) {
 		Pattern p = Pattern.compile("ladder\\(.*?\\), ");
@@ -191,7 +171,10 @@ public class ASPManager {
 		return plays;
 	}
 	
-	private boolean addPlaysAndRemoveCards(String output, Player player){
+	private boolean addPlaysAndRemoveCards(String output, Player player, boolean alreadyOpened){
+		if(alreadyOpened)
+			Game.getInstance().getPlays().clear();
+		
 		boolean opened = false;
 		System.out.println("Adding plays and removing cards");
 		Pattern p = Pattern.compile("playedLadder[(].*?[)]");
@@ -208,7 +191,8 @@ public class ASPManager {
 				player.getCards().removeCard(Game.getInstance().getCardById(Integer.parseInt(t)));
 				
 			}
-			Game.getInstance().getPlays().add(play);
+			if(!Game.getInstance().getPlays().contains(play))
+				Game.getInstance().getPlays().add(play);
 			opened = true;
 			System.out.println("Added ladder and removed cards");
 		}
@@ -225,11 +209,13 @@ public class ASPManager {
 				play.add(Game.getInstance().getCardById(Integer.parseInt(t)));
 				player.getCards().removeCard(Game.getInstance().getCardById(Integer.parseInt(t)));
 			}
-			Game.getInstance().getPlays().add(play);
+			if(!Game.getInstance().getPlays().contains(play))
+				Game.getInstance().getPlays().add(play);
 			opened = true;
 			//System.out.println("Added combination and remove cards");
 		}
 		//System.out.println("Ended Adding");
+		System.out.println("REMOVE DUPLICATES... ACTUAL SIZE: " + Game.getInstance().getPlays().size());
 		return opened;
 	}
 	
@@ -257,12 +243,15 @@ public class ASPManager {
 		Card c = null;
 		resetHandler();
 		addPlayerCardsAsFacts(player.getCards());
+		
+		if(player.getState().getClass() == PlayerNotOpenedState.class)
+			facts.addProgram("notOpened.");
 		handler.addProgram(facts);
 		encoding.addFilesPath("encodings/botDiscard");
 		handler.addProgram(encoding);
 		Output o = handler.startSync();
 		Pattern p = Pattern.compile("discard[(]\\d+[)]");
-		Matcher m = p.matcher(o.getOutput());
+		Matcher m = p.matcher(getOptimalAnswerSet(o));
 		System.out.println("Bot discarding");
 		System.out.println(o.getOutput());
 		if(m.find()) {
@@ -276,8 +265,42 @@ public class ASPManager {
 	
 	private void resetHandler() {
 		handler.removeAll();
-		handler.addOption(new OptionDescriptor("-n 1"));
+		handler.addOption(new OptionDescriptor("-n 0"));
 		encoding.clearAll();
 		facts.clearAll();
+	}
+	
+	private String getOptimalAnswerSet(Output o) {
+		o.setOutput(o.getOutput() + "OPTIMUM");
+		Pattern p = Pattern.compile("(\\{.*\\})\\n(COST .*\\n)*(OPTIMUM)");
+		Matcher m = p.matcher(o.getOutput());
+		System.out.println("I got the following output: " + o.getOutput());
+		if(m.find()) {
+			return m.group();
+		}
+		else {
+			 System.out.println("Didn't find optimal AS");
+			 return "";
+		}
+	}
+	
+	private void addAllPlayedCardsAsFacts() {
+		StringBuilder builder = new StringBuilder("");
+		for(Play p : Game.getInstance().getPlays()) {
+			for(Card c: p) {
+				builder.append("playedCard(" + c.getId() + "," + c.getSuite() + "," + c.getNumber() + "," + c.getValue() + "). ");
+			}
+		}
+		facts.addProgram(builder.toString());
+	}
+	
+	private void addGamePlaysAsFacts() {
+		List<Play> gamePlays = Game.getInstance().getPlays();
+		StringBuilder gamePlaysAsFacts = new StringBuilder("");
+		for(Play p: gamePlays){
+			//String s = p.toString();
+			gamePlaysAsFacts.append(p.getList(true));
+		}
+		facts.addProgram(gamePlaysAsFacts.toString());
 	}
 }

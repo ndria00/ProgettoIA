@@ -151,31 +151,31 @@ public class Game {
 	}
 	
 	//the playerPlays passed are all admissible
-	public void playerPlayed(Player p, List<Play> playerPlays) {
-		for(Play pl: playerPlays) {
-			boolean newPlayCreated = true;
-			for(Play gamePlay: plays) {
-				if(gamePlay.canAttach(pl)) {
-					//they play does not create a new stack of cards
-					// so the only thing to do is to add cards to the play
-					//to which it can be attached
-					gamePlay.attach(pl);
-					newPlayCreated = false;
-					break;
-					
-				}
-			}
-			
-			if(newPlayCreated) {
-				plays.add(pl);
-				
-			}
-			//finally remove cards from the player hand
-			for(Card c: pl) {
-				p.getCards().remove(c);
-			}
-		}
-	}
+	//public void playerPlayed(Player p, List<Play> playerPlays) {
+	//	for(Play pl: playerPlays) {
+	//		boolean newPlayCreated = true;
+	//		for(Play gamePlay: plays) {
+	//			if(gamePlay.canAttach(pl)) {
+	//				//they play does not create a new stack of cards
+	//				// so the only thing to do is to add cards to the play
+	//				//to which it can be attached
+	//				gamePlay.attach(pl);
+	//				newPlayCreated = false;
+	//				break;
+	//				
+	//			}
+	//		}
+	//		
+	//		if(newPlayCreated) {
+	//			plays.add(pl);
+	//			
+	//		}
+	//		//finally remove cards from the player hand
+	//		for(Card c: pl) {
+	//			p.getCards().remove(c);
+	//		}
+	//	}
+	//}
 	
 	public Player getPlayingPlayer() {
 		Player player = null;
@@ -240,5 +240,12 @@ public class Game {
 		return this.allCards.get(id);
 	}
 	
-	
+	public void removeDuplicatePlays() {
+		for(int i = 0; i < plays.size(); ++i) {
+			for(int j = 0; j<plays.size(); ++j) {
+				if(i != j && plays.get(i).equals(plays.get(j)))
+					plays.remove(j);
+			}
+		}
+	}
 }

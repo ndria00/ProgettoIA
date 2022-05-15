@@ -6,7 +6,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.event.MouseInputListener;
 
+import application.model.Card;
 import application.model.Game;
+import application.model.PlayerOpenedState;
 import application.view.GameSpot;
 import application.view.PlayView;
 import application.view.PlayerCardsPanel;
@@ -24,14 +26,27 @@ public class GameSpotController implements MouseInputListener{
 		
 		if (Game.getInstance().getRealPlayer().getSelectedCards().size() > 0 && Game.getInstance().getRealPlayer().hasPicked() && Game.getInstance().getRealPlayer().isPlayingRound()) {
 					
-					
-					
+					if(Game.getInstance().getRealPlayer().getState().getClass() == PlayerOpenedState.class) {
+						System.out.println("TRIED TO ADD A CARD TO A GAME SPOT");
+						if(gameSpotPanel.getCurrentPlay() == null)
+							return;
+						System.out.println("ADDING CARD TO GAME SPOT");
+						for(Card c: Game.getInstance().getRealPlayer().getSelectedCards()) {
+							if(this.gameSpotPanel.getCurrentPlay().canAttach(c)) {
+								System.out.println("ADDED CARD TO GAME SPOT: " + c.toString());
+								this.gameSpotPanel.getCurrentPlay().attach(c);
+								Game.getInstance().getRealPlayer().getCards().remove(c);
+							}
+						}
+						PlayView.getInstance().updateGameSpots();
+					}
+					else {
 					//1. Chiama ASP Manager per provare a giocare le carte selezionate
-					
-					Game.getInstance().getRealPlayer().play(null);
+					//Call ASP giving it selected cards 
+					Game.getInstance().getRealPlayer().play(Game.getInstance().getPlays());
 					
 					//Aggiorno le carte del player reale
-					System.out.println("Try to Play");
+					//System.out.println("Try to Play");
 					PlayerCardsPanel.getInstance().update();
 					PlayView.getInstance().updateGameSpots();
 					
@@ -41,7 +56,7 @@ public class GameSpotController implements MouseInputListener{
 						//2.1 put the first array in the selected game spot
 						//2.2 if there is more than one  array list 
 							// 2.2.1 for each array put it in the first available game spot 
-					
+					}
 		}
 //		else if (Game.getInstance().getRealPlayer().getSelectedCards().size() > 0 ){//&& Game.getInstance().getRealPlayer().getState().getClass() == PlayerOpenedState.class ) {
 //			
