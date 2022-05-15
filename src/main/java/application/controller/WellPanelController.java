@@ -56,7 +56,9 @@ public class WellPanelController implements MouseInputListener{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			Game.getInstance().getPlayingPlayer().play(Game.getInstance().getPlays());
+			boolean played = Game.getInstance().getPlayingPlayer().play(Game.getInstance().getPlays());
+			if(played)
+				PlayView.getInstance().updateGameSpots();
 			//PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
 			//update View
 			//PlayView.getInstance().updateGameSpots();

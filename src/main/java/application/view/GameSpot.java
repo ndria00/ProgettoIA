@@ -19,6 +19,7 @@ import application.model.Play;
 public class GameSpot extends JPanel {
 	private static final long serialVersionUID = 6535477337343318403L;
 	
+	private Play currentPlay = null;
 	private List<Card> modelCards = null;
 	private List<CardPanel> cardPanels = null;
 	//private boolean taken = false;
@@ -83,6 +84,14 @@ public class GameSpot extends JPanel {
 	
 	public ArrayList<CardPanel> getCardPanels(){
 		return (ArrayList<CardPanel>)this.cardPanels;
+	}
+
+	public Play getCurrentPlay() {
+		return currentPlay;
+	}
+
+	public void setCurrentPlay(Play currentPlay) {
+		this.currentPlay = currentPlay;
 	}
 	
 //	public void mouseClicked(MouseEvent e) {
