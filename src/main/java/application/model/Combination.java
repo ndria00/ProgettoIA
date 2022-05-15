@@ -25,6 +25,8 @@ public class Combination extends Play{
 		//cards are of the same suite
 		if(card.getNumber() == this.get(0).getNumber() && this.size() < 4 && ! this.contains(card)) {
 			return true;
+		}else if (card.getNumber() == this.get(1).getNumber() && this.size() < 4 && ! this.contains(card)) {
+			return true;
 		}
 		if(card.getNumber() == Settings.JOKER_NUMBER && this.size() < 4)
 			return true;

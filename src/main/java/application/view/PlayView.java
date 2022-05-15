@@ -171,12 +171,10 @@ public class PlayView extends JPanel{
 	}
 	
 	public void updateView() {
-//		for (CardPanel cardPanel : cardPanels) {
-//			Card c = cardPanel.getCard();
-//			//ImageIcon image = new ImageIcon();
-//			//image.setImage(ImageIO.read(()));
-//			cardPanel.setImage();
-//		}
+		this.updateGameSpots();
+		this.deckAndWellPanel.getWellPanel().updateWellPanel();
+		PlayerCardsPanel.getInstance().update();
+		this.botCardsPanel.update();
 	}
 	
 	public void updateGameSpots() {

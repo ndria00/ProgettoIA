@@ -25,4 +25,8 @@ public class Settings {
 	
 	public static final boolean NO_BORDER = false;
 	public static final boolean BORDER = true;
+	
+	public static final int JOKER_SUITE = 5;
+	public static final int KING_NUMBER = 13;
+	public static final int TWO_NUMBER = 2;
 }

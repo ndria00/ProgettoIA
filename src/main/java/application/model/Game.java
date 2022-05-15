@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class Game {
 				c.setValue(Integer.parseInt(v[3]));
 				//System.out.println(c.toString());
 				allCards.put(c.getId(), c);
-				deck.insert(c);
+				//deck.insert(c);
 			}
 			reader.close();
 		}
@@ -64,13 +65,16 @@ public class Game {
 		Player p;
 		p = new RealPlayer();
 		p.setPlayingRound(true);
+		players.clear();
 		players.add(p);
 		
 		for(int i = 1; i < numberOfPlayers; ++i) {
 			p = new BotPlayer();
 			players.add(p);
 		}
+		deck.addAll(allCards.values());
 		distributeCards();
+		well.clear();
 		well.push(deck.pick());
 		gameState = Settings.GAME_PLAYING_STATE;
 	}

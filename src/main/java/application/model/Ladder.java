@@ -49,9 +49,37 @@ public class Ladder  extends Play{
 	*/
 	@Override
 	public boolean canAttach(Card card) {
-		if(card.getSuite() ==this.get(0).getSuite()){
-			if(this.get(0).getNumber() == card.getNumber() + 1  || this.get(this.size() -1 ).getNumber() == card.getNumber() - 1)
+		if(card.getSuite() == this.get(0).getSuite()){
+			if(
+				this.get(0).getNumber() == card.getNumber() + 1  || 
+				this.get(this.size() -1 ).getNumber() == card.getNumber() - 1 ||
+				(this.get(0).getNumber() == Settings.JOKER_NUMBER && this.get(1).getNumber() == card.getNumber() + 2) ||
+				(this.get(this.size() - 1).getNumber() == Settings.JOKER_NUMBER && this.get(this.size() - 2).getNumber() == card.getNumber() - 2)
+			 )
 				return true;
+		}else if (card.getSuite() == Settings.JOKER_SUITE ) {
+			if(this.get(0).getNumber() == Settings.ACE_NUMBER && this.get(this.size()-1).getNumber() == Settings.ACE_NUMBER) {
+				return false;
+			}
+			else if(this.get(0).getNumber() == Settings.ACE_NUMBER &&
+					this.get(this.size()-1).getNumber() == Settings.JOKER_NUMBER &&
+					this.get(this.size()-2).getNumber() == Settings.KING_NUMBER) {
+				return false;
+			}
+			else if(this.get(0).getNumber() == Settings.JOKER_NUMBER &&
+					this.get(this.size()-1).getNumber() == Settings.ACE_NUMBER &&
+					this.get(1).getNumber() == Settings.TWO_NUMBER
+					) {
+				return false;
+			}
+			else if(this.get(0).getNumber() == Settings.JOKER_NUMBER &&
+					this.get(this.size()-1).getNumber() == Settings.JOKER_NUMBER &&
+					this.get(1).getNumber() == Settings.TWO_NUMBER &&
+					this.get(this.size()-2).getNumber() == Settings.KING_NUMBER
+					) {
+				return false;
+			}
+			return true;
 		}
 		return false;
 	}
@@ -64,13 +92,6 @@ public class Ladder  extends Play{
 
 	@Override
 	public void attach(Card c) {
-		//for(Card c: p) {
-		//	if(this.get(0).getNumber() == p.get(0).getNumber() + 1)
-		//		this.add(0, c);
-		//	else if(this.get(this.size() -1 ).getNumber() == p.get(p.size() - 1).getNumber() - 1){
-		//		this.add(c);
-		//	}
-		//}
 
 		
 	}
