@@ -24,13 +24,11 @@ public class GameSpot extends JPanel {
 	private List<CardPanel> cardPanels = null;
 	//private boolean taken = false;
 	public PlayerCardsPanel owner = null;
-	private Integer id = null;
-	private Play play = null;
+	
 	
 	public GameSpot(PlayerCardsPanel p, Integer id) {
 		super( new GridLayout(1,0,-25,0));
 		this.owner = p;
-		this.id = id;
 //		GridLayout layout = new GridLayout(1,0,-25,0);
 //		this.setLayout(layout);
 		modelCards = new ArrayList<Card>();
@@ -43,9 +41,6 @@ public class GameSpot extends JPanel {
 		//this.setSize(new Dimension(400,120));
 	}
 	
-	public void setPlay(Play p) {
-		this.play = p;
-	}
 	
 	public void placeCards(List<Card> cards) {
 		//if(!this.taken) {

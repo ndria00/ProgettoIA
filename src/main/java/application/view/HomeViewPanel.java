@@ -26,9 +26,11 @@ public class HomeViewPanel extends JPanel{
 		ActionListener listener = new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("STARTED NEW GAME :)");
 				Game.getInstance().startNewGame(2, Settings.DIFFICULTY_BEGINNER);
 				ViewsHandler.getInstance().addView("play", PlayView.getInstance());
 				ViewsHandler.getInstance().getView("play");
+				PlayView.getInstance().updateView();
 			}
 		};
 		button.addActionListener(listener);
