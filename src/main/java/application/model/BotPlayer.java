@@ -32,10 +32,12 @@ public class BotPlayer extends Player{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Card c = ASPManager.getInstance().handleBotDiscard(this);
+		Card c = ASPManager.getInstance().handleBotDiscard(this);		
 		Game.getInstance().playerDiscard(this, c);
+		
 		PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
 		PlayView.getInstance().getBotCardsPanel().update();
+//		PlayView.getInstance().getBotCardsPanel().revalidate();
 		return played;
 	}
 

@@ -13,6 +13,8 @@ import application.model.Game;
 public class WellPanel extends CardPanel{
 
 	private static final long serialVersionUID = 2786141514094370526L;
+	
+
 
 	public WellPanel(ImageIcon image) {
 		super(image,Settings.NO_BORDER);
@@ -27,10 +29,17 @@ public class WellPanel extends CardPanel{
 	}
 	
 	public void updateWellPanel() {
-		System.out.println("Card on top of well: " + Game.getInstance().getWell().lastElement());
+//		WellPanel wellPanel = new WellPanel(CardToImage.getInstance().getImageFromCard(Game.getInstance().getWell().lastElement()));
+//		PlayView.getInstance().getDeckAndWellPanel().setWellPanel(wellPanel);
+		
+		
+		System.out.println("Card on top of well 1: " + Game.getInstance().getWell().lastElement());
 		this.setImage(CardToImage.getInstance().getImageFromCard(Game.getInstance().getWell().lastElement()));
+		System.out.println("Card on top of well 2: " + CardToImage.getInstance().getImageFromCard(Game.getInstance().getWell().lastElement()));
 		this.setCard(Game.getInstance().getWell().lastElement());
+		this.invalidate();
 		this.revalidate();
+		this.repaint();
 		System.out.println("END WELL UPDATE");
 	}
 	

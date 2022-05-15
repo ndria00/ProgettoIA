@@ -5,6 +5,12 @@
   <version>0.0.1-SNAPSHOT</version>
  
   <dependencies>
+	  <!-- https://mvnrepository.com/artifact/io.timeandspace/cron-scheduler -->
+	<dependency>
+	    <groupId>io.timeandspace</groupId>
+	    <artifactId>cron-scheduler</artifactId>
+	    <version>0.1</version>
+	</dependency>
 
   </dependencies>
   

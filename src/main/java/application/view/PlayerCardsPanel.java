@@ -78,7 +78,9 @@ public class PlayerCardsPanel extends JPanel{
 	public void update() {
 		this.removeCards();
 		this.addCards(Game.getInstance().getRealPlayer().getCards());
+		this.invalidate();
 		this.revalidate();
+		this.repaint();
 	}
 	
 	public CardPanel getCardPanelFromCard(Card c) {
