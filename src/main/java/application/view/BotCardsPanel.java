@@ -37,6 +37,7 @@ public class BotCardsPanel extends JPanel{
 			this.add(cardPanel);
 		}
 		this.setLayout(new FlowLayout());
+		this.revalidate();
 	}
 	
 

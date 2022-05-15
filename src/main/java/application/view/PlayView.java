@@ -219,6 +219,5 @@ public class PlayView extends JPanel{
 		this.botCardsPanel = botCardsPanel;
 	}
 	
-	
 
 }

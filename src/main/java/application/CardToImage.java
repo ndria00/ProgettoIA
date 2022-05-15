@@ -40,7 +40,7 @@ public class CardToImage {
 		for (File file : folder.listFiles()) {
 			ImageIcon image = new ImageIcon();
 			try {
-				image.setImage(ImageIO.read(getClass().getResourceAsStream("./resources/images/"+file.getName())));
+				image.setImage(ImageIO.read(getClass().getResourceAsStream("./resources/images/"+file.getName())).getScaledInstance(65, 90, Image.SCALE_SMOOTH));
 				id =  file.getName().split(".png")[0];
 				this.cardsImages.put(id, image);
 			} catch (IOException e) {
@@ -54,8 +54,8 @@ public class CardToImage {
 	public ImageIcon getImageFromCard(Card c) {
 		String search = Integer.toString(c.getSuite()) + Integer.toString(c.getNumber());
 		ImageIcon returned =  cardsImages.get(search);
-		Image img = returned.getImage().getScaledInstance(65, 90, Image.SCALE_SMOOTH);
-		returned = new ImageIcon(img);
+//		Image img = returned.getImage().getScaledInstance(65, 90, Image.SCALE_SMOOTH);
+//		returned.setImage(img);
 		return returned;
 	}
 	

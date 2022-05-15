@@ -65,18 +65,29 @@ public class CardPanel extends JPanel{
 	}
 
 	public void setImage(ImageIcon image) {
+//		this.remove(image);
+		System.out.println(label.getIcon());
+		label.setIcon(image);
+		System.out.println(label.getIcon());
 //		this.remove(this.label);
 //		this.label = new JLabel(image);
 //		this.add(label);
-		Image img = image.getImage().getScaledInstance(65, 90,  Image.SCALE_SMOOTH);	
-		this.label.setIcon(new ImageIcon(img));
+//		this.removeAll();
+//		JLabel label = new JLabel(image);
+//		this.label.setIcon(image);
+//		this.add(label);
+//		this.image = image;
 //		this.repaint();
 //		this.revalidate();
+//		this.remove(label);
+//		this.add(label, BorderLayout.CENTER);
+		this.revalidate();
 		System.out.println("DENTRO");
 	}
 	
 	public ImageIcon getImage() {
 		return this.image;
+		//return this.label.();
 	}
 	
 	

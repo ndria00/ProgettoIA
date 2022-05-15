@@ -2,10 +2,16 @@ package application.controller;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 import javax.swing.event.MouseInputListener;
 
+import application.CardToImage;
 import application.model.Card;
 import application.model.Game;
 import application.model.PlayerNotOpenedState;
@@ -13,6 +19,7 @@ import application.view.PlayView;
 import application.view.PlayerCardsPanel;
 
 public class WellPanelController implements MouseInputListener{
+	
 	
 	public WellPanelController() {
 	}
@@ -46,23 +53,46 @@ public class WellPanelController implements MouseInputListener{
 			//System.out.println(cardPanel.getImage());
 			//PlayView.getInstance().getDeckAndWellPanel().getWellPanel().setImage(cardPanel.getImage());
 			System.out.println("Card on top of well: " + Game.getInstance().getWell().lastElement() + "Card discarded: " + c);
-			PlayerCardsPanel.getInstance().update();		
-			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
+//			PlayerCardsPanel.getInstance().update();
+//			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
+			//PlayView.getInstance().getDeckAndWellPanel().update();
 			//Aggiorno il panel che continene le carte del real player
 			System.out.println("WAITING");
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			boolean played = Game.getInstance().getPlayingPlayer().play(Game.getInstance().getPlays());
-			if(played)
-				PlayView.getInstance().updateGameSpots();
+			
+			CyclicBarrier barrier = new CyclicBarrier(2);
+			PlayerCardsPanel.getInstance().update();
+			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
+
+			Runnable r = () -> {
+				System.out.println("Player : " + Game.getInstance().getPlayingPlayer().getClass());
+				Game.getInstance().getPlayingPlayer().play(Game.getInstance().getPlays());
+//				try {
+//					barrier.await();
+//				} catch (InterruptedException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				} catch (BrokenBarrierException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+			}; 
+			Thread t = new Thread(r);
+			ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+//			scheduledExecutorService.scheduleWithFixedDelay(t, 10, 0, TimeUnit.SECONDS);
+			scheduledExecutorService.schedule(t, 2, TimeUnit.SECONDS);
+//			try {
+//				barrier.await();
+//			} catch (InterruptedException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			} catch (BrokenBarrierException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+			System.out.println("ciao");
 			//PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
 			//update View
 			//PlayView.getInstance().updateGameSpots();
-			
 		}
 		else if(Game.getInstance().getRealPlayer().getSelectedCards().size() == 0) {
 			if(!Game.getInstance().getRealPlayer().isPlayingRound()) { //player is trying to pick but the bot didn't finish his round
