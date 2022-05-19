@@ -4,19 +4,20 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import application.Settings;
+import application.view.PlayView;
 
 public class Game {
 	private List<Player> players;
 	private Deck deck;
 	private Well well;
 	private List<Play> plays;
-	Map<Integer, Card> allCards;
+	private Map<Integer, Card> allCards;
+	private int gameRoundNumber;
 	
 	private int playerPlaying = Settings.PLAYER_NULL;
 	private int difficulty = Settings.DIFFICULTY_BEGINNER;
@@ -73,30 +74,67 @@ public class Game {
 			players.add(p);
 		}
 		deck.addAll(allCards.values());
+		
+		//for(Card c3: deck) {
+		//	System.out.println(c3);
+		//}
+		
 		distributeCards();
 		well.clear();
-		well.push(deck.pick());
+		plays.clear();
+		Card c = deck.pick();
+		while(c.getNumber() == Settings.JOKER_NUMBER) {
+			deck.add(c);
+			c = deck.pick();
+		}
+		well.push(c);
 		gameState = Settings.GAME_PLAYING_STATE;
+		gameRoundNumber = 0;
+		//for(Card c1: deck) {
+		//	System.out.println(c1);
+		//}
 	}
 
 	public void nextMatch(Player winnerPlayer) {
+		gameRoundNumber++;
 		//remove all the players that have lost the match
 		for(int i = 0; i < players.size(); ++i) {
-			if( players.get(i).getPoints() > Settings.MAX_POINTS)
+			if( players.get(i).getPoints() > Settings.MAX_POINTS) {
+				System.out.println(players.get(i) + "LOST THIS MATCH");
 				players.remove(i);
+			}
+			
+			//Player must be in no-opened state for the next match
+			PlayerState notOpened= new PlayerNotOpenedState();
+			notOpened.setPlayer(players.get(i));
+			players.get(i).setState(notOpened);
 		}
 		//there is only one player left and he is the winner
 		if(players.size() == 1) {
+			System.out.println("GAME HAS JUST BEEN FINISHED... WE HAVE A WINNER!");
 			gameState = Settings.GAME_FINISHED_STATE;
 			//show winner modal and let him choose what to do
 			//AS SOON AS IT READY
 		}
 		else {
+			deck.clear();
 			deck.setCards(allCards.values());
 			well.clear();
-			well.push(deck.pick());
+			Card c = deck.pick();
+			while(c.getNumber() == Settings.JOKER_NUMBER) {
+				deck.add(c);
+				c = deck.pick();
+			}
+			well.push(c);
 			distributeCards();
+			plays.clear();
+			PlayView.getInstance().updateView();
 			playerPlaying = players.indexOf(winnerPlayer);
+			if(winnerPlayer.getClass() == BotPlayer.class) {
+				System.out.println("SEEMS THAT BOT WON");
+				winnerPlayer.play(Game.getInstance().getPlays());
+			}
+
 		}
 	}
 	
@@ -118,6 +156,14 @@ public class Game {
 				p.setPoints(p.getPoints() + p.getCards().computeTotalPoints());
 			}
 			//set the game in finished state
+			if(player != getRealPlayer()) {
+				System.out.println("BOT WON THE GAME");	
+			}
+			else {
+				System.out.println("YOU WON THE GAME!");	
+			}
+			System.out.println("GOING TO NEXT MATCH");
+			nextMatch(player);
 			return;
 			
 		}
@@ -251,5 +297,13 @@ public class Game {
 					plays.remove(j);
 			}
 		}
+	}
+
+	public int getGameRoundNumber() {
+		return gameRoundNumber;
+	}
+
+	public void setGameRoundNumber(int gameRoundNumber) {
+		this.gameRoundNumber = gameRoundNumber;
 	}
 }

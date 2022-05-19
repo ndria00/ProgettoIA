@@ -19,7 +19,7 @@ public class GameSpotsPanel extends JPanel{
 		this.setBackground(new Color(185, 251, 192));
 		
 		for(int i = 0; i < gameSpotsNum; ++i) {
-			GameSpot gs = new GameSpot(PlayerCardsPanel.getInstance(), i);
+			GameSpot gs = new GameSpot(PlayerCardsPanel.getInstance());
 			this.addGameSpot(gs);
 		}
 	}

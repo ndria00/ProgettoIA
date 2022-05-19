@@ -34,6 +34,7 @@ public class HandOfCards extends ArrayList<Card>{
 			else
 				totalPoints += c.getValue();
 		}
+		System.out.println("Total points for player: " + totalPoints);
 		return totalPoints;
 	}
 }
