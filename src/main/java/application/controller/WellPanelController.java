@@ -2,8 +2,6 @@ package application.controller;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.BorderFactory;
 import javax.swing.event.MouseInputListener;
 
-import application.CardToImage;
 import application.model.Card;
 import application.model.Game;
 import application.model.PlayerNotOpenedState;
@@ -41,7 +38,7 @@ public class WellPanelController implements MouseInputListener{
 			//System.out.println(PlayView.getInstance().getDeckAndWellPanel().getWellPanel());
 			Card c = Game.getInstance().getRealPlayer().getSelectedCards().get(0);
 			//CardPanel cardPanel = PlayerCardsPanel.getInstance().getCardPanelFromCard(c);
-
+			int actualGameRoundNumber = Game.getInstance().getGameRoundNumber();
 			Game.getInstance().playerDiscard(Game.getInstance().getRealPlayer(), c);
 			//PlayerCardsPanel.getInstance().update();
 			
@@ -59,13 +56,14 @@ public class WellPanelController implements MouseInputListener{
 			//Aggiorno il panel che continene le carte del real player
 			System.out.println("WAITING");
 			
-			CyclicBarrier barrier = new CyclicBarrier(2);
+			//CyclicBarrier barrier = new CyclicBarrier(2);
 			PlayerCardsPanel.getInstance().update();
 			PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
-
-			Runnable r = () -> {
-				System.out.println("Player : " + Game.getInstance().getPlayingPlayer().getClass());
-				Game.getInstance().getPlayingPlayer().play(Game.getInstance().getPlays());
+			
+			Runnable r = new Runnable() {
+				public void run() {
+					System.out.println("Player : " + Game.getInstance().getPlayingPlayer().getClass());
+					Game.getInstance().getPlayingPlayer().play(Game.getInstance().getPlays());
 //				try {
 //					barrier.await();
 //				} catch (InterruptedException e1) {
@@ -75,11 +73,14 @@ public class WellPanelController implements MouseInputListener{
 //					// TODO Auto-generated catch block
 //					e1.printStackTrace();
 //				}
-			}; 
-			Thread t = new Thread(r);
-			ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-//			scheduledExecutorService.scheduleWithFixedDelay(t, 10, 0, TimeUnit.SECONDS);
-			scheduledExecutorService.schedule(t, 2, TimeUnit.SECONDS);
+				}
+			};
+			if(actualGameRoundNumber == Game.getInstance().getGameRoundNumber()) {
+				Thread t = new Thread(r);
+				ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+//				scheduledExecutorService.scheduleWithFixedDelay(t, 10, 0, TimeUnit.SECONDS);
+				scheduledExecutorService.schedule(t, 2, TimeUnit.SECONDS);
+			}
 //			try {
 //				barrier.await();
 //			} catch (InterruptedException e1) {
@@ -89,7 +90,7 @@ public class WellPanelController implements MouseInputListener{
 //				// TODO Auto-generated catch block
 //				e1.printStackTrace();
 //			}
-			System.out.println("ciao");
+			//System.out.println("ciao");
 			//PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
 			//update View
 			//PlayView.getInstance().updateGameSpots();
@@ -138,8 +139,8 @@ public class WellPanelController implements MouseInputListener{
                 //}
                                     
                 //rivalido i panel
-                PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
-                PlayerCardsPanel.getInstance().revalidate();
+                PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
+                PlayerCardsPanel.getInstance().update();
             }
 		}
 	}

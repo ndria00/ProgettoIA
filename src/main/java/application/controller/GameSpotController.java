@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.event.MouseInputListener;
 
-import application.model.Card;
 import application.model.Game;
 import application.model.PlayerOpenedState;
 import application.view.GameSpot;
@@ -23,21 +22,36 @@ public class GameSpotController implements MouseInputListener{
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-		
+		System.out.println("CLICKED ON A GAME SPOT");
 		if (Game.getInstance().getRealPlayer().getSelectedCards().size() > 0 && Game.getInstance().getRealPlayer().hasPicked() && Game.getInstance().getRealPlayer().isPlayingRound()) {
 					
 					if(Game.getInstance().getRealPlayer().getState().getClass() == PlayerOpenedState.class) {
 						System.out.println("TRIED TO ADD A CARD TO A GAME SPOT");
-						if(gameSpotPanel.getCurrentPlay() == null)
+						//Tring to play new plays or extending old ones with the selected cards
+						if(gameSpotPanel.getCurrentPlay() == null) {
+							System.out.println("GAME SPOT WAS EMPTY");
+							boolean played = Game.getInstance().getRealPlayer().play(Game.getInstance().getPlays());
+							if(played) {
+								PlayerCardsPanel.getInstance().update();
+								PlayView.getInstance().updateGameSpots();
+							}
 							return;
-						System.out.println("ADDING CARD TO GAME SPOT");
-						for(Card c: Game.getInstance().getRealPlayer().getSelectedCards()) {
-							if(this.gameSpotPanel.getCurrentPlay().canAttach(c)) {
-								System.out.println("ADDED CARD TO GAME SPOT: " + c.toString());
-								this.gameSpotPanel.getCurrentPlay().attach(c);
-								Game.getInstance().getRealPlayer().getCards().remove(c);
+						}
+						else {
+							boolean extended = Game.getInstance().getRealPlayer().extendPlay(this.gameSpotPanel.getCurrentPlay());
+							if(extended) {
+								Game.getInstance().getRealPlayer().deselectAllCards();
+								PlayerCardsPanel.getInstance().update();
 							}
 						}
+						//System.out.println("ADDING CARD TO GAME SPOT");
+						//for(Card c: Game.getInstance().getRealPlayer().getSelectedCards()) {
+						//	if(this.gameSpotPanel.getCurrentPlay().canAttach(c)) {
+						//		System.out.println("ADDED CARD TO GAME SPOT: " + c.toString());
+						//		this.gameSpotPanel.getCurrentPlay().attach(c);
+						//		Game.getInstance().getRealPlayer().getCards().remove(c);
+						//	}
+						//}
 						PlayView.getInstance().updateGameSpots();
 					}
 					else {

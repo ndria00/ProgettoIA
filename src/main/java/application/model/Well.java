@@ -24,7 +24,7 @@ public class Well extends Stack<Card>{
 //		if(card == null) {
 //			System.out.println("CIAO");
 //		}
-		System.out.println("CIAO 1");
+		//System.out.println("CIAO 1");
 		this.push(card);
 	}
 	

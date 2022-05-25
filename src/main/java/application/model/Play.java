@@ -1,7 +1,6 @@
 package application.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Play extends ArrayList<Card>{
 	private static final long serialVersionUID = 6089405279947692778L;
