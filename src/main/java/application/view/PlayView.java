@@ -97,8 +97,7 @@ public class PlayView extends JPanel{
 		JButton sortBySuiteButton = new JButton("Sort by Suite");
 		
 		sortByNumberButton.addActionListener(new ActionListener() {
-			
-			@Override
+					
 			public void actionPerformed(ActionEvent e) {
 				Collections.sort(Game.getInstance().getRealPlayer().getCards());
 				updateView();
@@ -107,7 +106,6 @@ public class PlayView extends JPanel{
 		
 		sortBySuiteButton.addActionListener(new ActionListener() {
 			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				Collections.sort(Game.getInstance().getRealPlayer().getCards(), new Card());
 				updateView();

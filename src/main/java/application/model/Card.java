@@ -70,7 +70,7 @@ public class Card implements Comparable<Card>, Comparator<Card>{
 	public int compareTo(Card c) {
 		return this.getNumber().compareTo(c.getNumber());
 	}
-	@Override
+	
 	public int compare(Card o1, Card o2) {
 		return o1.suite - o2.suite;
 	}
