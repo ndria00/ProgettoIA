@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -90,7 +91,35 @@ public class PlayView extends JPanel{
 //		GridLayout gridLayout = new GridLayout(1,13,10,10);
 //		bottom.setLayout(gridLayout);
 //		bottom.setBackground(new Color(185, 251, 192));
-		this.add(PlayerCardsPanel.getInstance(), BorderLayout.SOUTH);
+		JPanel southJPanel = new JPanel();
+		southJPanel.setLayout(new BorderLayout());
+		JButton sortByNumberButton = new JButton("Sort by Number");
+		JButton sortBySuiteButton = new JButton("Sort by Suite");
+		
+		sortByNumberButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Collections.sort(Game.getInstance().getRealPlayer().getCards());
+				updateView();
+			}
+		});
+		
+		sortBySuiteButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Collections.sort(Game.getInstance().getRealPlayer().getCards(), new Card());
+				updateView();
+			}
+		});
+		
+		
+		this.add(southJPanel, BorderLayout.SOUTH);
+		southJPanel.add(PlayerCardsPanel.getInstance(), BorderLayout.NORTH);
+		southJPanel.add(sortByNumberButton, BorderLayout.CENTER);
+		southJPanel.add(sortBySuiteButton, BorderLayout.SOUTH);
+		
 		
 		
 		//ImageIcon image1 = new ImageIcon();

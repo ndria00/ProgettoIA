@@ -1,10 +1,12 @@
 package application.model;
 
+import java.util.Comparator;
+
 import it.unical.mat.embasp.languages.Id;
 import it.unical.mat.embasp.languages.Param;
 
 @Id("card")
-public class Card implements Comparable<Card>{
+public class Card implements Comparable<Card>, Comparator<Card>{
 
 	@Param(0)
 	private int id;
@@ -67,6 +69,10 @@ public class Card implements Comparable<Card>{
 	}
 	public int compareTo(Card c) {
 		return this.getNumber().compareTo(c.getNumber());
+	}
+	@Override
+	public int compare(Card o1, Card o2) {
+		return o1.suite - o2.suite;
 	}
 	
 }
