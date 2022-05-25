@@ -18,10 +18,7 @@ public class RealPlayer extends Player{
 	//}
 	@Override
 	public boolean play(List<Play> availablePlays) {
-		HandOfCards handOfSelectedCards = new HandOfCards();
-		for (Card c: selectedCards) {
-			handOfSelectedCards.add(c);
-		}
+		HandOfCards handOfSelectedCards = getHandOfCards();
 		//Call asp program that will try to play all the cards
 		//if some of the cards cannot be played then it will 
 		boolean played = this.getState().play(handOfSelectedCards, null);
@@ -35,6 +32,7 @@ public class RealPlayer extends Player{
 		return selectedCards;
 	}
 	
+	//WHAT THE HELL IS THIS?????????????
 	public List<Card> getCopiaSelectedCards(){
 		List<Card> destination = new ArrayList<Card>(selectedCards);
 	    return destination;
@@ -44,5 +42,17 @@ public class RealPlayer extends Player{
 	public void deselectAllCards() {
 		this.getSelectedCards().clear();
 	}
-
+	
+	@Override
+	public boolean extendPlay(Play p) {
+		return this.getState().extendPlay(getHandOfCards(), p);
+	}
+	
+	private HandOfCards getHandOfCards() {
+		HandOfCards handOfSelectedCards = new HandOfCards();
+		for (Card c: selectedCards) {
+			handOfSelectedCards.add(c);
+		}
+		return handOfSelectedCards;
+	}
 }

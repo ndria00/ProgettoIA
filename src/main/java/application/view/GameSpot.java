@@ -2,13 +2,11 @@ package application.view;
 
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.event.MouseInputListener;
 
 import application.CardToImage;
 import application.Settings;
@@ -26,7 +24,7 @@ public class GameSpot extends JPanel {
 	public PlayerCardsPanel owner = null;
 	
 	
-	public GameSpot(PlayerCardsPanel p, Integer id) {
+	public GameSpot(PlayerCardsPanel p) {
 		super( new GridLayout(1,0,-25,0));
 		this.owner = p;
 //		GridLayout layout = new GridLayout(1,0,-25,0);
@@ -66,7 +64,7 @@ public class GameSpot extends JPanel {
 	}
 
 	
-	
+	//UNCHECKED DOWNCAST
 	public ArrayList<Card> getModelCards(){
 //		ArrayList<Card> modelCards = new ArrayList<Card>();
 //		for (CardPanel cardPanel : cards) {
@@ -76,7 +74,7 @@ public class GameSpot extends JPanel {
 		return (ArrayList<Card>)this.modelCards;
 	}
 	
-	
+	//UNCHECKED DOWNCAST
 	public ArrayList<CardPanel> getCardPanels(){
 		return (ArrayList<CardPanel>)this.cardPanels;
 	}

@@ -32,8 +32,8 @@ public class ASPManager {
 	
 	private ASPManager() {
 		try {
-			//handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-linux"));
-			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-macos"));
+			handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-linux"));
+			//handler =  new DesktopHandler(new DLV2DesktopService("lib/dlv2-macos"));
 			ASPMapper.getInstance().registerClass(PlayableCombination.class);
 			ASPMapper.getInstance().registerClass(Card.class);
 			facts = new ASPInputProgram();
@@ -100,7 +100,7 @@ public class ASPManager {
 		addAllPlayedCardsAsFacts();
 		addGamePlaysAsFacts();
 		//System.out.println("GAME PLAYS: " + gamePlaysAsFacts.toString());
-		encoding.addFilesPath("encodings/botPlayBeginner");
+		encoding.addFilesPath("encodings/extendAndPlayAll");
 		System.out.println("FACTS FOR PLAY: " + facts.getPrograms());
 		handler.addProgram(facts);
 		handler.addProgram(encoding);
@@ -111,6 +111,20 @@ public class ASPManager {
 		String optimalAnswerSet = getOptimalAnswerSet(o);
 		addPlaysAndRemoveCards(optimalAnswerSet, player, true);
 		return true;
+	}
+	
+	public boolean canExtendGame(HandOfCards cards, Player player, Play p) {
+		resetHandler();
+		addPlayerCardsAsFacts(cards);
+		facts.addProgram(p.getList(true));
+		addAllPlayedCardsAsFacts();
+		encoding.addFilesPath("encodings/extendAndPlayAll");
+		handler.addProgram(facts);
+		handler.addProgram(encoding);
+		Output o = handler.startSync();
+		String optimalAnswerSet = getOptimalAnswerSet(o);
+		Game.getInstance().getPlays().remove(p);
+		return addPlaysAndRemoveCards(optimalAnswerSet, player, false);
 	}
 	
 	private void addPlayerCardsAsFacts(HandOfCards cards) {
@@ -171,11 +185,11 @@ public class ASPManager {
 		return plays;
 	}
 	
-	private boolean addPlaysAndRemoveCards(String output, Player player, boolean alreadyOpened){
-		if(alreadyOpened)
+	private boolean addPlaysAndRemoveCards(String output, Player player, boolean clearExistingPlays){
+		if(clearExistingPlays)
 			Game.getInstance().getPlays().clear();
 		
-		boolean opened = false;
+		boolean played = false;
 		System.out.println("Adding plays and removing cards");
 		Pattern p = Pattern.compile("playedLadder[(].*?[)]");
 		Matcher m = p.matcher(output);
@@ -193,7 +207,7 @@ public class ASPManager {
 			}
 			if(!Game.getInstance().getPlays().contains(play))
 				Game.getInstance().getPlays().add(play);
-			opened = true;
+			played = true;
 			System.out.println("Added ladder and removed cards");
 		}
 		
@@ -211,24 +225,31 @@ public class ASPManager {
 			}
 			if(!Game.getInstance().getPlays().contains(play))
 				Game.getInstance().getPlays().add(play);
-			opened = true;
+			played = true;
 			//System.out.println("Added combination and remove cards");
 		}
 		//System.out.println("Ended Adding");
 		System.out.println("REMOVE DUPLICATES... ACTUAL SIZE: " + Game.getInstance().getPlays().size());
-		return opened;
+		return played;
 	}
 	
 	public boolean handlePick(Player player){
 		boolean pickFromDeck = true;
 		resetHandler();
 		addPlayerCardsAsFacts(player.getCards());
+		if(Game.getInstance().getRealPlayer().getCards().size() <= 4) {
+			facts.addProgram(" enemyIsWinning.");
+		}
+		Card cardOnTopOfWell = Game.getInstance().getWell().lastElement();
+		String wellCardFact = "wellCard(" + cardOnTopOfWell.getId() + ", " + cardOnTopOfWell.getSuite() + ", " + cardOnTopOfWell.getNumber() + ", " + cardOnTopOfWell.getValue() + ").";
+		facts.addProgram(wellCardFact);
 		handler.addProgram(facts);
 		encoding.addFilesPath("encodings/botPick");
 		handler.addProgram(encoding);
 		Output o = handler.startSync();
-		
-		if(o.getOutput().contains("pickFromWell")) {
+		System.out.println("OUTPUT OF PICK: " + o.getOutput());
+		String optimalAS = getOptimalAnswerSet(o);
+		if(optimalAS.contains("pickFromWell")) {
 			pickFromDeck = false;
 			System.out.println("Picked from well");
 		}
@@ -299,7 +320,7 @@ public class ASPManager {
 		StringBuilder gamePlaysAsFacts = new StringBuilder("");
 		for(Play p: gamePlays){
 			//String s = p.toString();
-			gamePlaysAsFacts.append(p.getList(true));
+			gamePlaysAsFacts.append(p.getList(true) + " ");
 		}
 		facts.addProgram(gamePlaysAsFacts.toString());
 	}

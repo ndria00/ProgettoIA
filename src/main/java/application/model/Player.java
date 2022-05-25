@@ -72,4 +72,5 @@ public abstract class Player {
 	}
 	public abstract void deselectAllCards();
 	public abstract boolean play(List<Play> plays);
+	public abstract boolean extendPlay(Play p);
 }

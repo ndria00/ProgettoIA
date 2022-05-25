@@ -41,9 +41,15 @@ possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), playedCard(ID1, S1, 
 possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), S = 5,  card(ID1, S1, N1, _), &last(L1; ID1), not &member(ID, L1;), ID1 != ID, &insLast(L1, ID; L).
 possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), S = 5,  cardPlayed(ID1, S1, N1, _), &last(L1; ID1), not &member(ID, L1;), ID1 != ID, &insLast(L1, ID; L).
 
+%extend a ladder that contains a jolly (either with an A after a jolly that substitutes a K or all other cases)
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), ID != 105, ID != 106, not &member(ID, L1;), card(ID1, S1, N1, _), S1 = 5, &last(L1; ID1), &length(L1; X), card(ID2, S, N2, _), &memberNth(L1, X - 1; ID2), N = N2 + 2, &insLast(L1, ID; L).
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, 1, _), not &member(ID, L1;), card(ID1, S1, N1, _), S1 = 5, &last(L1; ID1), &length(L1; X), card(ID2, S, 12, _), &memberNth(L1, X - 1; ID2), &insLast(L1, ID; L).
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), ID != 105, ID != 106, not &member(ID, L1;), card(ID1, S1, N1, _), S1 = 5, &head(L1; ID1), &length(L1; X), L1 > 2, card(ID2, S, N2, _), &memberNth(L1, 2; ID2), N = N2 - 2, &insNth(L1, ID, 1; L).
 
-%extend a ladder that contains a jolly
-%possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), not &member(ID, L1;), card(ID1, S1, N1, _), S1 = 5, &last(L1; ID1), &length(L1; X), card(ID2, S2, N2, _), &memberNth(L1, X - 1; ID2), S2 = S , N = N2 + 2, &insLast(L1, ID; L).
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), ID != 105, ID != 106, not &member(ID, L1;), playedCard(ID1, S1, N1, _), S1 = 5, &last(L1; ID1), &length(L1; X), playedC(ID2, S, N2, _), &memberNth(L1, X - 1; ID2), N = N2 + 2, &insLast(L1, ID; L).
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, 1, _), not &member(ID, L1;), playedCard(ID1, S1, N1, _), S1 = 5, &last(L1; ID1), &length(L1; X), playedCard(ID2, S, 12, _), &memberNth(L1, X - 1; ID2), &insLast(L1, ID; L).
+possibleLadder(L) :- possibleLadder(L1), card(ID, S, N, _), ID != 105, ID != 106, not &member(ID, L1;), playedCard(ID1, S1, N1, _), S1 = 5, &head(L1; ID1), &length(L1; X), L1 > 2, playedCard(ID2, S, N2, _), &memberNth(L1, 2; ID2), N = N2 - 2, &insNth(L1, ID, 1; L).
+
 
 
 %extend a ladder that contains a K with an A after it
@@ -63,7 +69,9 @@ ladder(X) :- possibleLadder(X), &length(X; L), L >= 3.
 :- play(X), play(Y), X != Y, card(ID, _, _, _), &member(ID, X;), &member(ID, Y;).
 
 %No more than 1 joker per round
-:- play(X), play(Y), X != Y, &member(105, X;), &member(106, Y;).
+:- play(X), combination(X), not existingCombination(X), combination(X), not existingCombination(Y), play(Y), X != Y, &member(105, X;), &member(106, Y;).
+:- play(X), combination(X), not existingCombination(X), ladder(Y), not existingLadder(Y), play(Y), X != Y, &member(105, X;), &member(106, Y;).
+:- play(X), ladder (X), ladder(Y), not existingLadder(X), not existingLadder(Y), play(Y), X != Y, &member(105, X;), &member(106, Y;).
 :- play(X), play(X), &member(105, X;), &member(106, X;).
 
 %No joker after A..J Q K A

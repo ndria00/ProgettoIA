@@ -20,10 +20,15 @@ minimumDistance(ID, DMIN) :- card (ID, S, N, V), existsDistanceForCard(ID, _), #
 :~ discard(ID), card(ID, S, N, _), card(ID1, S1, N, _), S != S1, ID < ID1. [1@1]
 
 totalPoints(X) :- #count{V, ID : card(ID, _, _, V)} = X.
-:~ notOpened, totalPoints(X), V = 13 * 13 - X. [V@2]
+:~ notOpened, totalPoints(X), V = 13 * 13 - X. [V@1]
 
-:~ discard(ID), ID = 105. [1@3]
-:~ discard(ID), ID = 106. [1@3]
+%if enemy is winning try to minimize the value of your cards
+:~ enemyIsWinning, totalPoints(X). [X@1]
+
+:~ discard(ID), ID = 105. [1000@1]
+:~ discard(ID), ID = 106. [1000@1]
+
+:~ discard(ID), card(ID, _, _, V). [V@1]
 
 %discard exactly one card
 :- #count{ID : discard(ID)}!=1.

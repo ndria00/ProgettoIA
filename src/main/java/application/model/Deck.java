@@ -13,10 +13,11 @@ public class Deck extends ArrayList<Card>{
 	}
 	
 	public Card pick() {
-		System.out.println(this.size());
+		//System.out.println("DECK SIZE: " + this.size());
 		int index = Settings.RANDOM.nextInt(this.size());
 		Card c = this.get(index);
-		this.remove(index);
+		boolean removed = this.remove(c);
+		System.out.println("CARD REMOVED!: " + removed);
 		return c;
 	}
 	

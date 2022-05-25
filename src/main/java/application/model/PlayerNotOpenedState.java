@@ -15,7 +15,7 @@ public class PlayerNotOpenedState extends PlayerState{
 			this.getPlayer().setState(new PlayerOpenedState());
 			this.getPlayer().getState().setPlayer(this.getPlayer());
 			this.getPlayer().deselectAllCards();
-			System.out.println("Switched bot state to opened state");
+			System.out.println("Switched player state to opened state");
 		}
 			
 		return opened;
@@ -26,4 +26,8 @@ public class PlayerNotOpenedState extends PlayerState{
 		Game.getInstance().playerPick(getPlayer(), true);
 	}
 
+	@Override
+	public boolean extendPlay(HandOfCards selectedCards, Play p) {
+		return false;
+	}
 }

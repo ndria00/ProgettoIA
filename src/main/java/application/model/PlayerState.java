@@ -15,6 +15,8 @@ public abstract class PlayerState {
 	
 	public abstract void pickCard();
 	
+	public abstract boolean extendPlay(HandOfCards cards, Play p);
+	
 	public Player getPlayer() {
 		return player;
 	}

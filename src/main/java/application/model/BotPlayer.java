@@ -26,6 +26,7 @@ public class BotPlayer extends Player{
 		boolean played =  getState().play(getCards(), availablePlays);
 		if(played)
 			PlayView.getInstance().updateGameSpots();
+			PlayView.getInstance().getBotCardsPanel().update();
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -60,4 +61,8 @@ public class BotPlayer extends Player{
 	//bot cannot select cards for now
 	@Override
 	public void deselectAllCards() {}
+	@Override
+	public boolean extendPlay(Play p) {
+		return false;
+	}
 }

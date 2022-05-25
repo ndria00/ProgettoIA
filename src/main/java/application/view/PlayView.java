@@ -181,12 +181,18 @@ public class PlayView extends JPanel{
 		if(gameSpotPanels != null) {
 			int index = 0;
 			GameSpot gameSpot;
+			
+			for(GameSpot gS : gameSpotPanels.getGameSpots()) {
+				gS.removeAll();
+			}
+			
 			for(Play play : Game.getInstance().getPlays()) {
 				//WHAT THE HELL IS THIS???
 				gameSpot = gameSpotPanels.getGameSpots().get(index);
 				index++;
 				//
-				gameSpot.removeAll();
+				//AND WHAT HAPPENS WHEN PLAYS ARE TO BE REMOVED? CAN'T UPDATE!
+				//gameSpot.removeAll();
 				for(Card card : play) {
 					//WHY CREATING A NEW IMAGE ICON WHEN YOU CAN JUST GET IT FROM THE HASH MAP?
 					ImageIcon image = new ImageIcon();
@@ -198,7 +204,7 @@ public class PlayView extends JPanel{
 				}
 			}
 		}
-		System.out.println("UPDATED");
+		System.out.println("UPDATED GAME SPOTS");
 	}
 
 	public DeckAndWellPanel getDeckAndWellPanel() {
