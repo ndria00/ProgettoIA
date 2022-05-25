@@ -240,12 +240,16 @@ public class ASPManager {
 		if(Game.getInstance().getRealPlayer().getCards().size() <= 4) {
 			facts.addProgram(" enemyIsWinning.");
 		}
+		Card cardOnTopOfWell = Game.getInstance().getWell().lastElement();
+		String wellCardFact = "wellCard(" + cardOnTopOfWell.getId() + ", " + cardOnTopOfWell.getSuite() + ", " + cardOnTopOfWell.getNumber() + ", " + cardOnTopOfWell.getValue() + ").";
+		facts.addProgram(wellCardFact);
 		handler.addProgram(facts);
 		encoding.addFilesPath("encodings/botPick");
 		handler.addProgram(encoding);
 		Output o = handler.startSync();
 		System.out.println("OUTPUT OF PICK: " + o.getOutput());
-		if(o.getOutput().contains("pickFromWell")) {
+		String optimalAS = getOptimalAnswerSet(o);
+		if(optimalAS.contains("pickFromWell")) {
 			pickFromDeck = false;
 			System.out.println("Picked from well");
 		}

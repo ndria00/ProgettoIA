@@ -38,7 +38,7 @@ public class WellPanelController implements MouseInputListener{
 			//System.out.println(PlayView.getInstance().getDeckAndWellPanel().getWellPanel());
 			Card c = Game.getInstance().getRealPlayer().getSelectedCards().get(0);
 			//CardPanel cardPanel = PlayerCardsPanel.getInstance().getCardPanelFromCard(c);
-			int actualGameRundNumber = Game.getInstance().getGameRoundNumber();
+			int actualGameRoundNumber = Game.getInstance().getGameRoundNumber();
 			Game.getInstance().playerDiscard(Game.getInstance().getRealPlayer(), c);
 			//PlayerCardsPanel.getInstance().update();
 			
@@ -75,7 +75,7 @@ public class WellPanelController implements MouseInputListener{
 //				}
 				}
 			};
-			if(actualGameRundNumber == Game.getInstance().getGameRoundNumber()) {
+			if(actualGameRoundNumber == Game.getInstance().getGameRoundNumber()) {
 				Thread t = new Thread(r);
 				ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 //				scheduledExecutorService.scheduleWithFixedDelay(t, 10, 0, TimeUnit.SECONDS);
@@ -139,8 +139,8 @@ public class WellPanelController implements MouseInputListener{
                 //}
                                     
                 //rivalido i panel
-                PlayView.getInstance().getDeckAndWellPanel().getWellPanel().revalidate();
-                PlayerCardsPanel.getInstance().revalidate();
+                PlayView.getInstance().getDeckAndWellPanel().getWellPanel().updateWellPanel();
+                PlayerCardsPanel.getInstance().update();
             }
 		}
 	}

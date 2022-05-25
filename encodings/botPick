@@ -17,4 +17,4 @@ pickFromWell | pickFromDeck.
 :~ pickFromDeck, wellCard(_, S , N, _), card(_, S, N1, _), N = N1 - 1. [1@1]
 
 
-%:~ pickFromDeck, wellCard(ID, _, _, V). [V@1]
+:~ pickFromWell, enemyIsWinning, wellCard(ID, _, _, V). [V@1]

@@ -108,6 +108,8 @@ public class Game {
 			PlayerState notOpened= new PlayerNotOpenedState();
 			notOpened.setPlayer(players.get(i));
 			players.get(i).setState(notOpened);
+			players.get(i).getCards().clear();
+			players.get(i).deselectAllCards();
 		}
 		//there is only one player left and he is the winner
 		if(players.size() == 1) {
