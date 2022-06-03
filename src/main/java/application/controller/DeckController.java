@@ -31,10 +31,10 @@ public class DeckController implements MouseInputListener{
 		//CHECK! ASK TO PICK AND REVALIDATE VIEW
 		Game.getInstance().playerPick(Game.getInstance().getRealPlayer(), true);
 		//Deck is empty and must be refilled with cards from the well
-		if(Game.getInstance().getDeck().size() == 0) {
-			Game.getInstance().getDeck().setCards(Game.getInstance().getWell().shuffleNewDeck());
+		//if(Game.getInstance().getDeck().size() == 0) {
+		//	Game.getInstance().getDeck().setCards(Game.getInstance().getWell().shuffleNewDeck());
 			//NO NEED TO REVALIDATE? MAYBE
-		}
+		//}
 		
 		PlayerCardsPanel.getInstance().update();
 	}

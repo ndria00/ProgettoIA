@@ -100,6 +100,7 @@ public class ASPManager {
 		addAllPlayedCardsAsFacts();
 		addGamePlaysAsFacts();
 		//System.out.println("GAME PLAYS: " + gamePlaysAsFacts.toString());
+		facts.addProgram("totalCards(" + player.getCards().size() + "). ");
 		encoding.addFilesPath("encodings/extendAndPlayAll");
 		System.out.println("FACTS FOR PLAY: " + facts.getPrograms());
 		handler.addProgram(facts);
@@ -117,6 +118,7 @@ public class ASPManager {
 		resetHandler();
 		addPlayerCardsAsFacts(cards);
 		facts.addProgram(p.getList(true));
+		facts.addProgram("totalCards(" + player.getCards().size() + "). ");
 		addAllPlayedCardsAsFacts();
 		encoding.addFilesPath("encodings/extendAndPlayAll");
 		handler.addProgram(facts);

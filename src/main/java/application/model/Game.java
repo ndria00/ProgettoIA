@@ -73,12 +73,10 @@ public class Game {
 			p = new BotPlayer();
 			players.add(p);
 		}
+		deck.clear();
+		//System.out.println("WEEEEEE" + deck.size());
 		deck.addAll(allCards.values());
-		
-		//for(Card c3: deck) {
-		//	System.out.println(c3);
-		//}
-		
+		//System.out.println("WEEEEEE" + deck.size());
 		distributeCards();
 		well.clear();
 		plays.clear();
@@ -93,6 +91,7 @@ public class Game {
 		//for(Card c1: deck) {
 		//	System.out.println(c1);
 		//}
+		//System.out.println("WEEEEEE" + deck.size());
 	}
 
 	public void nextMatch(Player winnerPlayer) {
