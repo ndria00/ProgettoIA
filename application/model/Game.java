@@ -1,8 +1,7 @@
 package application.model;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,10 +36,8 @@ public class Game {
 		well = new Well();
 		plays = new ArrayList<Play>();
 		allCards = new HashMap<Integer, Card>();
-		File f;
 		try {
-			f = new File(getClass().getResource("/application/resources/cards.txt").toURI());
-			BufferedReader reader = new BufferedReader(new FileReader(f));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("cards.txt")));
 			while(reader.ready()) {
 				String line = reader.readLine();
 				String [] v = line.split("\t");
@@ -73,12 +70,10 @@ public class Game {
 			p = new BotPlayer();
 			players.add(p);
 		}
+		deck.clear();
+		//System.out.println("WEEEEEE" + deck.size());
 		deck.addAll(allCards.values());
-		
-		//for(Card c3: deck) {
-		//	System.out.println(c3);
-		//}
-		
+		//System.out.println("WEEEEEE" + deck.size());
 		distributeCards();
 		well.clear();
 		plays.clear();
@@ -93,6 +88,7 @@ public class Game {
 		//for(Card c1: deck) {
 		//	System.out.println(c1);
 		//}
+		//System.out.println("WEEEEEE" + deck.size());
 	}
 
 	public void nextMatch(Player winnerPlayer) {
@@ -202,32 +198,6 @@ public class Game {
 		roundFinished(p);
 	}
 	
-	//the playerPlays passed are all admissible
-	//public void playerPlayed(Player p, List<Play> playerPlays) {
-	//	for(Play pl: playerPlays) {
-	//		boolean newPlayCreated = true;
-	//		for(Play gamePlay: plays) {
-	//			if(gamePlay.canAttach(pl)) {
-	//				//they play does not create a new stack of cards
-	//				// so the only thing to do is to add cards to the play
-	//				//to which it can be attached
-	//				gamePlay.attach(pl);
-	//				newPlayCreated = false;
-	//				break;
-	//				
-	//			}
-	//		}
-	//		
-	//		if(newPlayCreated) {
-	//			plays.add(pl);
-	//			
-	//		}
-	//		//finally remove cards from the player hand
-	//		for(Card c: pl) {
-	//			p.getCards().remove(c);
-	//		}
-	//	}
-	//}
 	
 	public Player getPlayingPlayer() {
 		Player player = null;

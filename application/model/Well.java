@@ -13,7 +13,7 @@ public class Well extends Stack<Card>{
 	}
 	
 	public Card pick() {
-		System.out.println("PICKED FROM WELL");
+		//System.out.println("PICKED FROM WELL");
 		//for (Card c : this) {
 		//	System.out.println(c);
 		//}
@@ -31,6 +31,7 @@ public class Well extends Stack<Card>{
 	//empties the well and gives back the cards that will form the new deck.
 	//Puts back in the well the first card of the stack (the one that was alreadyVisible)
 	public List<Card> shuffleNewDeck(){
+
 		Card lastCard = this.pop();
 		List<Card> cards = new ArrayList<Card>();
 		
@@ -40,6 +41,7 @@ public class Well extends Stack<Card>{
 		
 		this.clear();
 		this.push(lastCard);
+		System.out.println("SHUFFLED NEW DECK... CARD ON TOP " + this.lastElement());
 		return cards;
 	}
 	

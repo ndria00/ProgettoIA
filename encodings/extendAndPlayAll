@@ -100,6 +100,10 @@ extendedLadderPlayed(X) :- existingLadder(X), ladder(Y), play(Y), X != Y, &subLi
 :~ ladder(X), nonPlay(X). [1@1]
 :~ combination(X), nonPlay(X). [1@1]
 
+%can not play all cards in your hand
+:- totalCards(T), #count{ID : play(X), card(ID, _, _, _), &member(ID, X;)} = T.
+
+
 
 playedCombination(X) :- combination(X), play(X).
 playedLadder(X) :- ladder(X), play(X).
