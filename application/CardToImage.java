@@ -1,9 +1,9 @@
 package application;
 
 import java.awt.Image;
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -29,14 +29,24 @@ public class CardToImage {
 	
 	
 	private void loadCards() {
-		File folder = null;
 		String id = null;
+
+		BufferedReader reader =  new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("images")));
 		try {
-			folder = new File(getClass().getResource("./resources/images").toURI());
-		} catch (URISyntaxException e) {
+
+			while(reader.ready()) {
+				ImageIcon image = new ImageIcon();
+				String line = reader.readLine();
+				//System.out.println("READING FROM FOLDER " + line);
+				image.setImage(ImageIO.read(getClass().getClassLoader().getResourceAsStream("images/"+line)).getScaledInstance(65, 90, Image.SCALE_SMOOTH));
+				id =  line.split(".png")[0];
+				this.cardsImages.put(id, image);
+			}
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
+		/*
 		for (File file : folder.listFiles()) {
 			ImageIcon image = new ImageIcon();
 			try {
@@ -47,13 +57,20 @@ public class CardToImage {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 	}
 	
 	
 	public ImageIcon getImageFromCard(Card c) {
 		String search = Integer.toString(c.getSuite()) + Integer.toString(c.getNumber());
 		ImageIcon returned =  cardsImages.get(search);
+//		Image img = returned.getImage().getScaledInstance(65, 90, Image.SCALE_SMOOTH);
+//		returned.setImage(img);
+		return returned;
+	}
+	
+	public ImageIcon getBackImage() {
+		ImageIcon returned =  cardsImages.get("99");
 //		Image img = returned.getImage().getScaledInstance(65, 90, Image.SCALE_SMOOTH);
 //		returned.setImage(img);
 		return returned;

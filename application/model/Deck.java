@@ -17,7 +17,7 @@ public class Deck extends ArrayList<Card>{
 		int index = Settings.RANDOM.nextInt(this.size());
 		Card c = this.get(index);
 		this.remove(c);
-		System.out.println("CARD PICKED!: " + c.getId());
+		//System.out.println("CARD PICKED!: " + c.getId());
 	
 		//for(int i=0; i< this.size(); ++i) {
 		//	System.out.println(this.get(i).getId());

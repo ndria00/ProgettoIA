@@ -15,7 +15,6 @@ public class AddSetButtonController implements ActionListener{
 	
 	private ArrayList<ArrayList<Card>> possibleSets = new ArrayList<ArrayList<Card>>();
 	private int index = 0;
-	private int totalCardsValue = 0; 
 	private int maxSets = GameSpotsPanel.gameSpotsNum;
 
 	public void actionPerformed(ActionEvent e) {
@@ -25,7 +24,6 @@ public class AddSetButtonController implements ActionListener{
 //			    JOptionPane.WARNING_MESSAGE);
 		ArrayList<Card> toAdd = (ArrayList<Card>) Game.getInstance().getRealPlayer().getCopiaSelectedCards();
 		if(isValid(toAdd) && possibleSets.size() <= maxSets && toAdd.size() > 0) {
-			totalCardsValue += getCardsValue(toAdd);
 			possibleSets.add(index, toAdd);
 			index++;
 		}
@@ -53,12 +51,5 @@ public class AddSetButtonController implements ActionListener{
 
 	}
 	
-	private int getCardsValue(ArrayList<Card> toAdd) {
-		int cont = 0;
-		for(Card card : toAdd) {
-			cont += card.getValue();
-		}
-		return cont;
-	}
 
 }

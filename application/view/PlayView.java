@@ -5,13 +5,11 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -174,16 +172,12 @@ public class PlayView extends JPanel{
 //		deckAndWell.setLayout(new FlowLayout());
 		
 		
-		ImageIcon backImage = new ImageIcon();
+		ImageIcon backImage;
 		ImageIcon firstImage = new ImageIcon();
-		try {
-			backImage.setImage(ImageIO.read(getClass().getResource("../resources/images/" + '9' + '9' + ".png")));
-			Card c = Game.getInstance().getWell().get(0);
-			firstImage.setImage(CardToImage.getInstance().getImageFromCard(c).getImage());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		backImage = CardToImage.getInstance().getBackImage();
+		Card c = Game.getInstance().getWell().get(0);
+		firstImage.setImage(CardToImage.getInstance().getImageFromCard(c).getImage());
 		
 		deckAndWellPanel = new DeckAndWellPanel(backImage, firstImage);
 		JPanel botCardsAndDeckAndWell = new JPanel();

@@ -13,7 +13,6 @@ import application.model.Card;
 
 public class CardPanel extends JPanel{
 	private static final long serialVersionUID = 5369052523336312366L;
-	private Integer id = null;
 	private boolean clicked = false;
 	private ImageIcon image = null;
 	private JLabel label = null;
